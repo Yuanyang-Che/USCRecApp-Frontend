@@ -3,10 +3,6 @@ package com.life.hacker.uscrecapp.Model;
 import android.media.Image;
 
 public class User {
-    private String email, username, password;
-    private int id;
-    private Image avatar;
-
     public User(String e, String u, String p, int i) {
         email = e;
         username = u;
@@ -49,4 +45,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    private String email, username, password;
+    private int id;
+    private Image avatar;
 }
