@@ -1,9 +1,9 @@
 package com.life.hacker.uscrecapp.Model;
 
-import java.util.List;
+import java.util.Set;
 
 public class Timeslot {
-    public Timeslot(int timeIndex, int capacity, int size, List<User> waitlist, Day day) {
+    public Timeslot(int timeIndex, int capacity, int size, Set<User> waitlist, Day day) {
         this.timeIndex = timeIndex;
         this.capacity = capacity;
         this.size = size;
@@ -35,11 +35,11 @@ public class Timeslot {
         this.size = size;
     }
 
-    public List<User> getWaitlist() {
+    public Set<User> getWaitlist() {
         return waitlist;
     }
 
-    public void setWaitlist(List<User> waitlist) {
+    public void setWaitlist(Set<User> waitlist) {
         this.waitlist = waitlist;
     }
 
@@ -51,11 +51,33 @@ public class Timeslot {
         this.day = day;
     }
 
+    public void addUserToWaitlist(User user) {
+        waitlist.add(user);
+    }
+
+    public void removeUserToWaitlist(User user) {
+        waitlist.remove(user);
+    }
+
+    public boolean isBookable() {
+        return size < capacity;
+    }
+
+    public void cancel() {
+        size--;
+    }
+
+    public void book() {
+        size++;
+    }
+
     private int timeIndex;
     private int capacity;
     private int size;
-    private List<User> waitlist;
-    Day day;
+    private Set<User> waitlist;
+    private Day day;
+
+
 
 
 }
