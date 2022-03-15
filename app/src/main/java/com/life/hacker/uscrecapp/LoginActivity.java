@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private void validate(String userName, String userPassword) {
 
         //For now, always success
+        startActivity(new Intent(LoginActivity.this, MapsActivity.class));
 //
 //        if ((userName.equals("Admin")) && (userPassword.equals("1234"))) {
 ////            Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
