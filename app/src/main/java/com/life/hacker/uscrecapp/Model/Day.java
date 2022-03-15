@@ -36,6 +36,10 @@ public class Day {
 
     private Date date;
     private Center center;
+    /**
+     * A day always has a fixed number of timeslots, bookable or not.
+     * No changes in the list size, array is good enough.
+     */
     private Timeslot[] timeslots;
 
 
