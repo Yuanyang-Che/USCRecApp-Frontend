@@ -1,7 +1,4 @@
-package com.life.hacker.uscrecapp.model;
-
-import java.util.List;
-import java.util.Vector;
+package com.life.hacker.uscrecapp.Model;
 
 public class Appointment {
     private int id;
