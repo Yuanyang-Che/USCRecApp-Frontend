@@ -1,0 +1,157 @@
+syntax = "proto3";
+package protodata;
+
+option go_package = "./protodata";
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  enum Error {
+    NOTUSED = 0;
+    GOOD = 1;
+    INVALID_EMAIL_PASSWORD = 2;
+    SERVER = 3;
+  }
+  Error err = 1;
+  string email = 2;
+  string username = 3;
+  string uscstudentid = 4;
+  string tokens = 5;
+}
+
+message SignupRequest {
+  string email = 1;
+  string username = 2;
+  string uscstudentid = 3;
+  string password = 4;
+}
+
+message SignupResponse {
+  enum Error {
+    NOTUSED = 0;
+    GOOD = 1;
+    INVALID_EMAIL = 2;
+    INVALID_USERNAME = 3;
+    SERVER = 4;
+  }
+  Error err = 1;
+  string email = 2;
+  string username = 3;
+  string uscstudentid = 4;
+  string tokens = 5;
+}
+
+message Center {
+  string name = 1;
+  double latitude = 2;
+  double longitude = 3;
+}
+
+message CenterResponse {
+  enum Error {
+    NOTUSED = 0;
+    GOOD = 1;
+    SERVER = 2;
+  }
+  Error err = 1;
+  repeated Center centerlist = 2;
+}
+
+message TimeslotOnDateRequest {
+  string centername = 1;
+  string date = 2;
+}
+
+message TimeslotUsernum {
+  string timeslot = 1;
+  uint64 usernum = 2;
+}
+
+message TimeslotOnDateResponse {
+  enum Error {
+    NOTUSED = 0;
+    GOOD = 1;
+    CENTERNAME = 2;
+    DATEFORMAT = 3;
+    SERVER = 4;
+  }
+  Error err = 1;
+  repeated TimeslotUsernum list = 2;
+}
+
+message BookRequest {
+  string centername = 1;
+  string timeslot = 2;
+  string date = 3;
+}
+
+message BookResponse {
+  enum Error {
+    NOTUSED = 0;
+    GOOD = 1;
+    CENTERNAME = 2;
+    TIMESLOT = 3;
+    DATEFORMAT = 4;
+    NOSPOT = 5;
+    USER = 6;
+    ISBOOKED = 7;
+    SERVER = 8;
+  }
+  Error err = 1;
+}
+
+message CancelRequest {
+  string centername = 1;
+  string timeslot = 2;
+  string date = 3;
+}
+
+message CancelResponse {
+  enum Error {
+    NOTUSED = 0;
+    GOOD = 1;
+    CENTERNAME = 2;
+    TIMESLOT = 3;
+    DATEFORMAT = 4;
+    NOSPOT = 5;
+    USER = 6;
+    SERVER = 7;
+  }
+  Error err = 1;
+}
+
+message WaitlistRequest {
+  string centername = 1;
+  string timeslot = 2;
+  string date = 3;
+}
+
+message WaitlistResponse {
+  enum Error {
+    NOTUSED = 0;
+    GOOD = 1;
+    CENTERNAME = 2;
+    TIMESLOT = 3;
+    DATEFORMAT = 4;
+    NOSPOT = 5;
+    USER = 6;
+    ISWAITLISTED = 7;
+    ISBOOKED = 8;
+    SERVER = 9;
+  }
+  Error err = 1;
+}
+
+message BookingEntry {
+  string date = 1;
+  string timeslot = 2;
+  string centername = 3;
+}
+
+message HistoryResponse {
+  repeated BookingEntry previous = 1;
+  repeated BookingEntry upcoming = 2;
+}
