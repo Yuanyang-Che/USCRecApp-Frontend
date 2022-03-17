@@ -39,9 +39,9 @@ public class MessageCenter {
         center.SendMessagePost(signup_uri, request.toByteArray(), "");
     }
 
-    public void LogoutRequest(String email, String student_id, String password) {
+    public void LogoutRequest(String email, String student_id, String password, String user_token) {
         Datastructure.SignupRequest request = Datastructure.SignupRequest.newBuilder().setEmail(email).setPassword(password).setUscstudentid(student_id).build();
-        center.SendMessagePost(logout_uri, request.toByteArray(), "");
+        center.SendMessagePost(logout_uri, request.toByteArray(), user_token);
     }
 
     public void GetCenterlistRequest() {
@@ -53,23 +53,23 @@ public class MessageCenter {
         center.SendMessagePost(timeslotslist_uri, request.toByteArray(), "");
     }
 
-    public void BookRequest(String center_name, String date, String timeslot) {
+    public void BookRequest(String center_name, String date, String timeslot, String user_token) {
         Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
-        center.SendMessagePost(book_uri, request.toByteArray(), "");
+        center.SendMessagePost(book_uri, request.toByteArray(), user_token);
     }
 
-    public void CancelRequest(String center_name, String date, String timeslot) {
+    public void CancelRequest(String center_name, String date, String timeslot, String user_token) {
         Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
-        center.SendMessagePost(cancel_uri, request.toByteArray(), "");
+        center.SendMessagePost(cancel_uri, request.toByteArray(), user_token);
     }
 
-    public void WaitlistRequest(String center_name, String date, String timeslot) {
+    public void WaitlistRequest(String center_name, String date, String timeslot, String user_token) {
         Datastructure.WaitlistRequest request = Datastructure.WaitlistRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
-        center.SendMessagePost(waitlist_uri, request.toByteArray(), "");
+        center.SendMessagePost(waitlist_uri, request.toByteArray(), user_token);
     }
 
-    public void HistoryRequest(String center_name, String date, String timeslot) {
-        center.SendMessagePost(history_uri, new byte[0], "");
+    public void HistoryRequest(String center_name, String date, String timeslot, String user_token) {
+        center.SendMessagePost(history_uri, new byte[0], user_token);
     }
 
     public void MessageResponse(byte[] raw_data, String uri) {
