@@ -1,4 +1,4 @@
-package com.life.hacker.uscrecapp.Model;
+package com.life.hacker.uscrecapp.model;
 
 public class Center {
     public Center(int id, String name, Day[] days, double latitude, double longitude) {

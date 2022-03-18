@@ -1,13 +1,12 @@
 package com.life.hacker.uscrecapp.network;
 
 import android.content.Intent;
-import android.telecom.Call;
 import android.app.Activity;
 import android.content.Context;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.life.hacker.uscrecapp.MapsActivity;
-import com.life.hacker.uscrecapp.SignUpActivity;
+import com.life.hacker.uscrecapp.activity.LoginActivity;
+import com.life.hacker.uscrecapp.activity.MapsActivity;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -154,12 +153,15 @@ public class MessageCenter extends Activity {
 //        String email = response.getEmail();
 //        String token = response.getTokens();
 //
-//        Datastructure.LoginResponse.Error error = response.getErr();
-
+        Datastructure.LoginResponse.Error error = response.getErr();
+        if (error != Datastructure.LoginResponse.Error.GOOD){
+            //Send back an error message prompt
+        }
         //Store the user login info and token
 
         //jump to map screen
-        Context context = callers.get(task_id);
+        LoginActivity context = (LoginActivity) callers.get(task_id);
+        context.takeErrorMessage();
         context.startActivity(new Intent(context, MapsActivity.class));
     }
 

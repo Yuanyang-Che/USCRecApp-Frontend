@@ -1,22 +1,19 @@
-package com.life.hacker.uscrecapp;
+package com.life.hacker.uscrecapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
+import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
-    //private TextView Info;
     private Button login;
     private Button toSignUp;
 
@@ -47,6 +44,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void toSignUp() {
         startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+    }
+
+    public void takeErrorMessage(){
+
     }
 
     private void validate(String email, String userPassword) {

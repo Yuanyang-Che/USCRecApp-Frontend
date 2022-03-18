@@ -1,4 +1,4 @@
-package com.life.hacker.uscrecapp.Model;
+package com.life.hacker.uscrecapp.model;
 
 import android.media.Image;
 

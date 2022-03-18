@@ -1,4 +1,4 @@
-package com.life.hacker.uscrecapp.Model;
+package com.life.hacker.uscrecapp.model;
 
 public class MapData {
     public MapData(Center[] centers) {

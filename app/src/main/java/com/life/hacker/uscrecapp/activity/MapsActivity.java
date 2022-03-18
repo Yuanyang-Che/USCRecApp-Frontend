@@ -1,4 +1,4 @@
-package com.life.hacker.uscrecapp;
+package com.life.hacker.uscrecapp.activity;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -13,6 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.databinding.ActivityMapsBinding;
 
 import java.util.ArrayList;

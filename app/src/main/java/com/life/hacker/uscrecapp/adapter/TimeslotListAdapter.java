@@ -1,4 +1,4 @@
-package com.life.hacker.uscrecapp;
+package com.life.hacker.uscrecapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.life.hacker.uscrecapp.Model.Day;
-import com.life.hacker.uscrecapp.Model.Timeslot;
+import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.activity.MapsActivity;
+import com.life.hacker.uscrecapp.model.Timeslot;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

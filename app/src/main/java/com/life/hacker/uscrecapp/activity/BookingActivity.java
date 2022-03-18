@@ -1,20 +1,16 @@
-package com.life.hacker.uscrecapp;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.life.hacker.uscrecapp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.life.hacker.uscrecapp.Model.Day;
-import com.life.hacker.uscrecapp.Model.Timeslot;
+import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.adapter.TimeslotListAdapter;
+import com.life.hacker.uscrecapp.model.Day;
+import com.life.hacker.uscrecapp.model.Timeslot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class BookingActivity extends Activity {
 
