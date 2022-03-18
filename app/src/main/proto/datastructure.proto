@@ -20,6 +20,7 @@ message LoginResponse {
   string username = 3;
   string uscstudentid = 4;
   string tokens = 5;
+  bytes avatar = 6;
 }
 
 message SignupRequest {
@@ -27,6 +28,7 @@ message SignupRequest {
   string username = 2;
   string uscstudentid = 3;
   string password = 4;
+  bytes avatar = 5;
 }
 
 message SignupResponse {
@@ -35,13 +37,15 @@ message SignupResponse {
     GOOD = 1;
     INVALID_EMAIL = 2;
     INVALID_USERNAME = 3;
-    SERVER = 4;
+    AVATAR = 4;
+    SERVER = 5;
   }
   Error err = 1;
   string email = 2;
   string username = 3;
   string uscstudentid = 4;
   string tokens = 5;
+  bytes avatar = 6;
 }
 
 message Center {
@@ -154,4 +158,10 @@ message BookingEntry {
 message HistoryResponse {
   repeated BookingEntry previous = 1;
   repeated BookingEntry upcoming = 2;
+}
+
+message Notification {
+  string centername = 1;
+  string timeslot = 2;
+  string date = 3;
 }
