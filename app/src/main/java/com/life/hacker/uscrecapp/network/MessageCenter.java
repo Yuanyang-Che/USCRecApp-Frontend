@@ -1,5 +1,7 @@
 package com.life.hacker.uscrecapp.network;
 
+import android.telecom.Call;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import protodata.Datastructure;
@@ -72,51 +74,51 @@ public class MessageCenter {
         center.SendMessagePost(history_uri, new byte[0], user_token);
     }
 
-    public void MessageResponse(byte[] raw_data, String uri) {
+    public void MessageResponse(byte[] raw_data, String uri, long task_id) {
         try {
             switch (uri) {
                 case login_uri: {
                     Datastructure.LoginResponse response = Datastructure.LoginResponse.parseFrom(raw_data);
-                    LoginResponse(response);
+                    LoginResponse(response, task_id);
                     break;
                 }
                 case signup_uri: {
                     Datastructure.SignupResponse response = Datastructure.SignupResponse.parseFrom(raw_data);
-                    SignupResponse(response);
+                    SignupResponse(response, task_id);
                     break;
                 }
                 case logout_uri: {
-                    LogoutResponse();
+                    LogoutResponse(task_id);
                     break;
                 }
                 case centerlist_uri: {
                     Datastructure.CenterResponse response = Datastructure.CenterResponse.parseFrom(raw_data);
-                    GetCenterlistResponse(response);
+                    GetCenterlistResponse(response, task_id);
                     break;
                 }
                 case timeslotslist_uri: {
                     Datastructure.TimeslotOnDateResponse response = Datastructure.TimeslotOnDateResponse.parseFrom(raw_data);
-                    GetTimeslotOfCenterOnDateResponse(response);
+                    GetTimeslotOfCenterOnDateResponse(response, task_id);
                     break;
                 }
                 case book_uri: {
                     Datastructure.BookResponse response = Datastructure.BookResponse.parseFrom(raw_data);
-                    BookResponse(response);
+                    BookResponse(response, task_id);
                     break;
                 }
                 case cancel_uri: {
                     Datastructure.CancelResponse response = Datastructure.CancelResponse.parseFrom(raw_data);
-                    CancelResponse(response);
+                    CancelResponse(response, task_id);
                     break;
                 }
                 case waitlist_uri: {
                     Datastructure.WaitlistResponse response = Datastructure.WaitlistResponse.parseFrom(raw_data);
-                    WaitlistResponse(response);
+                    WaitlistResponse(response, task_id);
                     break;
                 }
                 case history_uri: {
                     Datastructure.HistoryResponse response = Datastructure.HistoryResponse.parseFrom(raw_data);
-                    HistoryResponse(response);
+                    HistoryResponse(response, task_id);
                     break;
                 }
             }
@@ -128,7 +130,7 @@ public class MessageCenter {
     }
 
 
-    public void LoginResponse(Datastructure.LoginResponse response) {
+    public void LoginResponse(Datastructure.LoginResponse response, long task_id) {
         // get username, password etc by getUsername getPassword
 
         String email = response.getEmail();
@@ -137,35 +139,35 @@ public class MessageCenter {
 //        startActivity(new Intent(LoginActivity.this, MapsActivity.class));
     }
 
-    public void SignupResponse(Datastructure.SignupResponse response) {
+    public void SignupResponse(Datastructure.SignupResponse response, long task_id) {
 
     }
 
-    public void LogoutResponse() {
+    public void LogoutResponse(long task_id) {
 
     }
 
-    public void GetCenterlistResponse(Datastructure.CenterResponse response) {
+    public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
 
     }
 
-    public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response) {
+    public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response, long task_id) {
 
     }
 
-    public void BookResponse(Datastructure.BookResponse response) {
+    public void BookResponse(Datastructure.BookResponse response, long task_id) {
 
     }
 
-    public void CancelResponse(Datastructure.CancelResponse response) {
+    public void CancelResponse(Datastructure.CancelResponse response, long task_id) {
 
     }
 
-    public void WaitlistResponse(Datastructure.WaitlistResponse response) {
+    public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
 
     }
 
-    public void HistoryResponse(Datastructure.HistoryResponse response) {
+    public void HistoryResponse(Datastructure.HistoryResponse response, long task_id) {
 
     }
 }
