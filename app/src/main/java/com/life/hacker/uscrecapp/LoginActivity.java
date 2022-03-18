@@ -7,33 +7,34 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import com.life.hacker.uscrecapp.network.MessageCenter;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText Name;
-    private EditText Password;
+    private EditText email;
+    private EditText password;
     //private TextView Info;
-    private Button Login;
-    private Button ToSignUp;
+    private Button login;
+    private Button toSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Name = (EditText) findViewById(R.id.etEmail);
-        Password = (EditText) findViewById(R.id.etPassword);
-        Login = (Button) findViewById(R.id.btnLogin);
-        ToSignUp = (Button) findViewById(R.id.btnToSignUp);
+        email = (EditText) findViewById(R.id.etEmail);
+        password = (EditText) findViewById(R.id.etPassword);
+        login = (Button) findViewById(R.id.btnLogin);
+        toSignUp = (Button) findViewById(R.id.btnToSignUp);
 
-        Login.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate(Name.getText().toString(), Password.getText().toString());
+                validate(email.getText().toString(), password.getText().toString());
             }
         });
 
-        ToSignUp.setOnClickListener(new View.OnClickListener() {
+        toSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toSignUp();
@@ -46,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validate(String userName, String userPassword) {
+
+        MessageCenter.GetInstance().LoginRequest(email.getText().toString(), password.getText().toString());
 
         //For now, always success
         startActivity(new Intent(LoginActivity.this, MapsActivity.class));

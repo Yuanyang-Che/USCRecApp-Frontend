@@ -74,7 +74,7 @@ public class MessageCenter {
 
     public void MessageResponse(byte[] raw_data, String uri) {
         try {
-            switch(uri) {
+            switch (uri) {
                 case login_uri: {
                     Datastructure.LoginResponse response = Datastructure.LoginResponse.parseFrom(raw_data);
                     LoginResponse(response);
@@ -127,8 +127,14 @@ public class MessageCenter {
 
     }
 
+
     public void LoginResponse(Datastructure.LoginResponse response) {
         // get username, password etc by getUsername getPassword
+
+        String email = response.getEmail();
+        String token = response.getTokens();
+
+//        startActivity(new Intent(LoginActivity.this, MapsActivity.class));
     }
 
     public void SignupResponse(Datastructure.SignupResponse response) {
