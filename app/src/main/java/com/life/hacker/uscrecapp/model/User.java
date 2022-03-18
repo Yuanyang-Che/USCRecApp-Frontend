@@ -1,13 +1,14 @@
 package com.life.hacker.uscrecapp.model;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 
 public class User {
-    public User(String e, String u, String p, int i) {
+    public User(String e, String u, String n, Bitmap m) {
         email = e;
         username = u;
-        password = p;
-        id = i;
+        netid = n;
+        avatar = m;
     }
 
     public String getUsername() {
@@ -18,23 +19,19 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getNetid() {
+        return netid;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setNetid(String netid) {
+        this.netid = netid;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public Image getAvatar() {
+    public Bitmap getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Image avatar) {
+    public void setAvatar(Bitmap avatar) {
         this.avatar = avatar;
     }
 
@@ -46,7 +43,6 @@ public class User {
         this.email = email;
     }
 
-    private String email, username, password;
-    private int id;
-    private Image avatar;
+    private String email, username, netid;
+    private Bitmap avatar;
 }
