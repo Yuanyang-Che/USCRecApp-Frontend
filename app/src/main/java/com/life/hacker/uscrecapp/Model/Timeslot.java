@@ -4,6 +4,7 @@ import java.util.Set;
 
 public class Timeslot {
     public Timeslot(int timeIndex, int capacity, int size, Set<User> waitlist, Day day) {
+        // timeIndex: 0: 8AM, 1:9AM ... every timeslot lasts for an hour
         this.timeIndex = timeIndex;
         this.capacity = capacity;
         this.size = size;

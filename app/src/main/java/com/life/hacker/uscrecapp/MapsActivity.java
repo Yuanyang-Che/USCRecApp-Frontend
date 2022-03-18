@@ -77,7 +77,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String markerTitle = marker.getTitle();
                 Intent i = new Intent(MapsActivity.this, BookingActivity.class);
                 startActivity(i);
-
                 return false;
             }
         });
