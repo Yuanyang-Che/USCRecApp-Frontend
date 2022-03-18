@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
 
-public class MessageCenter extends Activity {
+public class MessageCenter {
 
     private final String login_uri = "http://realrecapp.herokuapp.com/user/login";
     private final String signup_uri = "http://realrecapp.herokuapp.com/user/signup";
@@ -148,21 +148,26 @@ public class MessageCenter extends Activity {
 
 
     public void LoginResponse(Datastructure.LoginResponse response, long task_id) {
-        // get username, password etc by getUsername getPassword
-//
-//        String email = response.getEmail();
-//        String token = response.getTokens();
-//
+        LoginActivity context = (LoginActivity) callers.get(task_id);
+
         Datastructure.LoginResponse.Error error = response.getErr();
-        if (error != Datastructure.LoginResponse.Error.GOOD){
-            //Send back an error message prompt
+        if (error != Datastructure.LoginResponse.Error.GOOD) {
+            context.takeErrorMessage(error.toString());
+            return;
         }
+
+        // get username, password etc by getUsername getPassword
+
+        String email = response.getEmail();
+        String username = response.getUsername();
+        String token = response.getTokens();
         //Store the user login info and token
 
-        //jump to map screen
-        LoginActivity context = (LoginActivity) callers.get(task_id);
-        context.takeErrorMessage();
+        //Jump to main screen
         context.startActivity(new Intent(context, MapsActivity.class));
+
+        //Send back an error message prompt
+
     }
 
     public void SignupResponse(Datastructure.SignupResponse response, long task_id) {
