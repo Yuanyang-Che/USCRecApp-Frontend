@@ -3,6 +3,9 @@ package com.life.hacker.uscrecapp.Model;
 import java.util.Date;
 
 public class Day {
+    public Day() {
+
+    }
 
     public Day(Date date, Center center, Timeslot[] timeslots) {
         this.date = date;
