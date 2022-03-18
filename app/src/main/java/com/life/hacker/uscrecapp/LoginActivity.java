@@ -2,11 +2,14 @@ package com.life.hacker.uscrecapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
@@ -46,24 +49,14 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
     }
 
-    private void validate(String userName, String userPassword) {
-
-        MessageCenter.GetInstance().LoginRequest(email.getText().toString(), password.getText().toString());
+    private void validate(String email, String userPassword) {
+        email = "realchen@usc.edu";
+        userPassword = "12345678";
+        //LoginActivity.this.startActivity(new Intent(LoginActivity.this, MapsActivity.class));
+        MessageCenter.GetInstance().LoginRequest(email, userPassword, LoginActivity.this);
 
         //For now, always success
-        startActivity(new Intent(LoginActivity.this, MapsActivity.class));
-//
-//        if ((userName.equals("Admin")) && (userPassword.equals("1234"))) {
-////            Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-////            startActivity(intent);
-//        } else {
-//            //counter--;
-//
-//            //Info.setText("No of attempts remaining: " + String.valueOf(counter));
-//
-////            if (counter == 0) {
-////                Login.setEnabled(false);
-////            }
+        //startActivity(new Intent(LoginActivity.this, MapsActivity.class));
     }
 }
 

@@ -31,7 +31,7 @@ class ConnectionCenter {
     private long GenerateTaskId() {
         long num = ThreadLocalRandom.current().nextLong();
 
-        while(task_id_pool_.contains(num)) {
+        while (task_id_pool_.contains(num)) {
             num = ThreadLocalRandom.current().nextLong();
         }
 
@@ -45,24 +45,28 @@ class ConnectionCenter {
     }
 
     public long SendMessagePost(String url, byte[] body, String user_token) {
-            long task_id = GenerateTaskId();
-            Request request = new Request.Builder().url(url).header("token", user_token).
-                    post(RequestBody.create(body, MediaType.parse("application/x-protobuf"))).build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    // failed. most likely is backend error
-                }
+        long task_id = GenerateTaskId();
+        Request request = new Request.Builder().url(url).header("token", user_token).
+                post(RequestBody.create(body, MediaType.parse("application/x-protobuf"))).build();
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    MessageCenter.GetInstance().MessageResponse(response.body().bytes(), url, task_id);
-                    RemoveTaskId(task_id);
-                }
-            });
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // failed. most likely is backend error
+                e.printStackTrace();
+            }
 
-            return task_id;
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                MessageCenter.GetInstance().MessageResponse(response.body().bytes(), url, task_id);
+                RemoveTaskId(task_id);
+            }
+        });
+
+
+        return task_id;
     }
+
     public long SendMessageGet(String url) {
         long task_id = GenerateTaskId();
         Request request = new Request.Builder().url(url).get().build();

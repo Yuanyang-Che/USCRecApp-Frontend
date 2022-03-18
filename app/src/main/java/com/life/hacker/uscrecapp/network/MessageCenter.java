@@ -1,12 +1,19 @@
 package com.life.hacker.uscrecapp.network;
 
+import android.content.Intent;
 import android.telecom.Call;
+import android.app.Activity;
+import android.content.Context;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.life.hacker.uscrecapp.MapsActivity;
+import com.life.hacker.uscrecapp.SignUpActivity;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
 
-public class MessageCenter {
+public class MessageCenter extends Activity {
 
     private final String login_uri = "http://realrecapp.herokuapp.com/user/login";
     private final String signup_uri = "http://realrecapp.herokuapp.com/user/signup";
@@ -18,6 +25,8 @@ public class MessageCenter {
     private final String waitlist_uri = "http://realrecapp.herokuapp.com/service/waitlist";
     private final String history_uri = "http://realrecapp.herokuapp.com/service/history";
 
+
+    private ConcurrentHashMap<Long, Context> callers = new ConcurrentHashMap<>();
 
     private ConnectionCenter center = new ConnectionCenter();
 
@@ -31,47 +40,56 @@ public class MessageCenter {
         return InstanceHolder.instance;
     }
 
-    public void LoginRequest(String email, String password) {
+    public void LoginRequest(String email, String password, Context context) {
         Datastructure.LoginRequest request = Datastructure.LoginRequest.newBuilder().setEmail(email).setPassword(password).build();
-        center.SendMessagePost(login_uri, request.toByteArray(), "");
+        long task_id = center.SendMessagePost(login_uri, request.toByteArray(), "");
+        callers.put(task_id, context);
     }
 
-    public void SignupRequest(String email, String student_id, String password) {
+    public void SignupRequest(String email, String student_id, String password, Context context) {
         Datastructure.SignupRequest request = Datastructure.SignupRequest.newBuilder().setEmail(email).setPassword(password).setUscstudentid(student_id).build();
-        center.SendMessagePost(signup_uri, request.toByteArray(), "");
+        long task_id = center.SendMessagePost(signup_uri, request.toByteArray(), "");
+        callers.put(task_id, context);
     }
 
-    public void LogoutRequest(String email, String student_id, String password, String user_token) {
+    public void LogoutRequest(String email, String student_id, String password, String user_token, Context context) {
         Datastructure.SignupRequest request = Datastructure.SignupRequest.newBuilder().setEmail(email).setPassword(password).setUscstudentid(student_id).build();
-        center.SendMessagePost(logout_uri, request.toByteArray(), user_token);
+        long task_id = center.SendMessagePost(logout_uri, request.toByteArray(), user_token);
+        callers.put(task_id, context);
     }
 
-    public void GetCenterlistRequest() {
-        center.SendMessageGet(centerlist_uri);
+    public void GetCenterlistRequest(Context context) {
+        long task_id = center.SendMessageGet(centerlist_uri);
+        callers.put(task_id, context);
     }
 
-    public void GetTimeslotOfCenterOnDateRequest(String center_name, String date) {
+    public void GetTimeslotOfCenterOnDateRequest(String center_name, String date, Context context) {
         Datastructure.TimeslotOnDateRequest request = Datastructure.TimeslotOnDateRequest.newBuilder().setCentername(center_name).setDate(date).build();
-        center.SendMessagePost(timeslotslist_uri, request.toByteArray(), "");
+        long task_id = center.SendMessagePost(timeslotslist_uri, request.toByteArray(), "");
+        callers.put(task_id, context);
     }
 
-    public void BookRequest(String center_name, String date, String timeslot, String user_token) {
+    public void BookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
-        center.SendMessagePost(book_uri, request.toByteArray(), user_token);
+        long task_id = center.SendMessagePost(book_uri, request.toByteArray(), user_token);
+        callers.put(task_id, context);
     }
 
-    public void CancelRequest(String center_name, String date, String timeslot, String user_token) {
+    public void CancelRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
-        center.SendMessagePost(cancel_uri, request.toByteArray(), user_token);
+        long task_id = center.SendMessagePost(cancel_uri, request.toByteArray(), user_token);
+        callers.put(task_id, context);
     }
 
-    public void WaitlistRequest(String center_name, String date, String timeslot, String user_token) {
+    public void WaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.WaitlistRequest request = Datastructure.WaitlistRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
-        center.SendMessagePost(waitlist_uri, request.toByteArray(), user_token);
+        long task_id = center.SendMessagePost(waitlist_uri, request.toByteArray(), user_token);
+        callers.put(task_id, context);
     }
 
-    public void HistoryRequest(String center_name, String date, String timeslot, String user_token) {
-        center.SendMessagePost(history_uri, new byte[0], user_token);
+    public void HistoryRequest(String center_name, String date, String timeslot, String user_token, Context context) {
+        long task_id = center.SendMessagePost(history_uri, new byte[0], user_token);
+        callers.put(task_id, context);
     }
 
     public void MessageResponse(byte[] raw_data, String uri, long task_id) {
@@ -132,11 +150,17 @@ public class MessageCenter {
 
     public void LoginResponse(Datastructure.LoginResponse response, long task_id) {
         // get username, password etc by getUsername getPassword
+//
+//        String email = response.getEmail();
+//        String token = response.getTokens();
+//
+//        Datastructure.LoginResponse.Error error = response.getErr();
 
-        String email = response.getEmail();
-        String token = response.getTokens();
+        //Store the user login info and token
 
-//        startActivity(new Intent(LoginActivity.this, MapsActivity.class));
+        //jump to map screen
+        Context context = callers.get(task_id);
+        context.startActivity(new Intent(context, MapsActivity.class));
     }
 
     public void SignupResponse(Datastructure.SignupResponse response, long task_id) {
@@ -148,7 +172,11 @@ public class MessageCenter {
     }
 
     public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
+        //What to do with center list data?
+        //Datastructure.Center c = response.getCenterlist(0);
 
+        //Pass it back to the activity that needs these data.
+        //Wait. Which activity?
     }
 
     public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response, long task_id) {

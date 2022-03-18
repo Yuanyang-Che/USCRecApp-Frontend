@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,16 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SignUpActivity extends AppCompatActivity {
-    private EditText Email;
+    private EditText email;
     private EditText username;
-    private EditText Password;
-    //private TextView Info;
-    private Button SignUp;
-    private Button ToLogin;
+    private EditText password;
+    private Button signUp;
+    private Button toLogin;
     private ImageView imageView;
 
     private final int SELECT_PHOTO = 1;
@@ -33,8 +34,26 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        Email = findViewById(R.id.etEmail);
+        email = findViewById(R.id.etEmail);
         username = findViewById(R.id.etUsername);
+        password = findViewById(R.id.etPassword);
+
+        signUp = findViewById(R.id.btnSignUp);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signUp();
+            }
+        });
+
+        toLogin = findViewById(R.id.btnToLogin);
+        toLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+            }
+        });
+
 
         imageView = findViewById(R.id.etAvatar);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +65,13 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivityForResult(intent, SELECT_PHOTO);
             }
         });
+    }
+
+    private void signUp() {
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageInByte = baos.toByteArray();
     }
 
     @Override
