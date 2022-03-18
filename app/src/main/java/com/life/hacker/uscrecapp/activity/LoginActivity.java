@@ -46,10 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
     }
 
-    public void takeErrorMessage(){
-
-    }
-
     private void validate(String email, String userPassword) {
         email = "realchen@usc.edu";
         userPassword = "12345678";
@@ -58,6 +54,10 @@ public class LoginActivity extends AppCompatActivity {
 
         //For now, always success
         //startActivity(new Intent(LoginActivity.this, MapsActivity.class));
+    }
+
+    public void takeErrorMessage(String msg) {
+
     }
 }
 
