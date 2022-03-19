@@ -1,10 +1,12 @@
 package com.life.hacker.uscrecapp.network;
 
 import android.content.Intent;
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
 
@@ -143,31 +145,50 @@ public class MessageCenter {
             System.out.println(e.getMessage());
             // most likely is the backend error.
         }
-
     }
 
 
     public void LoginResponse(Datastructure.LoginResponse response, long task_id) {
         LoginActivity context = (LoginActivity) callers.get(task_id);
+        assert context != null;
 
         Datastructure.LoginResponse.Error error = response.getErr();
         if (error != Datastructure.LoginResponse.Error.GOOD) {
-            context.takeErrorMessage(error.toString());
+            String errorMsg = null;
+            switch (error.getNumber()) {
+                case Datastructure.LoginResponse
+                        .Error.NOTUSED_VALUE:
+                case Datastructure.LoginResponse
+                        .Error.GOOD_VALUE:
+                    errorMsg = "Impossible";
+                    break;
+                case Datastructure.LoginResponse
+                        .Error.INVALID_EMAIL_PASSWORD_VALUE:
+                    errorMsg = "Incorrect Email or password";
+                    break;
+                case Datastructure.LoginResponse.Error.SERVER_VALUE:
+                    errorMsg = "Server Error Please try again";
+                    break;
+            }
+            context.takeErrorMessage(errorMsg);
             return;
         }
 
-        // get username, password etc by getUsername getPassword
-
         String email = response.getEmail();
         String username = response.getUsername();
+        String netid = response.getUscstudentid();
         String token = response.getTokens();
+
+        byte[] arr = response.getAvatar().toByteArray();
+
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+
         //Store the user login info and token
+        SessionData.getInstance().setUser(email, username, netid, decodedByte);
+        SessionData.getInstance().setToken(token);
 
         //Jump to main screen
         context.startActivity(new Intent(context, MapsActivity.class));
-
-        //Send back an error message prompt
-
     }
 
     public void SignupResponse(Datastructure.SignupResponse response, long task_id) {

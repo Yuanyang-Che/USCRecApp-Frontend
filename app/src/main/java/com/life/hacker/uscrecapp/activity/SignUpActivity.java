@@ -41,31 +41,20 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.etPassword);
 
         signUp = findViewById(R.id.btnSignUp);
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signUp();
-            }
+        signUp.setOnClickListener(view -> {
+            signUp();
         });
 
         toLogin = findViewById(R.id.btnToLogin);
-        toLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-            }
-        });
+        toLogin.setOnClickListener(view -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
 
 
         imageView = findViewById(R.id.etAvatar);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
+        imageView.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
 
-                startActivityForResult(intent, SELECT_PHOTO);
-            }
+            startActivityForResult(intent, SELECT_PHOTO);
         });
     }
 
@@ -88,10 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
                 imageView.setImageBitmap(bitmap);
             } catch (FileNotFoundException fnfe) {
                 fnfe.printStackTrace();
-                //username.setText("FNFE");
             } catch (IOException e) {
                 e.printStackTrace();
-                //username.setText("E");
             }
         }
     }
