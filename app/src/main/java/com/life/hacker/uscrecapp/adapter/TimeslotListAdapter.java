@@ -2,6 +2,8 @@ package com.life.hacker.uscrecapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
@@ -62,13 +65,6 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         boolean isBookable = getItem(position).isBookable();
         // ------------------------------------------------------
 
-//        String name = getItem(position).getName();
-//        String birthday = getItem(position).getBirthday();
-//        String sex = getItem(position).getSex();
-//
-//        //Create the person object with the information
-//        Person person = new Person(name,birthday,sex);
-
         //create the view result for showing the animation
         View result;
         //ViewHolder object
@@ -81,37 +77,38 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             holder.btn = (Button) convertView.findViewById(R.id.book);
             holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.timeslot = (TextView) convertView.findViewById(R.id.timeslot);
-//            holder.name = (TextView) convertView.findViewById(R.id.textView1);
-//            holder.birthday = (TextView) convertView.findViewById(R.id.textView2);
-//            holder.sex = (TextView) convertView.findViewById(R.id.textView3);
 
-            result = convertView;
+//            result = convertView;
 
             convertView.setTag(holder);
+            result = convertView;
         }
         else{
             holder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
-
-
-//        Animation animation = AnimationUtils.loadAnimation(mContext,
-//                (position > lastPosition) ? R.anim.load_down_anim : R.anim.load_up_anim);
-//        result.startAnimation(animation);
-//        lastPosition = position;
-
-        holder.date.setText(todayAsString);
-        holder.timeslot.setText(Integer.toString(timeindex));
-        holder.btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext, MapsActivity.class));
-            }
-        });
-
-//        holder.name.setText(person.getName());
-//        holder.birthday.setText(person.getBirthday());
-//        holder.sex.setText(person.getSex());
+        if(isBookable) {
+            holder.date.setText(todayAsString);
+            holder.timeslot.setText(Integer.toString(timeindex));
+            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
+            holder.btn.setText(new String("Book"));
+            holder.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
+                }
+            });
+        }
+        else {
+            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
+            holder.btn.setText(new String("Waitlist"));
+            holder.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
+                }
+            });
+        }
 
 
         return result;

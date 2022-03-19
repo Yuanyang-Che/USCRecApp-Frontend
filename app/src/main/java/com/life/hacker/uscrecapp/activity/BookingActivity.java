@@ -21,10 +21,10 @@ public class BookingActivity extends Activity {
 
         ListView mListView = (ListView) findViewById(R.id.bookingListView);
 
-        Timeslot eight = new Timeslot(123, 10, 0, new HashSet<>(), new Day());
-        Timeslot nine = new Timeslot(9, 10, 0, new HashSet<>(), new Day());
-        Timeslot ten = new Timeslot(10, 10, 0, new HashSet<>(), new Day());
-        Timeslot eleven = new Timeslot(11, 10, 0, new HashSet<>(), new Day());
+        Timeslot eight = new Timeslot(123, 123, 0, new HashSet<>(), new Day());
+        Timeslot nine = new Timeslot(9, 9, 0, new HashSet<>(), new Day());
+        Timeslot ten = new Timeslot(10, 10, 10, new HashSet<>(), new Day());
+        Timeslot eleven = new Timeslot(11, 11, 11, new HashSet<>(), new Day());
 
         ArrayList<Timeslot> timeSlotList = new ArrayList<>();
         timeSlotList.add(eight);

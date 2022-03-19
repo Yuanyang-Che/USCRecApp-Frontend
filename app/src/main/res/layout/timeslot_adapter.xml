@@ -12,7 +12,7 @@
     <Button
         android:id="@+id/book"
         android:layout_width="match_parent"
-        android:text="Book"
+        android:text=" Book "
         android:layout_height="200dp"
         android:layout_weight="66.6"
         android:backgroundTint="@android:color/holo_green_dark">
