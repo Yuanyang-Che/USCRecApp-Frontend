@@ -1,8 +1,13 @@
 package com.life.hacker.uscrecapp.activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.life.hacker.uscrecapp.R;
 
@@ -54,9 +60,32 @@ public class SignUpActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
 
-            startActivityForResult(intent, SELECT_PHOTO);
+            galleryActivityResultLauncher.launch(intent);
+
+//            startActivityForResult(intent, SELECT_PHOTO);
         });
     }
+
+    private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    //here we will handle the result of our intent
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        //image picked
+                        //get uri of image
+                        Intent data = result.getData();
+                        Uri imageUri = data.getData();
+
+                        imageView.setImageURI(imageUri);
+                    } else {
+                        //cancelled
+                        Toast.makeText(SignUpActivity.this, "Cancelled...", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
 
     private void signUp() {
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
