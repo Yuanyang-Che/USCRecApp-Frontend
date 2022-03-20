@@ -1,7 +1,9 @@
 package com.life.hacker.uscrecapp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.life.hacker.uscrecapp.R;
@@ -13,11 +15,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class BookingActivity extends Activity {
-
+    private Button backtoMapButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
+
+        backtoMapButton = (Button) findViewById(R.id.backtoMapButton);
 
         ListView mListView = (ListView) findViewById(R.id.bookingListView);
 
@@ -34,5 +38,9 @@ public class BookingActivity extends Activity {
 
         TimeslotListAdapter adapter = new TimeslotListAdapter(this, R.layout.timeslot_adapter, timeSlotList);
         mListView.setAdapter(adapter);
+
+        backtoMapButton.setOnClickListener(view -> {
+            startActivity(new Intent(BookingActivity.this, MapsActivity.class));
+        });
     }
 }
