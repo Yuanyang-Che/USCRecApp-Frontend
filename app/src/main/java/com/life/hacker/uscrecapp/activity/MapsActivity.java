@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,18 +16,37 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.databinding.ActivityMapsBinding;
+import com.life.hacker.uscrecapp.model.Center;
+import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 //    private ActivityMapsBinding binding;
-    ArrayList<LatLng> centers = new ArrayList<>();
     LatLng LyonCenter = new LatLng(34.02356070336721, -118.2887904971078);
-    LatLng USCVillageFitnessCenter = new LatLng(34.02479913176758, -118.28598143534718);
-    LatLng UyTengsuAquaticsCenter = new LatLng(34.02392489906327, -118.28842653793001);
-    ArrayList<String> centerNames = new ArrayList<>();
+
+    List<Center> centerList = new ArrayList<>();
+    public void setCenters(List<Center> centerList) {
+        this.centerList = centerList;
+        for(int i = 0; i < centerList.size(); i++) {
+            Center c = centerList.get(i);
+            mMap.addMarker(new MarkerOptions().position(new LatLng(c.getLatitude(), c.getLongitude()))
+                    .title(String.valueOf(c.getName())));
+        }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                String markerTitle = marker.getTitle();
+                Intent i = new Intent(MapsActivity.this, BookingActivity.class);
+                startActivity(i);
+                return false;
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +61,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        centers.add(LyonCenter);
-        centers.add(USCVillageFitnessCenter);
-        centers.add(UyTengsuAquaticsCenter);
+        Button SummaryButton = (Button) findViewById(R.id.goToSummaryButton);
 
-        centerNames.add("Lyon Center");
-        centerNames.add("USC Village Fitness Center");
-        centerNames.add("UyTengsu Aquatics Center");
+        SummaryButton.setOnClickListener(view -> {
+            startActivity(new Intent(MapsActivity.this, SummaryActivity.class));
+        });
+
+        MessageCenter.GetInstance().GetCenterlistRequest(MapsActivity.this);
+
     }
 
     /**
@@ -63,24 +84,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for(int i = 0; i < centers.size(); i++) {
-            mMap.addMarker(new MarkerOptions().position(centers.get(i)).title(String.valueOf(centerNames.get(i))));
-        }
 
         // Add a marker in Sydney and move the camera
 //        LatLng LyonCenter = new LatLng(34.02356070336721, -118.2887904971078);
 //        mMap.addMarker(new MarkerOptions().position(LyonCenter).title("Marker in LyonCenter"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LyonCenter, 15f));
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(@NonNull Marker marker) {
-                String markerTitle = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, BookingActivity.class);
-                startActivity(i);
-                return false;
-            }
-        });
 
     }
 }

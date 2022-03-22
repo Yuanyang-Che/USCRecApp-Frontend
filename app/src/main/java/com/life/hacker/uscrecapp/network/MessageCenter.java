@@ -9,7 +9,12 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
+import com.life.hacker.uscrecapp.model.Center;
+import com.life.hacker.uscrecapp.model.Day;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
@@ -202,7 +207,21 @@ public class MessageCenter {
     public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
         //What to do with center list data?
         //Datastructure.Center c = response.getCenterlist(0);
+        MapsActivity context = (MapsActivity) callers.get(task_id);
 
+        List<Datastructure.Center> centers = response.getCenterlistList();
+        System.out.println(Arrays.asList(response.getCenterlistList()));
+        List<Center> centerList = new ArrayList<>();
+        for(Datastructure.Center c : centers) {
+            centerList.add(new Center(0, c.getName(), new Day[3], c.getLatitude(), c.getLongitude()));
+        }
+
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                context.setCenters(centerList);
+            }
+        });
         //Pass it back to the activity that needs these data.
         //Wait. Which activity?
     }

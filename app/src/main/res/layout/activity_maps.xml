@@ -6,4 +6,12 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MapsActivity" />
+    tools:context=".activity.MapsActivity">
+    <Button
+        android:id="@+id/goToSummaryButton"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Booking Summary" />
+</fragment>
