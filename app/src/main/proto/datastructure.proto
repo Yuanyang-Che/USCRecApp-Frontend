@@ -71,7 +71,7 @@ message TimeslotOnDateRequest {
 
 message TimeslotUsernum {
   string timeslot = 1;
-  uint64 usernum = 2;
+  uint32 usernum = 2;
 }
 
 message TimeslotOnDateResponse {
@@ -160,8 +160,12 @@ message HistoryResponse {
   repeated BookingEntry upcoming = 2;
 }
 
-message Notification {
+message NotificationEntry {
   string centername = 1;
   string timeslot = 2;
   string date = 3;
+}
+
+message NotificationResponse {
+  repeated NotificationEntry list = 1;
 }
