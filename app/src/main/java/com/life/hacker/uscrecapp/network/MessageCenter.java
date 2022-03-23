@@ -111,12 +111,6 @@ public class MessageCenter {
     }
 
     public void MessageResponse(byte[] raw_data, String uri, long task_id) {
-        if(raw_data == null || raw_data.length == 0) {
-            // body data is null
-            System.out.println("response body data is null");
-            return;
-        }
-
         try {
             switch (uri) {
                 case login_uri: {
@@ -329,5 +323,6 @@ public class MessageCenter {
 
     public void NotificationResponse(Datastructure.NotificationResponse response) {
         // Get notifications. Notification might have multiple entries
+        System.out.println(response.getListCount());
     }
 }
