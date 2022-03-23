@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.adapter.TimeslotListAdapter;
 import com.life.hacker.uscrecapp.model.Day;
@@ -20,10 +22,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-public class BookingActivity extends Activity {
+public class BookingActivity extends FragmentActivity {
     private Button backtoMapButton;
-    String centerName;
+    private String centerName;
     ArrayList<Timeslot> timeSlotList;
+
+    public String getCenterName() {
+        return centerName;
+    }
 
     public void setTimeSlotList(List<Timeslot> timeSlotList){
         this.timeSlotList = new ArrayList<>(timeSlotList);
@@ -31,6 +37,11 @@ public class BookingActivity extends Activity {
         ListView mListView = (ListView) findViewById(R.id.bookingListView);
         TimeslotListAdapter adapter = new TimeslotListAdapter(this, R.layout.timeslot_adapter, this.timeSlotList);
         mListView.setAdapter(adapter);
+
+    }
+
+    public void backendSuccessOrFail() {
+
     }
 
     @Override
@@ -51,16 +62,6 @@ public class BookingActivity extends Activity {
         }
 
         backtoMapButton = (Button) findViewById(R.id.backtoMapButton);
-//        Timeslot eight = new Timeslot(123, 123, 0, new HashSet<>(), new Day(), false);
-//        Timeslot nine = new Timeslot(9, 9, 0, new HashSet<>(), new Day(), false);
-//        Timeslot ten = new Timeslot(10, 10, 10, new HashSet<>(), new Day(), false);
-//        Timeslot eleven = new Timeslot(11, 11, 11, new HashSet<>(), new Day(), false);
-//
-//        ArrayList<Timeslot> timeSlotList = new ArrayList<>();
-//        timeSlotList.add(eight);
-//        timeSlotList.add(nine);
-//        timeSlotList.add(ten);
-//        timeSlotList.add(eleven);
 
         backtoMapButton.setOnClickListener(view -> {
             startActivity(new Intent(BookingActivity.this, MapsActivity.class));

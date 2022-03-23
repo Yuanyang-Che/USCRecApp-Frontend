@@ -79,10 +79,10 @@ public class MessageCenter {
 
     public void GetTimeslotOfCenterOnDateRequest(String center_name, String date, Context context) {
         Datastructure.TimeslotOnDateRequest request = Datastructure.TimeslotOnDateRequest.newBuilder().setCentername(center_name).setDate(date).build();
-        long task_id = center.SendMessagePost(timeslotslist_uri, request.toByteArray(), "");
+        long task_id = center.SendMessagePost(timeslotslist_uri, request.toByteArray(), SessionData.getInstance().getToken());
         callers.put(task_id, context);
     }
-
+    // yyyy-mm-dd, 08:00:00
     public void BookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(book_uri, request.toByteArray(), user_token);

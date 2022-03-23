@@ -8,7 +8,8 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.16394927536231885" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.18796844482421876" />
         <entry key="app/src/main/res/layout/activity_summary.xml" value="0.1" />
-		<entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.16530797101449277" />
+        <entry key="app/src/main/res/layout/popup_background.xml" value="0.6759868421052632" />
+        <entry key="app/src/main/res/layout/popup_confirm.xml" value="0.16180114746093754" />
         <entry key="app/src/main/res/layout/timeslot_adapter.xml" value="0.17714202438575635" />
       </map>
     </option>

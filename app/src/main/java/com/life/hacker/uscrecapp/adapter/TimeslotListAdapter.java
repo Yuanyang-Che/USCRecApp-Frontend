@@ -1,9 +1,11 @@
 package com.life.hacker.uscrecapp.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.activity.BookingActivity;
+import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
@@ -28,6 +34,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
     private Context mContext;
     private int mResource;
+    private Dialog mDialog;
 
     /**
      * Holds variables in a View
@@ -48,6 +55,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
+        mDialog = new Dialog(context);
     }
 
     @NonNull
@@ -87,16 +95,26 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             holder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
+
+        holder.date.setText(todayAsString);
+        holder.timeslot.setText(Integer.toString(timeindex)+":00 - "
+                + Integer.toString(timeindex+1) + ":00");
+
         if(isBookable) {
-            holder.date.setText(todayAsString);
-            holder.timeslot.setText(Integer.toString(timeindex)+":00 - "
-                    + Integer.toString(timeindex+1) + ":00");
+
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
             holder.btn.setText(new String("Book"));
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
+                    FragmentActivity fa = (FragmentActivity) mContext;
+                    BookingActivity ba = (BookingActivity) mContext;
+                    DialogFragment frag = new ConfirmActionFragment(getItem(position), ba.getCenterName(), mContext);
+                    frag.show(fa.getSupportFragmentManager(), "confirm");
+//                    mDialog.setContentView(R.layout.popup_confirm);
+//                    mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                    mDialog.show();
+//                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
                 }
             });
         }
@@ -106,7 +124,8 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
+
+//                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
                 }
             });
         }
