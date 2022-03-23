@@ -220,6 +220,15 @@ public class MessageCenter {
         SessionData.getInstance().setToken(token);
 
         //Jump to main screen
+        //Same code here
+        loginSuccess(context);
+    }
+
+    public void loginSuccess(Context context) {
+        //Means we start to listen to Notifications
+        //TODO start websockets ...
+
+        //Start websocket...
         context.startActivity(new Intent(context, MapsActivity.class));
     }
 

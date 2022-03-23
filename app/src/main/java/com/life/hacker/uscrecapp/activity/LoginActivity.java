@@ -12,7 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.network.MessageCenter;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText email;
@@ -25,6 +28,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (SessionData.getInstance().getUser() != null) {
+            MessageCenter.GetInstance().loginSuccess(LoginActivity.this);
+            //startActivity(new Intent(LoginActivity.this, MapsActivity.class));
+        }
+
 
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
