@@ -67,9 +67,9 @@ class ConnectionCenter {
         return task_id;
     }
 
-    public long SendMessageGet(String url) {
+    public long SendMessageGet(String url, String user_id) {
         long task_id = GenerateTaskId();
-        Request request = new Request.Builder().url(url).get().build();
+        Request request = new Request.Builder().url(url).header("token", user_id).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

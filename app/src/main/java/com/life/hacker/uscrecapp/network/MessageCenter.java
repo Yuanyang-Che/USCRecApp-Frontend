@@ -30,6 +30,7 @@ public class MessageCenter {
     private final String cancel_uri = "http://realrecapp.herokuapp.com/service/cancel";
     private final String waitlist_uri = "http://realrecapp.herokuapp.com/service/waitlist";
     private final String history_uri = "http://realrecapp.herokuapp.com/service/history";
+    private final String notification_uri = "http://realrecapp.herokuapp.com/service/notification";
 
 
     private ConcurrentHashMap<Long, Context> callers = new ConcurrentHashMap<>();
@@ -65,7 +66,7 @@ public class MessageCenter {
     }
 
     public void GetCenterlistRequest(Context context) {
-        long task_id = center.SendMessageGet(centerlist_uri);
+        long task_id = center.SendMessageGet(centerlist_uri, "");
         callers.put(task_id, context);
     }
 
@@ -98,7 +99,17 @@ public class MessageCenter {
         callers.put(task_id, context);
     }
 
+    public void NotificationRequest(String user_token) {
+        center.SendMessageGet(notification_uri, user_token);
+    }
+
     public void MessageResponse(byte[] raw_data, String uri, long task_id) {
+        if(raw_data == null || raw_data.length == 0) {
+            // body data is null
+            System.out.println("response body data is null");
+            return;
+        }
+
         try {
             switch (uri) {
                 case login_uri: {
@@ -143,6 +154,11 @@ public class MessageCenter {
                 case history_uri: {
                     Datastructure.HistoryResponse response = Datastructure.HistoryResponse.parseFrom(raw_data);
                     HistoryResponse(response, task_id);
+                    break;
+                }
+                case notification_uri: {
+                    Datastructure.NotificationResponse response = Datastructure.NotificationResponse.parseFrom(raw_data);
+                    NotificationResponse(response);
                     break;
                 }
             }
@@ -244,5 +260,9 @@ public class MessageCenter {
 
     public void HistoryResponse(Datastructure.HistoryResponse response, long task_id) {
 
+    }
+
+    public void NotificationResponse(Datastructure.NotificationResponse response) {
+        // Get notifications. Notification might have multiple entries
     }
 }
