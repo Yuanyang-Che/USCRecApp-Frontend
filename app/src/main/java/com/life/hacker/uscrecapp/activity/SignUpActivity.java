@@ -14,13 +14,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -28,8 +28,9 @@ import java.io.IOException;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText email;
-    private EditText username;
+    private EditText uscid;
     private EditText password;
+    private EditText username;
     private Button signUp;
     private Button toLogin;
     private ImageView imageView;
@@ -43,12 +44,16 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         email = findViewById(R.id.etEmail);
+        uscid = findViewById(R.id.etUscId);
         username = findViewById(R.id.etUsername);
         password = findViewById(R.id.etPassword);
 
         signUp = findViewById(R.id.btnSignUp);
         signUp.setOnClickListener(view -> {
-            signUp();
+            signUp(email.getText().toString(),
+                    uscid.getText().toString(),
+                    username.getText().toString(),
+                    password.getText().toString());
         });
 
         toLogin = findViewById(R.id.btnToLogin);
@@ -62,7 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             galleryActivityResultLauncher.launch(intent);
 
-//            startActivityForResult(intent, SELECT_PHOTO);
+            //startActivityForResult(intent, SELECT_PHOTO);
         });
     }
 
@@ -87,11 +92,19 @@ public class SignUpActivity extends AppCompatActivity {
             }
     );
 
-    private void signUp() {
+    private void signUp(String email, String id, String username, String pw) {
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageInByte = baos.toByteArray();
+
+        //TODO
+        email = "test@usc.edu";
+        id = "123";
+        username = "test";
+        pw = "pw";
+        MessageCenter.GetInstance().SignupRequest(email,
+                id, username, pw, imageInByte, SignUpActivity.this);
     }
 
     @Override

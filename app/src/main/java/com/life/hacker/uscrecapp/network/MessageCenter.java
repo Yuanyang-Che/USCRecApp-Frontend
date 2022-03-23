@@ -5,16 +5,20 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.MapEntryLite;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
+import com.life.hacker.uscrecapp.activity.SignUpActivity;
 import com.life.hacker.uscrecapp.model.Center;
 import com.life.hacker.uscrecapp.model.Day;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
@@ -52,8 +56,8 @@ public class MessageCenter {
         callers.put(task_id, context);
     }
 
-    public void SignupRequest(String email, String student_id, String password, Context context) {
-        Datastructure.SignupRequest request = Datastructure.SignupRequest.newBuilder().setEmail(email).setPassword(password).setUscstudentid(student_id).build();
+    public void SignupRequest(String email, String student_id, String username, String password, byte[] avatar, Context context) {
+        Datastructure.SignupRequest request = Datastructure.SignupRequest.newBuilder().setEmail(email).setPassword(password).setUsername(username).setUscstudentid(student_id).setAvatar(ByteString.copyFrom(avatar)).build();
         long task_id = center.SendMessagePost(signup_uri, request.toByteArray(), "");
         callers.put(task_id, context);
     }
@@ -152,7 +156,6 @@ public class MessageCenter {
         }
     }
 
-
     public void LoginResponse(Datastructure.LoginResponse response, long task_id) {
         LoginActivity context = (LoginActivity) callers.get(task_id);
         assert context != null;
@@ -179,14 +182,19 @@ public class MessageCenter {
             return;
         }
 
+
         String email = response.getEmail();
         String username = response.getUsername();
         String netid = response.getUscstudentid();
         String token = response.getTokens();
 
-        byte[] arr = response.getAvatar().toByteArray();
+        Bitmap decodedByte = null;
 
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        if (response.getAvatar() != null) {
+            byte[] arr = response.getAvatar().toByteArray();
+
+            decodedByte = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        }
 
         //Store the user login info and token
         SessionData.getInstance().setUser(email, username, netid, decodedByte);
@@ -197,7 +205,35 @@ public class MessageCenter {
     }
 
     public void SignupResponse(Datastructure.SignupResponse response, long task_id) {
+        SignUpActivity context = (SignUpActivity) callers.get(task_id);
+        assert context != null;
 
+        Datastructure.SignupResponse.Error error = response.getErr();
+        if (error != Datastructure.SignupResponse.Error.GOOD) {
+            String errorMsg = null;
+            switch (error.getNumber()) {
+                case Datastructure.SignupResponse
+                        .Error.NOTUSED_VALUE:
+                case Datastructure.SignupResponse
+                        .Error.GOOD_VALUE:
+                    errorMsg = "Impossible";
+                    break;
+                case Datastructure.SignupResponse
+                        .Error.INVALID_EMAIL_VALUE:
+                    errorMsg = "Incorrect Email";
+                    break;
+                case Datastructure.SignupResponse.
+                        Error.INVALID_USERNAME_VALUE:
+                    errorMsg = "Server Error Username";
+                    break;
+            }
+            //context.takeErrorMessage(errorMsg);
+            return;
+        }
+        String email = response.getEmail();
+        String token = response.getTokens();
+
+        context.startActivity(new Intent(context, MapsActivity.class));
     }
 
     public void LogoutResponse(long task_id) {
@@ -212,7 +248,7 @@ public class MessageCenter {
         List<Datastructure.Center> centers = response.getCenterlistList();
         System.out.println(Arrays.asList(response.getCenterlistList()));
         List<Center> centerList = new ArrayList<>();
-        for(Datastructure.Center c : centers) {
+        for (Datastructure.Center c : centers) {
             centerList.add(new Center(0, c.getName(), new Day[3], c.getLatitude(), c.getLongitude()));
         }
 

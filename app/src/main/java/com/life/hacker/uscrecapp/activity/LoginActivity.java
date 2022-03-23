@@ -26,11 +26,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        email = (EditText) findViewById(R.id.etEmail);
-        password = (EditText) findViewById(R.id.etPassword);
-        login = (Button) findViewById(R.id.btnLogin);
-        toSignUp = (Button) findViewById(R.id.btnToSignUp);
-        errorMsg = (TextView) findViewById(R.id.errorMsg);
+        email = findViewById(R.id.etEmail);
+        password = findViewById(R.id.etPassword);
+        login = findViewById(R.id.btnLogin);
+        toSignUp = findViewById(R.id.btnToSignUp);
+        errorMsg = findViewById(R.id.errorMsg);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,6 +74,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validate(String email, String userPassword) {
+        //TODO
+        email = "test@usc.edu";
+        userPassword = "pw";
         MessageCenter.GetInstance().LoginRequest(email, userPassword, LoginActivity.this);
     }
 
