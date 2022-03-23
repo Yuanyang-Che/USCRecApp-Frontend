@@ -227,7 +227,9 @@ public class MessageCenter {
     public void loginSuccess(Context context) {
         //Means we start to listen to Notifications
         //TODO start websockets ...
-
+        if(!NotificationCenter.GetInstance().IsStart()) {
+            NotificationCenter.GetInstance().Start();
+        }
         //Start websocket...
         context.startActivity(new Intent(context, MapsActivity.class));
     }

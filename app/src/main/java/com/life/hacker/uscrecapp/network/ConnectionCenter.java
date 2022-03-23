@@ -58,6 +58,9 @@ class ConnectionCenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    System.out.println("wrong status, check network or login status");
+                }
                 MessageCenter.GetInstance().MessageResponse(response.body().bytes(), url, task_id);
                 RemoveTaskId(task_id);
             }
@@ -78,6 +81,9 @@ class ConnectionCenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if(response.code() != 200) {
+                    System.out.println("wrong status, check network or login status");
+                }
                 MessageCenter.GetInstance().MessageResponse(response.body().bytes(), url, task_id);
                 RemoveTaskId(task_id);
             }
