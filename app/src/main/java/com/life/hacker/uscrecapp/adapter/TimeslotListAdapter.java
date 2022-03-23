@@ -89,7 +89,8 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         }
         if(isBookable) {
             holder.date.setText(todayAsString);
-            holder.timeslot.setText(Integer.toString(timeindex));
+            holder.timeslot.setText(Integer.toString(timeindex)+":00 - "
+                    + Integer.toString(timeindex+1) + ":00");
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
             holder.btn.setText(new String("Book"));
             holder.btn.setOnClickListener(new View.OnClickListener() {

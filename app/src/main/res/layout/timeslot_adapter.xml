@@ -13,7 +13,7 @@
         android:id="@+id/book"
         android:layout_width="match_parent"
         android:text=" Book "
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:layout_weight="66.6"
         android:backgroundTint="@android:color/holo_green_dark">
     </Button>
@@ -27,13 +27,13 @@
             android:id="@+id/date"
             android:text="March 17, 2022"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:gravity="center"/>
 
         <TextView
             android:id="@+id/timeslot"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:gravity="center"
             android:text="8:00-10:00AM" />
     </LinearLayout>

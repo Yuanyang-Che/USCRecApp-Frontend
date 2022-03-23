@@ -35,17 +35,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Center c = centerList.get(i);
             mMap.addMarker(new MarkerOptions().position(new LatLng(c.getLatitude(), c.getLongitude()))
                     .title(String.valueOf(c.getName())));
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull Marker marker) {
+                    String markerTitle = marker.getTitle();
+                    Intent i = new Intent(MapsActivity.this, BookingActivity.class);
+                    i.putExtra("CenterName", markerTitle);
+                    startActivity(i);
+                    return false;
+                }
+            });
         }
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(@NonNull Marker marker) {
-                String markerTitle = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, BookingActivity.class);
-                startActivity(i);
-                return false;
-            }
-        });
+
     }
 
     @Override
@@ -64,6 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button SummaryButton = (Button) findViewById(R.id.goToSummaryButton);
 
         SummaryButton.setOnClickListener(view -> {
+
             startActivity(new Intent(MapsActivity.this, SummaryActivity.class));
         });
 

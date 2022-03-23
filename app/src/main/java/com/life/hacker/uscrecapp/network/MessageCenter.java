@@ -9,16 +9,19 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.MapEntryLite;
 import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
 import com.life.hacker.uscrecapp.activity.SignUpActivity;
 import com.life.hacker.uscrecapp.model.Center;
 import com.life.hacker.uscrecapp.model.Day;
+import com.life.hacker.uscrecapp.model.Timeslot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
@@ -279,6 +282,21 @@ public class MessageCenter {
     }
 
     public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response, long task_id) {
+        BookingActivity context = (BookingActivity) callers.get(task_id);
+
+        List<Datastructure.TimeslotUsernum> timeslots = response.getListList();
+        List<Timeslot> timeslotList = new ArrayList<>();
+        for(Datastructure.TimeslotUsernum t : timeslots) {
+            timeslotList.add(new Timeslot(Integer.parseInt(t.getTimeslot().substring(0, 2)),
+                    5, (int)t.getUsernum(), new HashSet<>(), new Day(), false));
+        }
+
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                context.setTimeSlotList(timeslotList);
+            }
+        });
 
     }
 
