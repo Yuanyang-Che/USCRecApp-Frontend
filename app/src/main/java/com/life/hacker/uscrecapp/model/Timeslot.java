@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Timeslot {
     public Timeslot(int timeIndex, int capacity, int size, Set<User> waitlist, Day day,
-                    boolean isPast, boolean isBooked) {
+                    boolean isPast, boolean isBooked, boolean isWaitListed) {
         // timeIndex: 0 -> 0:00
         this.timeIndex = timeIndex;
         this.capacity = capacity;
@@ -13,6 +13,7 @@ public class Timeslot {
         this.day = day;
         this.isPast = isPast;
         this.isBooked = isBooked;
+        this.isWaitListed = isWaitListed;
     }
 
     public int getTimeIndex() {
@@ -91,6 +92,14 @@ public class Timeslot {
         isBooked = booked;
     }
 
+    public boolean isWaitListed() {
+        return isWaitListed;
+    }
+
+    public void setWaitListed(boolean waitListed) {
+        isWaitListed = waitListed;
+    }
+
     private int timeIndex;
     private int capacity;
     private int size;
@@ -98,6 +107,7 @@ public class Timeslot {
     private Day day;
     private boolean isPast;
     private boolean isBooked;
+    private boolean isWaitListed;
 
 
 

@@ -301,7 +301,8 @@ public class MessageCenter {
         List<Timeslot> timeslotList = new ArrayList<>();
         for (Datastructure.TimeslotUsernum t : timeslots) {
             timeslotList.add(new Timeslot(Integer.parseInt(t.getTimeslot().substring(0, 2)),
-                    2, (int) t.getUsernum(), new HashSet<>(), new Day(), false, t.getIsbooked()));
+                    2, (int) t.getUsernum(), new HashSet<>(), new Day(), false,
+                    t.getIsbooked(), t.getIswaitlisted()));
         }
 
         context.runOnUiThread(() -> context.setTimeSlotList(timeslotList));
@@ -339,7 +340,9 @@ public class MessageCenter {
             }
 
             Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
-            timeslots.add(new Timeslot(timeslotIdx, 0, 0, new HashSet<>(), day, isPast, true));
+            timeslots.add(new Timeslot(timeslotIdx,
+                    0, 0, new HashSet<>(), day, true, true, true));
+
         }
     }
 

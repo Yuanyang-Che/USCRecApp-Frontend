@@ -98,11 +98,13 @@ public class SignUpActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageInByte = baos.toByteArray();
 
-//        //TODO
-        email = "test@usc.edu";
-        id = "123";
-        username = "test";
-        pw = "pw";
+
+        //TODO
+//        email = "test@usc.edu";
+//        id = "123";
+//        username = "test";
+//        pw = "pw";
+
         MessageCenter.getInstance().SignupRequest(email,
                 id, username, pw, imageInByte, SignUpActivity.this);
     }

@@ -70,6 +70,16 @@ public class BookingActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        String pattern = "yyyy-MM-dd";
+        DateFormat df = new SimpleDateFormat(pattern);
+        Date today = Calendar.getInstance().getTime();
+        String todayAsString = df.format(today);
+        MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, todayAsString, BookingActivity.this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
@@ -83,7 +93,6 @@ public class BookingActivity extends FragmentActivity {
             String pattern = "yyyy-MM-dd";
             DateFormat df = new SimpleDateFormat(pattern);
             Date today = Calendar.getInstance().getTime();
-
             String todayAsString = df.format(today);
             MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, todayAsString, BookingActivity.this);
         }

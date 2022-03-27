@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
+import com.life.hacker.uscrecapp.activity.ConfirmWaitListFragment;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
@@ -73,6 +74,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         int timeindex = getItem(position).getTimeIndex();
         boolean isBookable = getItem(position).isBookable();
         boolean isBooked = getItem(position).isBooked();
+        boolean isWaitListed = getItem(position).isWaitListed();
         // ------------------------------------------------------
 
         //create the view result for showing the animation
@@ -101,6 +103,15 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         holder.timeslot.setText(Integer.toString(timeindex) + ":00 - "
                 + Integer.toString(timeindex + 1) + ":00");
 
+        if(isWaitListed) {
+            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
+            holder.btn.setText(new String("Waitlisted"));
+            holder.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) { }
+            });
+            return result;
+        }
         if (isBooked) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText(new String("Booked"));
@@ -128,7 +139,10 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
                 holder.btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        FragmentActivity fa = (FragmentActivity) mContext;
+                        BookingActivity ba = (BookingActivity) mContext;
+                        DialogFragment frag = new ConfirmWaitListFragment(getItem(position), ba.getCenterName(), mContext);
+                        frag.show(fa.getSupportFragmentManager(), "confirm");
                     }
                 });
             }
