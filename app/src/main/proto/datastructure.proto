@@ -73,6 +73,7 @@ message TimeslotUsernum {
   string timeslot = 1;
   uint32 usernum = 2;
   bool isbooked = 3;
+  bool iswaitlisted = 4;
 }
 
 message TimeslotOnDateResponse {
