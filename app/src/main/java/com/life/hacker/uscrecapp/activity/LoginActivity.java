@@ -81,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void validate(String email, String userPassword) {
         //TODO
-        email = "test@usc.edu";
-        userPassword = "pw";
+//        email = "test@usc.edu";
+//        userPassword = "pw";
         MessageCenter.getInstance().LoginRequest(email, userPassword, LoginActivity.this);
     }
 

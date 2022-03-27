@@ -331,7 +331,7 @@ public class MessageCenter {
         for (Datastructure.BookingEntry p : pre) {
             Integer timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
 
-            DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
             try {
                 date = format.parse(p.getDate());
