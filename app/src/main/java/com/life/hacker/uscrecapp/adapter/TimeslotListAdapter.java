@@ -2,10 +2,6 @@ package com.life.hacker.uscrecapp.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -22,7 +17,6 @@ import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
 import com.life.hacker.uscrecapp.activity.ConfirmWaitListFragment;
-import com.life.hacker.uscrecapp.activity.MapsActivity;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
 import java.text.DateFormat;
@@ -30,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
@@ -67,7 +62,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 //        Day day = getItem(position).getDay();
 //        Date date = day.getDate();
         String pattern = "MM/dd/yyyy";
-        DateFormat df = new SimpleDateFormat(pattern);
+        DateFormat df = new SimpleDateFormat(pattern, Locale.US);
         Date today = Calendar.getInstance().getTime();
         String todayAsString = df.format(today);
 
@@ -86,67 +81,50 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
             holder = new ViewHolder();
-            holder.btn = (Button) convertView.findViewById(R.id.book);
-            holder.date = (TextView) convertView.findViewById(R.id.date);
-            holder.timeslot = (TextView) convertView.findViewById(R.id.timeslot);
-
-//            result = convertView;
+            holder.btn = convertView.findViewById(R.id.book);
+            holder.date = convertView.findViewById(R.id.date);
+            holder.timeslot = convertView.findViewById(R.id.timeslot);
 
             convertView.setTag(holder);
-            result = convertView;
         } else {
             holder = (ViewHolder) convertView.getTag();
-            result = convertView;
         }
+        result = convertView;
 
         holder.date.setText(todayAsString);
-        holder.timeslot.setText(Integer.toString(timeindex) + ":00 - "
-                + Integer.toString(timeindex + 1) + ":00");
+        holder.timeslot.setText(timeindex + ":00 - " + (timeindex + 1) + ":00");
 
-        if(isWaitListed) {
+        if (isWaitListed) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.btn.setText(new String("Waitlisted"));
-            holder.btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) { }
-            });
+            holder.btn.setText("Waitlisted");
+            holder.btn.setOnClickListener(view -> { });
             return result;
         }
         if (isBooked) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.btn.setText(new String("Booked"));
+            holder.btn.setText("Booked");
 
-            holder.btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) { }
-            });
+            holder.btn.setOnClickListener(view -> { });
         } else {
             if (isBookable) {
                 holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
-                holder.btn.setText(new String("Book"));
-                holder.btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentActivity fa = (FragmentActivity) mContext;
-                        BookingActivity ba = (BookingActivity) mContext;
-                        DialogFragment frag = new ConfirmActionFragment(getItem(position), ba.getCenterName(), mContext);
-                        frag.show(fa.getSupportFragmentManager(), "confirm");
-                    }
+                holder.btn.setText("Book");
+                holder.btn.setOnClickListener(view -> {
+                    FragmentActivity fa = (FragmentActivity) mContext;
+                    BookingActivity ba = (BookingActivity) mContext;
+                    DialogFragment frag = new ConfirmActionFragment(getItem(position), ba.getCenterName(), mContext);
+                    frag.show(fa.getSupportFragmentManager(), "confirm");
                 });
             } else {
                 holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
-                holder.btn.setText(new String("Waitlist"));
-                holder.btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentActivity fa = (FragmentActivity) mContext;
-                        BookingActivity ba = (BookingActivity) mContext;
-                        DialogFragment frag = new ConfirmWaitListFragment(getItem(position), ba.getCenterName(), mContext);
-                        frag.show(fa.getSupportFragmentManager(), "confirm");
-                    }
+                holder.btn.setText("Waitlist");
+                holder.btn.setOnClickListener(view -> {
+                    FragmentActivity fa = (FragmentActivity) mContext;
+                    BookingActivity ba = (BookingActivity) mContext;
+                    DialogFragment frag = new ConfirmWaitListFragment(getItem(position), ba.getCenterName(), mContext);
+                    frag.show(fa.getSupportFragmentManager(), "confirm");
                 });
             }
-
         }
 
         return result;

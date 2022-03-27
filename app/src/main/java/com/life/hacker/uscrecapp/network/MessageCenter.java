@@ -3,11 +3,11 @@ package com.life.hacker.uscrecapp.network;
 import android.content.Intent;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
@@ -219,13 +219,7 @@ public class MessageCenter {
         String netid = response.getUscstudentid();
         String token = response.getTokens();
 
-        Bitmap decodedByte = null;
-
-        if (response.getAvatar() != null) {
-            byte[] arr = response.getAvatar().toByteArray();
-
-            decodedByte = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-        }
+        Bitmap decodedByte = Util.decompress(response.getAvatar().toByteArray());
 
         //Store the user login info and token
         SessionData.getInstance().setUser(email, username, netid, decodedByte);
@@ -269,17 +263,24 @@ public class MessageCenter {
                     errorMsg = "Server Error Username";
                     break;
             }
-            //context.takeErrorMessage(errorMsg);
+            context.takeErrorMessage(errorMsg);
             return;
         }
+
         String email = response.getEmail();
+        String username = response.getUsername();
+        String netid = response.getUscstudentid();
+        Bitmap avatar = Util.decompress(response.getAvatar().toByteArray());
         String token = response.getTokens();
+
+        SessionData.getInstance().setUser(email, username, netid, avatar);
+        SessionData.getInstance().setToken(token);
 
         context.startActivity(new Intent(context, MapsActivity.class));
     }
 
     public void LogoutResponse(long task_id) {
-
+        //TODO
     }
 
     public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
@@ -312,7 +313,7 @@ public class MessageCenter {
         List<Timeslot> timeslotList = new ArrayList<>();
         for (Datastructure.TimeslotUsernum t : timeslots) {
             timeslotList.add(new Timeslot(Integer.parseInt(t.getTimeslot().substring(0, 2)),
-                    2, (int) t.getUsernum(), new HashSet<>(), new Day(), false,
+                    2, t.getUsernum(), new HashSet<>(), new Day(), false,
                     t.getIsbooked(), t.getIswaitlisted()));
         }
 
@@ -334,11 +335,15 @@ public class MessageCenter {
 
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
         //
+
+//    public void CancelResponse(Datastructure.CancelResponse response, long task_id) {
+//        //TODO
+//>>>>>>> Stashed changes
         //SummaryActivity context =
     }
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
-
+        //TODO
     }
 
 

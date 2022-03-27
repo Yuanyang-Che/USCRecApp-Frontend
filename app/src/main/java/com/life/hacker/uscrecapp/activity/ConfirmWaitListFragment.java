@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
@@ -43,21 +44,12 @@ public class ConfirmWaitListFragment extends DialogFragment {
                     String dayString = df.format(today);
 
                     int time = t.getTimeIndex();
-                    StringBuilder sb = new StringBuilder();
-                    if (time < 10) {
-                        sb.append("0");
-                        sb.append(time);
-                        sb.append(":00:00");
-                    } else {
-                        sb.append(time);
-                        sb.append(":00:00");
-                    }
-// WaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context)
-                    MessageCenter.getInstance().WaitlistRequest(centerName, dayString, sb.toString(),
+                    MessageCenter.getInstance().WaitlistRequest(centerName, dayString, Util.convertTimeIdx(time),
                             SessionData.getInstance().getToken(), mContext);
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> {
                     // User cancelled the dialog
+                    //TODO
                 });
         // Create the AlertDialog object and return it
         return builder.create();

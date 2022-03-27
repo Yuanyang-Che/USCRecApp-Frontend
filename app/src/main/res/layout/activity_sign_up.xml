@@ -79,6 +79,20 @@
         app:layout_constraintTop_toBottomOf="@id/etUsername"
         app:layout_constraintVertical_bias="0.1" />
 
+    <TextView
+        android:id="@+id/signupErrorMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginBottom="23dp"
+        android:textColor="#E40505"
+        app:layout_constraintBottom_toTopOf="@+id/etAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+
     <ImageView
         android:id="@+id/etAvatar"
         android:layout_width="wrap_content"
