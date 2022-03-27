@@ -22,14 +22,16 @@ import java.util.List;
 public class BookingActivity extends FragmentActivity {
     private Button backtoMapButton;
     private String centerName;
-    ArrayList<Timeslot> timeSlotList;
+    private ArrayList<Timeslot> timeSlotList;
 
     public String getCenterName() {
         return centerName;
     }
 
-    public void jumpBackToMap() {
-        startActivity(new Intent(BookingActivity.this, MapsActivity.class));
+    public void jumpBackToMap(String message) {
+        Intent i = new Intent(BookingActivity.this, MapsActivity.class);
+        i.putExtra("Message", message);
+        startActivity(i);
     }
 
     public void setTimeSlotList(List<Timeslot> timeSlotList) {
@@ -74,6 +76,7 @@ public class BookingActivity extends FragmentActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             centerName = (String) b.get("CenterName");
+            //mapsActivity = (MapsActivity) b.get("MapInstance");
         }
 
         if (centerName != null) {

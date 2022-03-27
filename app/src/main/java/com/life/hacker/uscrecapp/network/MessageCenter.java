@@ -308,18 +308,16 @@ public class MessageCenter {
     }
 
     public void BookResponse(Datastructure.BookResponse response, long task_id) {
+        //TODO
         BookingActivity context = (BookingActivity) callers.get(task_id);
 
-        context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                context.jumpBackToMap();
-            }
-        });
+        String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ? "Good" : "Something went wrong";
+        context.runOnUiThread(() -> context.jumpBackToMap(message));
     }
 
     public void CancelResponse(Datastructure.CancelResponse response, long task_id) {
-
+        //
+        //SummaryActivity context =
     }
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
@@ -327,11 +325,12 @@ public class MessageCenter {
     }
 
 
-    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> pre) {
+    //F**K Java, this is a lambda function, but java's lambda sucks so I have to use a private method
+    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> pre, boolean isPast) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         for (Datastructure.BookingEntry p : pre) {
-            Integer timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
+            int timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
 
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
             try {
                 date = format.parse(p.getDate());
@@ -340,9 +339,7 @@ public class MessageCenter {
             }
 
             Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
-
-            timeslots.add(new Timeslot(timeslotIdx,
-                    0, 0, new HashSet<>(), day, true, true));
+            timeslots.add(new Timeslot(timeslotIdx, 0, 0, new HashSet<>(), day, isPast, true));
         }
     }
 
@@ -354,8 +351,8 @@ public class MessageCenter {
 
         List<Datastructure.BookingEntry> pre = response.getPreviousList();
         List<Datastructure.BookingEntry> upcoming = response.getUpcomingList();
-        addTo(timeslots, pre);
-        addTo(timeslots, upcoming);
+        addTo(timeslots, pre, true);
+        addTo(timeslots, upcoming, false);
 
         context.runOnUiThread(() -> context.update(timeslots));
     }

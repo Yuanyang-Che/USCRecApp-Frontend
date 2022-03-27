@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
@@ -89,7 +90,8 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
         if (isPast) {
             holder.date.setText(todayAsString);
 
-            holder.timeslot.setText(timeindex % 12 + (timeindex > 12 ? " PM" : " AM"));
+            //holder.timeslot.setText(Integer.toString(timeindex < 12 ? timeindex : timeindex - 12) + (timeindex > 12 ? " PM" : " AM"));
+            holder.timeslot.setText(Util.convertTimeIdx(timeindex));
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText("Past Appointment");
             holder.btn.setOnClickListener(view -> {});
