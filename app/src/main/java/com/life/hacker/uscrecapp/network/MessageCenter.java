@@ -7,21 +7,26 @@ import android.graphics.BitmapFactory;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.MapEntryLite;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
 import com.life.hacker.uscrecapp.activity.SignUpActivity;
+import com.life.hacker.uscrecapp.activity.SummaryActivity;
 import com.life.hacker.uscrecapp.model.Center;
 import com.life.hacker.uscrecapp.model.Day;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
@@ -82,6 +87,7 @@ public class MessageCenter {
         long task_id = center.SendMessagePost(timeslotslist_uri, request.toByteArray(), SessionData.getInstance().getToken());
         callers.put(task_id, context);
     }
+
     // yyyy-mm-dd, 08:00:00
     public void BookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
@@ -101,7 +107,7 @@ public class MessageCenter {
         callers.put(task_id, context);
     }
 
-    public void HistoryRequest(String center_name, String date, String timeslot, String user_token, Context context) {
+    public void HistoryRequest(String user_token, Context context) {
         long task_id = center.SendMessagePost(history_uri, new byte[0], user_token);
         callers.put(task_id, context);
     }
@@ -221,7 +227,7 @@ public class MessageCenter {
     public void loginSuccess(Context context) {
         //Means we start to listen to Notifications
         //TODO start websockets ...
-        if(!NotificationCenter.GetInstance().IsStart()) {
+        if (!NotificationCenter.GetInstance().IsStart()) {
             NotificationCenter.GetInstance().Start();
         }
         //Start websocket...
@@ -288,21 +294,16 @@ public class MessageCenter {
 
     public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response, long task_id) {
         BookingActivity context = (BookingActivity) callers.get(task_id);
+        assert context != null;
 
         List<Datastructure.TimeslotUsernum> timeslots = response.getListList();
         List<Timeslot> timeslotList = new ArrayList<>();
-        for(Datastructure.TimeslotUsernum t : timeslots) {
+        for (Datastructure.TimeslotUsernum t : timeslots) {
             timeslotList.add(new Timeslot(Integer.parseInt(t.getTimeslot().substring(0, 2)),
-                    2, (int)t.getUsernum(), new HashSet<>(), new Day(), false, t.getIsbooked()));
+                    2, (int) t.getUsernum(), new HashSet<>(), new Day(), false, t.getIsbooked()));
         }
 
-        context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                context.setTimeSlotList(timeslotList);
-            }
-        });
-
+        context.runOnUiThread(() -> context.setTimeSlotList(timeslotList));
     }
 
     public void BookResponse(Datastructure.BookResponse response, long task_id) {
@@ -325,7 +326,48 @@ public class MessageCenter {
     }
 
     public void HistoryResponse(Datastructure.HistoryResponse response, long task_id) {
+        SummaryActivity context = (SummaryActivity) callers.get(task_id);
+        assert context != null;
 
+        List<Timeslot> timeslots = new ArrayList<>();
+
+        List<Datastructure.BookingEntry> pre = response.getPreviousList();
+        for (Datastructure.BookingEntry p : pre) {
+            Integer timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
+
+            DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+            Date date = null;
+            try {
+                date = format.parse(p.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Day day = new Day(date, null, null);
+
+            timeslots.add(new Timeslot(timeslotIdx,
+                    0, 0, new HashSet<>(), day, true, true));
+        }
+
+        List<Datastructure.BookingEntry> upcoming = response.getUpcomingList();
+        for (Datastructure.BookingEntry u : upcoming) {
+            Integer timeslotIdx = Integer.parseInt(u.getTimeslot().substring(0, 2));
+
+            DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+            Date date = null;
+            try {
+                date = format.parse(u.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Day day = new Day(date, null, null);
+
+            timeslots.add(new Timeslot(timeslotIdx,
+                    0, 0, new HashSet<>(), day, false, true));
+        }
+
+        context.runOnUiThread(() -> context.update(timeslots));
     }
 
     public void NotificationResponse(Datastructure.NotificationResponse response) {

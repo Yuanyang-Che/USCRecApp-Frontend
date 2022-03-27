@@ -47,6 +47,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
     /**
      * Default constructor for the PersonListAdapter
+     *
      * @param context
      * @param resource
      * @param objects
@@ -79,10 +80,10 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         //ViewHolder object
         ViewHolder holder;
 
-        if(convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
-            holder= new ViewHolder();
+            holder = new ViewHolder();
             holder.btn = (Button) convertView.findViewById(R.id.book);
             holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.timeslot = (TextView) convertView.findViewById(R.id.timeslot);
@@ -91,26 +92,25 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
             convertView.setTag(holder);
             result = convertView;
-        }
-        else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
 
         holder.date.setText(todayAsString);
-        holder.timeslot.setText(Integer.toString(timeindex)+":00 - "
-                + Integer.toString(timeindex+1) + ":00");
+        holder.timeslot.setText(Integer.toString(timeindex) + ":00 - "
+                + Integer.toString(timeindex + 1) + ":00");
 
-        if(isBooked) {
+        if (isBooked) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText(new String("Booked"));
+
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) { }
             });
-        }
-        else {
-            if(isBookable) {
+        } else {
+            if (isBookable) {
                 holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
                 holder.btn.setText(new String("Book"));
                 holder.btn.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +122,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
                         frag.show(fa.getSupportFragmentManager(), "confirm");
                     }
                 });
-            }
-            else {
+            } else {
                 holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
                 holder.btn.setText(new String("Waitlist"));
                 holder.btn.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +132,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
                     }
                 });
             }
+
         }
 
         return result;

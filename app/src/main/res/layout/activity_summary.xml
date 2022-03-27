@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/backtoMapButton2"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back to Map" />

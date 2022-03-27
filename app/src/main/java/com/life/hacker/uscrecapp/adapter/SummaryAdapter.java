@@ -20,8 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class SummaryAdapter extends ArrayAdapter<Timeslot>  {
+public class SummaryAdapter extends ArrayAdapter<Timeslot> {
     private Context mContext;
     private int mResource;
 
@@ -36,11 +37,12 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot>  {
 
     /**
      * Default constructor for the PersonListAdapter
+     *
      * @param context
      * @param resource
      * @param objects
      */
-    public SummaryAdapter(Context context, int resource, ArrayList<Timeslot> objects) {
+    public SummaryAdapter(Context context, int resource, List<Timeslot> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -66,10 +68,10 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot>  {
         //ViewHolder object
         SummaryAdapter.ViewHolder holder;
 
-        if(convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
-            holder= new SummaryAdapter.ViewHolder();
+            holder = new SummaryAdapter.ViewHolder();
             holder.btn = (Button) convertView.findViewById(R.id.book);
             holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.timeslot = (TextView) convertView.findViewById(R.id.timeslot);
@@ -78,25 +80,21 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot>  {
 
             convertView.setTag(holder);
             result = convertView;
-        }
-        else{
+        } else {
             holder = (SummaryAdapter.ViewHolder) convertView.getTag();
             result = convertView;
         }
-        if(isPast) {
+        if (isPast) {
             holder.date.setText(todayAsString);
             holder.timeslot.setText(Integer.toString(timeindex));
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.btn.setText(new String("Past Appointment"));
-        }
-        else {
+            holder.btn.setText("Past Appointment");
+            holder.btn.setOnClickListener(view -> {});
+        } else {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
-            holder.btn.setText(new String("Cancel"));
-            holder.btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
-                }
+            holder.btn.setText("Cancel");
+            holder.btn.setOnClickListener(view -> {
+                mContext.startActivity(new Intent(mContext, MapsActivity.class));
             });
         }
 

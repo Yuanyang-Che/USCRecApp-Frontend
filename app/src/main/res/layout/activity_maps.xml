@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MapsActivity">
-    <Button
-        android:id="@+id/goToSummaryButton"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Booking Summary" />
-</fragment>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/goToSummaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="Booking Summary" />
+
+        <!--    app:layout_constraintBottom_toTopOf="@+id/btnSignUp"-->
+        <!--    app:layout_constraintEnd_toEndOf="parent"-->
+
+        <!--    app:layout_constraintHorizontal_bias="0.5"-->
+
+        <!--    app:layout_constraintStart_toStartOf="parent"-->
+        <!--    app:layout_constraintTop_toBottomOf="@+id/etPassword"-->
+
+        <ImageView
+            android:id="@+id/Avatar"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="20dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="This is your avatar"
+            android:maxWidth="125dp"
+            android:maxHeight="125dp"
+            android:minWidth="125dp"
+            android:minHeight="125dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/avatar_sample" />
+
+    </fragment>
+
+</RelativeLayout>
+
