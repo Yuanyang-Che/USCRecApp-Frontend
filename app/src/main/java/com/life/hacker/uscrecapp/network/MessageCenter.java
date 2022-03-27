@@ -40,7 +40,7 @@ public class MessageCenter {
     private final String centerlist_uri = "http://realrecapp.herokuapp.com/service/centers";
     private final String timeslotslist_uri = "http://realrecapp.herokuapp.com/service/centers/timeslot";
     private final String book_uri = "http://realrecapp.herokuapp.com/service/book";
-    private final String cancel_uri = "http://realrecapp.herokuapp.com/service/cancel";
+    private final String cancel_uri = "http://realrecapp.herokuapp.com/service/cancel/book";
     private final String waitlist_uri = "http://realrecapp.herokuapp.com/service/waitlist";
     private final String history_uri = "http://realrecapp.herokuapp.com/service/history";
     private final String notification_uri = "http://realrecapp.herokuapp.com/service/notification";
