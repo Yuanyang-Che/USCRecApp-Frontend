@@ -12,8 +12,6 @@ import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -39,12 +37,10 @@ public class ConfirmWaitListFragment extends DialogFragment {
                     // String center_name, String date, String timeslot, String user_token, Context context
                     // yyyy-mm-dd, 08:00:00
                     Date today = Calendar.getInstance().getTime();
-                    String pattern = "yyyy-MM-dd";
-                    DateFormat df = new SimpleDateFormat(pattern);
-                    String dayString = df.format(today);
+                    String dayString = Util.formatDateToStardard(today);
 
                     int time = t.getTimeIndex();
-                    MessageCenter.getInstance().WaitlistRequest(centerName, dayString, Util.convertTimeIdx(time),
+                    MessageCenter.getInstance().WaitlistRequest(centerName, dayString, Util.formatTimeIndex(time),
                             SessionData.getInstance().getToken(), mContext);
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> {

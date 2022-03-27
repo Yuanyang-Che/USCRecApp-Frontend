@@ -14,17 +14,15 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
 import com.life.hacker.uscrecapp.activity.ConfirmWaitListFragment;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
@@ -59,12 +57,8 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the timeslot information
-//        Day day = getItem(position).getDay();
-//        Date date = day.getDate();
-        String pattern = "MM/dd/yyyy";
-        DateFormat df = new SimpleDateFormat(pattern, Locale.US);
         Date today = Calendar.getInstance().getTime();
-        String todayAsString = df.format(today);
+        String todayAsString = Util.formatDateToStardard(today);
 
         int timeindex = getItem(position).getTimeIndex();
         boolean isBookable = getItem(position).isBookable();
@@ -92,7 +86,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         result = convertView;
 
         holder.date.setText(todayAsString);
-        holder.timeslot.setText(timeindex + ":00 - " + (timeindex + 1) + ":00");
+        holder.timeslot.setText(Util.convertTimeIdxToHour(timeindex));
 
         if (isWaitListed) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
@@ -100,6 +94,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             holder.btn.setOnClickListener(view -> { });
             return result;
         }
+
         if (isBooked) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText("Booked");

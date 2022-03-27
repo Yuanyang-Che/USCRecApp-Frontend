@@ -51,7 +51,7 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Date date = getItem(position).getDay().getDate();
-        String dateString = Util.formatDate(date);
+        String dateString = Util.formatDateToStardard(date);
 
         int timeindex = getItem(position).getTimeIndex();
         boolean isPast = getItem(position).isPast();
@@ -78,11 +78,11 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
 
         holder.date.setText(dateString);
         holder.center.setText(getItem(position).getDay().getCenter().getName());
-        if (isPast) {
-            //holder.date.setText(dateString);
 
+        holder.timeslot.setText(Util.formatTimeIndex(timeindex));
+        if (isPast) {
             //holder.timeslot.setText(Integer.toString(timeindex < 12 ? timeindex : timeindex - 12) + (timeindex > 12 ? " PM" : " AM"));
-            holder.timeslot.setText(Util.convertTimeIdx(timeindex));
+
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText("Past Appointment");
             holder.btn.setOnClickListener(view -> {});
@@ -92,8 +92,10 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
             holder.btn.setOnClickListener(view -> {
                 //TODO
                 String loc = getItem(position).getDay().getCenter().getName();
-                String dateStr = Util.formatDate(getItem(position).getDay().getDate());
-                String timeIdxStr = Integer.toString(getItem(position).getTimeIndex());
+                String dateStr = Util.formatDateToStardard(getItem(position).getDay().getDate());
+                int timeIdx = getItem(position).getTimeIndex();
+
+                String timeIdxStr = Util.formatTimeIndex(timeIdx);
 
                 MessageCenter.getInstance().CancelBookRequest(loc, dateStr, timeIdxStr, SessionData.getInstance().getToken(), mContext);
                 //mContext.startActivity(new Intent(mContext, MapsActivity.class));
