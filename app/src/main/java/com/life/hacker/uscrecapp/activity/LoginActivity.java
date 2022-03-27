@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.network.MessageCenter;
-
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText email;
@@ -30,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         if (SessionData.getInstance().getUser() != null) {
-            MessageCenter.GetInstance().loginSuccess(LoginActivity.this);
+            MessageCenter.getInstance().loginSuccess(LoginActivity.this);
             //startActivity(new Intent(LoginActivity.this, MapsActivity.class));
         }
 
@@ -86,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         //TODO
         email = "test@usc.edu";
         userPassword = "pw";
-        MessageCenter.GetInstance().LoginRequest(email, userPassword, LoginActivity.this);
+        MessageCenter.getInstance().LoginRequest(email, userPassword, LoginActivity.this);
     }
 
     private void clearErrorMessage() {

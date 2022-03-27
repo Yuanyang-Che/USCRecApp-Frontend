@@ -15,8 +15,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.life.hacker.uscrecapp.R;
-import com.life.hacker.uscrecapp.databinding.ActivityMapsBinding;
 import com.life.hacker.uscrecapp.model.Center;
+import com.life.hacker.uscrecapp.model.MapData;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.util.ArrayList;
@@ -25,29 +25,26 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-//    private ActivityMapsBinding binding;
+    //    private ActivityMapsBinding binding;
     LatLng LyonCenter = new LatLng(34.02356070336721, -118.2887904971078);
 
     List<Center> centerList = new ArrayList<>();
+
     public void setCenters(List<Center> centerList) {
         this.centerList = centerList;
-        for(int i = 0; i < centerList.size(); i++) {
-            Center c = centerList.get(i);
+        MapData.getInstance().setCenters(centerList);
+
+        for (Center c : centerList) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(c.getLatitude(), c.getLongitude()))
                     .title(String.valueOf(c.getName())));
-            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(@NonNull Marker marker) {
-                    String markerTitle = marker.getTitle();
-                    Intent i = new Intent(MapsActivity.this, BookingActivity.class);
-                    i.putExtra("CenterName", markerTitle);
-                    startActivity(i);
-                    return false;
-                }
+            mMap.setOnMarkerClickListener(marker -> {
+                String markerTitle = marker.getTitle();
+                Intent i = new Intent(MapsActivity.this, BookingActivity.class);
+                i.putExtra("CenterName", markerTitle);
+                startActivity(i);
+                return false;
             });
         }
-
-
     }
 
     @Override
@@ -66,11 +63,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button SummaryButton = (Button) findViewById(R.id.goToSummaryButton);
 
         SummaryButton.setOnClickListener(view -> {
-
             startActivity(new Intent(MapsActivity.this, SummaryActivity.class));
         });
 
-        MessageCenter.GetInstance().GetCenterlistRequest(MapsActivity.this);
+        MessageCenter.getInstance().GetCenterlistRequest(MapsActivity.this);
 
     }
 

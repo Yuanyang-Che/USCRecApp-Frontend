@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.adapter.SummaryAdapter;
-import com.life.hacker.uscrecapp.adapter.TimeslotListAdapter;
-import com.life.hacker.uscrecapp.model.Day;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
@@ -15,8 +13,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class SummaryActivity extends AppCompatActivity {
@@ -63,7 +59,7 @@ public class SummaryActivity extends AppCompatActivity {
             startActivity(new Intent(SummaryActivity.this, MapsActivity.class));
         });
 
-        MessageCenter.GetInstance().HistoryRequest(SessionData.getInstance().getToken(), SummaryActivity.this);
+        MessageCenter.getInstance().HistoryRequest(SessionData.getInstance().getToken(), SummaryActivity.this);
     }
 
 }

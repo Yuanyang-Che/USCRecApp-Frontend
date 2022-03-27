@@ -3,14 +3,11 @@ package com.life.hacker.uscrecapp.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
 import com.life.hacker.uscrecapp.SessionData;
-import com.life.hacker.uscrecapp.model.Day;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
@@ -55,7 +52,7 @@ public class ConfirmActionFragment extends DialogFragment {
                         sb.append(time);
                         sb.append(":00:00");
                     }
-                    MessageCenter.GetInstance().BookRequest(centerName, dayString, sb.toString(),
+                    MessageCenter.getInstance().BookRequest(centerName, dayString, sb.toString(),
                             SessionData.getInstance().getToken(), mContext);
 
                 })

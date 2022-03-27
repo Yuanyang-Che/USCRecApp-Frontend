@@ -15,6 +15,7 @@ import com.life.hacker.uscrecapp.activity.SignUpActivity;
 import com.life.hacker.uscrecapp.activity.SummaryActivity;
 import com.life.hacker.uscrecapp.model.Center;
 import com.life.hacker.uscrecapp.model.Day;
+import com.life.hacker.uscrecapp.model.MapData;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
 import java.text.DateFormat;
@@ -55,7 +56,7 @@ public class MessageCenter {
         private static final MessageCenter instance = new MessageCenter();
     }
 
-    public static MessageCenter GetInstance() {
+    public static MessageCenter getInstance() {
         return InstanceHolder.instance;
     }
 
@@ -325,13 +326,8 @@ public class MessageCenter {
 
     }
 
-    public void HistoryResponse(Datastructure.HistoryResponse response, long task_id) {
-        SummaryActivity context = (SummaryActivity) callers.get(task_id);
-        assert context != null;
 
-        List<Timeslot> timeslots = new ArrayList<>();
-
-        List<Datastructure.BookingEntry> pre = response.getPreviousList();
+    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> pre) {
         for (Datastructure.BookingEntry p : pre) {
             Integer timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
 
@@ -343,29 +339,23 @@ public class MessageCenter {
                 e.printStackTrace();
             }
 
-            Day day = new Day(date, null, null);
+            Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
 
             timeslots.add(new Timeslot(timeslotIdx,
                     0, 0, new HashSet<>(), day, true, true));
         }
+    }
 
+    public void HistoryResponse(Datastructure.HistoryResponse response, long task_id) {
+        SummaryActivity context = (SummaryActivity) callers.get(task_id);
+        assert context != null;
+
+        List<Timeslot> timeslots = new ArrayList<>();
+
+        List<Datastructure.BookingEntry> pre = response.getPreviousList();
         List<Datastructure.BookingEntry> upcoming = response.getUpcomingList();
-        for (Datastructure.BookingEntry u : upcoming) {
-            Integer timeslotIdx = Integer.parseInt(u.getTimeslot().substring(0, 2));
-
-            DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-            Date date = null;
-            try {
-                date = format.parse(u.getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            Day day = new Day(date, null, null);
-
-            timeslots.add(new Timeslot(timeslotIdx,
-                    0, 0, new HashSet<>(), day, false, true));
-        }
+        addTo(timeslots, pre);
+        addTo(timeslots, upcoming);
 
         context.runOnUiThread(() -> context.update(timeslots));
     }

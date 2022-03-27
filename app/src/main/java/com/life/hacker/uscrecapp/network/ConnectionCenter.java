@@ -2,9 +2,6 @@ package com.life.hacker.uscrecapp.network;
 
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -61,7 +58,7 @@ class ConnectionCenter {
                 if(response.code() != 200) {
                     System.out.println("wrong status, check network or login status");
                 }
-                MessageCenter.GetInstance().MessageResponse(response.body().bytes(), url, task_id);
+                MessageCenter.getInstance().MessageResponse(response.body().bytes(), url, task_id);
                 RemoveTaskId(task_id);
             }
         });
@@ -84,7 +81,7 @@ class ConnectionCenter {
                 if(response.code() != 200) {
                     System.out.println("wrong status, check network or login status");
                 }
-                MessageCenter.GetInstance().MessageResponse(response.body().bytes(), url, task_id);
+                MessageCenter.getInstance().MessageResponse(response.body().bytes(), url, task_id);
                 RemoveTaskId(task_id);
             }
         });

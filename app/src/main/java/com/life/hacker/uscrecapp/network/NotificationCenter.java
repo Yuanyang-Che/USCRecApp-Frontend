@@ -2,8 +2,6 @@ package com.life.hacker.uscrecapp.network;
 
 import com.life.hacker.uscrecapp.SessionData;
 
-import protodata.Datastructure;
-
 public class NotificationCenter {
     public NotificationThread t_;
     private static final class InstanceHolder {
@@ -47,7 +45,7 @@ class NotificationThread extends Thread {
     public void run() {
         while(true) {
             if(need_send_) {
-                MessageCenter.GetInstance().NotificationRequest(SessionData.getInstance().getToken());
+                MessageCenter.getInstance().NotificationRequest(SessionData.getInstance().getToken());
             }
             try {
                 sleep(10000);

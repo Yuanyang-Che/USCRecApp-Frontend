@@ -103,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
         id = "123";
         username = "test";
         pw = "pw";
-        MessageCenter.GetInstance().SignupRequest(email,
+        MessageCenter.getInstance().SignupRequest(email,
                 id, username, pw, imageInByte, SignUpActivity.this);
     }
 
