@@ -329,8 +329,14 @@ public class MessageCenter {
     }
 
     public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
-        //
-        //SummaryActivity context =
+        SummaryActivity context = (SummaryActivity) callers.get(task_id);
+        assert context != null;
+
+        if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
+            context.takeToastMessage("Something went wrong in cancellation");
+        } else {
+            context.takeToastMessage("Cancel success");
+        }
     }
 
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {

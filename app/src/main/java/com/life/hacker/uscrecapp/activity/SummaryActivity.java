@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.adapter.SummaryAdapter;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
@@ -44,4 +45,7 @@ public class SummaryActivity extends AppCompatActivity {
         MessageCenter.getInstance().HistoryRequest(SessionData.getInstance().getToken(), SummaryActivity.this);
     }
 
+    public void takeToastMessage(String message) {
+        runOnUiThread(() -> Util.takeToastMessage(getApplicationContext(), message));
+    }
 }
