@@ -293,7 +293,7 @@ public class MessageCenter {
         List<Timeslot> timeslotList = new ArrayList<>();
         for(Datastructure.TimeslotUsernum t : timeslots) {
             timeslotList.add(new Timeslot(Integer.parseInt(t.getTimeslot().substring(0, 2)),
-                    5, (int)t.getUsernum(), new HashSet<>(), new Day(), false));
+                    2, (int)t.getUsernum(), new HashSet<>(), new Day(), false, t.getIsbooked()));
         }
 
         context.runOnUiThread(new Runnable() {
@@ -306,7 +306,14 @@ public class MessageCenter {
     }
 
     public void BookResponse(Datastructure.BookResponse response, long task_id) {
+        BookingActivity context = (BookingActivity) callers.get(task_id);
 
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                context.jumpBackToMap();
+            }
+        });
     }
 
     public void CancelResponse(Datastructure.CancelResponse response, long task_id) {

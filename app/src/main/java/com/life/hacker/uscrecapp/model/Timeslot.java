@@ -3,7 +3,8 @@ package com.life.hacker.uscrecapp.model;
 import java.util.Set;
 
 public class Timeslot {
-    public Timeslot(int timeIndex, int capacity, int size, Set<User> waitlist, Day day, boolean isPast) {
+    public Timeslot(int timeIndex, int capacity, int size, Set<User> waitlist, Day day,
+                    boolean isPast, boolean isBooked) {
         // timeIndex: 0 -> 0:00
         this.timeIndex = timeIndex;
         this.capacity = capacity;
@@ -11,6 +12,7 @@ public class Timeslot {
         this.waitlist = waitlist;
         this.day = day;
         this.isPast = isPast;
+        this.isBooked = isBooked;
     }
 
     public int getTimeIndex() {
@@ -81,12 +83,21 @@ public class Timeslot {
         isPast = past;
     }
 
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
+    }
+
     private int timeIndex;
     private int capacity;
     private int size;
     private Set<User> waitlist;
     private Day day;
     private boolean isPast;
+    private boolean isBooked;
 
 
 

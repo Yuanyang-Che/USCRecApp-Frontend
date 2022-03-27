@@ -31,6 +31,10 @@ public class BookingActivity extends FragmentActivity {
         return centerName;
     }
 
+    public void jumpBackToMap() {
+        startActivity(new Intent(BookingActivity.this, MapsActivity.class));
+    }
+
     public void setTimeSlotList(List<Timeslot> timeSlotList){
         this.timeSlotList = new ArrayList<>(timeSlotList);
 

@@ -71,6 +71,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
         int timeindex = getItem(position).getTimeIndex();
         boolean isBookable = getItem(position).isBookable();
+        boolean isBooked = getItem(position).isBooked();
         // ------------------------------------------------------
 
         //create the view result for showing the animation
@@ -100,36 +101,39 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         holder.timeslot.setText(Integer.toString(timeindex)+":00 - "
                 + Integer.toString(timeindex+1) + ":00");
 
-        if(isBookable) {
-
-            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
-            holder.btn.setText(new String("Book"));
+        if(isBooked) {
+            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
+            holder.btn.setText(new String("Booked"));
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    FragmentActivity fa = (FragmentActivity) mContext;
-                    BookingActivity ba = (BookingActivity) mContext;
-                    DialogFragment frag = new ConfirmActionFragment(getItem(position), ba.getCenterName(), mContext);
-                    frag.show(fa.getSupportFragmentManager(), "confirm");
-//                    mDialog.setContentView(R.layout.popup_confirm);
-//                    mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                    mDialog.show();
-//                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
-                }
+                public void onClick(View view) { }
             });
         }
         else {
-            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
-            holder.btn.setText(new String("Waitlist"));
-            holder.btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            if(isBookable) {
+                holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
+                holder.btn.setText(new String("Book"));
+                holder.btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentActivity fa = (FragmentActivity) mContext;
+                        BookingActivity ba = (BookingActivity) mContext;
+                        DialogFragment frag = new ConfirmActionFragment(getItem(position), ba.getCenterName(), mContext);
+                        frag.show(fa.getSupportFragmentManager(), "confirm");
+                    }
+                });
+            }
+            else {
+                holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
+                holder.btn.setText(new String("Waitlist"));
+                holder.btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-//                    mContext.startActivity(new Intent(mContext, MapsActivity.class));
-                }
-            });
+                    }
+                });
+            }
         }
-
 
         return result;
     }
