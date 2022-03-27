@@ -98,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageInByte = baos.toByteArray();
 
-        //TODO
+//        //TODO
         email = "test@usc.edu";
         id = "123";
         username = "test";

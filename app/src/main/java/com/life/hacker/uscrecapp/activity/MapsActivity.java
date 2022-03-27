@@ -3,9 +3,12 @@ package com.life.hacker.uscrecapp.activity;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +22,7 @@ import com.life.hacker.uscrecapp.model.Center;
 import com.life.hacker.uscrecapp.model.MapData;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +48,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(i);
                 return false;
             });
+        }
+    }
+
+
+    public void takeMessage(String message) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, message, duration);
+        toast.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            String message = (String) b.get("Message");
+            takeMessage(message);
+            //mapsActivity = (MapsActivity) b.get("MapInstance");
         }
     }
 
