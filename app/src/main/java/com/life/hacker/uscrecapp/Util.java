@@ -4,6 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Util {
     public static String convertTimeIdx(int timeIdx) {
@@ -28,5 +32,12 @@ public class Util {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         return baos.toByteArray();
+    }
+
+    public static String formatDate(Date date) {
+        String pattern = "MM/dd/yyyy";
+        DateFormat dateFormatter = new SimpleDateFormat(pattern, Locale.US);
+
+        return dateFormatter.format(date);
     }
 }

@@ -16,11 +16,8 @@ import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class SummaryAdapter extends ArrayAdapter<Timeslot> {
     private Context mContext;
@@ -53,10 +50,8 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String pattern = "MM/dd/yyyy";
-        DateFormat df = new SimpleDateFormat(pattern, Locale.US);
         Date date = getItem(position).getDay().getDate();
-        String todayAsString = df.format(date);
+        String dateString = Util.formatDate(date);
 
         int timeindex = getItem(position).getTimeIndex();
         boolean isPast = getItem(position).isPast();
@@ -81,9 +76,10 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
         }
         result = convertView;
 
+        holder.date.setText(dateString);
         holder.center.setText(getItem(position).getDay().getCenter().getName());
         if (isPast) {
-            holder.date.setText(todayAsString);
+            //holder.date.setText(dateString);
 
             //holder.timeslot.setText(Integer.toString(timeindex < 12 ? timeindex : timeindex - 12) + (timeindex > 12 ? " PM" : " AM"));
             holder.timeslot.setText(Util.convertTimeIdx(timeindex));
@@ -96,7 +92,7 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
             holder.btn.setOnClickListener(view -> {
                 //TODO
                 String loc = getItem(position).getDay().getCenter().getName();
-                String dateStr = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(getItem(position).getDay().getDate());
+                String dateStr = Util.formatDate(getItem(position).getDay().getDate());
                 String timeIdxStr = Integer.toString(getItem(position).getTimeIndex());
 
                 MessageCenter.getInstance().CancelBookRequest(loc, dateStr, timeIdxStr, SessionData.getInstance().getToken(), mContext);

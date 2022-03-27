@@ -1,7 +1,7 @@
 package com.life.hacker.uscrecapp.network;
 
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 
 import com.google.protobuf.ByteString;
@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
@@ -348,9 +348,9 @@ public class MessageCenter {
 
 
     //F**K Java, this is a lambda function, but java's lambda sucks so I have to use a private method
-    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> pre, boolean isPast) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        for (Datastructure.BookingEntry p : pre) {
+    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> list, boolean isPast) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        for (Datastructure.BookingEntry p : list) {
             int timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
 
             Date date = null;
@@ -361,9 +361,7 @@ public class MessageCenter {
             }
 
             Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
-            timeslots.add(new Timeslot(timeslotIdx,
-                    0, 0, new HashSet<>(), day, true, true, true));
-
+            timeslots.add(new Timeslot(timeslotIdx, 0, 0, new HashSet<>(), day, isPast, true, false));
         }
     }
 
