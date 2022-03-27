@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
@@ -40,7 +39,8 @@ public class MessageCenter {
     private final String centerlist_uri = "http://realrecapp.herokuapp.com/service/centers";
     private final String timeslotslist_uri = "http://realrecapp.herokuapp.com/service/centers/timeslot";
     private final String book_uri = "http://realrecapp.herokuapp.com/service/book";
-    private final String cancel_uri = "http://realrecapp.herokuapp.com/service/cancel/book";
+    private final String cancel_book_uri = "http://realrecapp.herokuapp.com/service/cancel/book";
+    private final String cancel_waitlist_uri = "http://realrecapp.herokuapp.com/service/cancel/waitlist";
     private final String waitlist_uri = "http://realrecapp.herokuapp.com/service/waitlist";
     private final String history_uri = "http://realrecapp.herokuapp.com/service/history";
     private final String notification_uri = "http://realrecapp.herokuapp.com/service/notification";
@@ -96,9 +96,15 @@ public class MessageCenter {
         callers.put(task_id, context);
     }
 
-    public void CancelRequest(String center_name, String date, String timeslot, String user_token, Context context) {
+    public void CancelBookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
-        long task_id = center.SendMessagePost(cancel_uri, request.toByteArray(), user_token);
+        long task_id = center.SendMessagePost(cancel_book_uri, request.toByteArray(), user_token);
+        callers.put(task_id, context);
+    }
+
+    public void CancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context) {
+        Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
+        long task_id = center.SendMessagePost(cancel_waitlist_uri, request.toByteArray(), user_token);
         callers.put(task_id, context);
     }
 
@@ -149,9 +155,14 @@ public class MessageCenter {
                     BookResponse(response, task_id);
                     break;
                 }
-                case cancel_uri: {
+                case cancel_book_uri: {
                     Datastructure.CancelResponse response = Datastructure.CancelResponse.parseFrom(raw_data);
-                    CancelResponse(response, task_id);
+                    CancelBookResponse(response, task_id);
+                    break;
+                }
+                case cancel_waitlist_uri: {
+                    Datastructure.CancelResponse response = Datastructure.CancelResponse.parseFrom(raw_data);
+                    CancelWaitlistResponse(response, task_id);
                     break;
                 }
                 case waitlist_uri: {
@@ -316,7 +327,12 @@ public class MessageCenter {
         context.runOnUiThread(() -> context.jumpBackToMap(message));
     }
 
-    public void CancelResponse(Datastructure.CancelResponse response, long task_id) {
+    public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
+        //
+        //SummaryActivity context =
+    }
+
+    public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
         //
         //SummaryActivity context =
     }

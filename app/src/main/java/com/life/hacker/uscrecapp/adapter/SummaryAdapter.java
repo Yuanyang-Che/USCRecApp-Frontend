@@ -1,8 +1,6 @@
 package com.life.hacker.uscrecapp.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +13,11 @@ import androidx.annotation.NonNull;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
-import com.life.hacker.uscrecapp.activity.MapsActivity;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -104,7 +99,7 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
                 String dateStr = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(getItem(position).getDay().getDate());
                 String timeIdxStr = Integer.toString(getItem(position).getTimeIndex());
 
-                MessageCenter.getInstance().CancelRequest(loc, dateStr, timeIdxStr, SessionData.getInstance().getToken(), mContext);
+                MessageCenter.getInstance().CancelBookRequest(loc, dateStr, timeIdxStr, SessionData.getInstance().getToken(), mContext);
                 //mContext.startActivity(new Intent(mContext, MapsActivity.class));
             });
         }
