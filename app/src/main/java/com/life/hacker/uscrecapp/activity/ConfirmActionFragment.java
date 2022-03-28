@@ -38,12 +38,11 @@ public class ConfirmActionFragment extends DialogFragment {
                 .setPositiveButton("Confirm", (dialog, id) -> {
                     // String center_name, String date, String timeslot, String user_token, Context context
                     // yyyy-mm-dd, 08:00:00
-                    Date today = Calendar.getInstance().getTime();
-                    String pattern = "yyyy-MM-dd";
-                    DateFormat df = new SimpleDateFormat(pattern);
-                    String dayString = df.format(today);
+                    Date today = t.getDay().getDate();
+                    String dayString = Util.formatDateToStardard(today);
 
                     int time = t.getTimeIndex();
+                    String timeStr = Util.formatTimeIndex(time);
                     MessageCenter.getInstance().BookRequest(centerName, dayString, Util.formatTimeIndex(time),
                             SessionData.getInstance().getToken(), mContext);
 

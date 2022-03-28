@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:map="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".activity.MapsActivity">-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MapsActivity">
+    tools:context=".activity.MapsActivity" >
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,30 +20,50 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/goToSummaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/yellow"
             android:text="Booking Summary" />
 
         <Button
             android:id="@+id/goToNotificationButton"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="40dp"
-            android:text="Notifcation Center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:backgroundTint="@color/biege"
+            android:text="Notifcation Center" />
 
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/goToNotificationButton"
-            app:layout_constraintVertical_bias="0.1" />
+        <Button
+            android:id="@+id/logOutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="110dp"
+            android:backgroundTint="@color/dark_red"
+            android:text="Log Out" />
+
+<!--        <Button-->
+<!--            android:id="@+id/goToNotificationButton"-->
+
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="30dp"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:layout_marginBottom="40dp"-->
+<!--            android:text="Notifcation Center"-->
+
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/goToNotificationButton"-->
+<!--            app:layout_constraintVertical_bias="0.1" />-->
 
         <!--         app:layout_constraintHorizontal_bias="0.5"-->
         <!--    app:layout_constraintBottom_toTopOf="@+id/btnSignUp"-->
@@ -51,22 +76,22 @@
 
         <ImageView
             android:id="@+id/Avatar"
-
+            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:adjustViewBounds="true"
             android:contentDescription="This is your avatar"
-            android:maxWidth="125dp"
-            android:maxHeight="125dp"
-            android:minWidth="125dp"
-            android:minHeight="125dp"
+            android:maxWidth="75dp"
+            android:maxHeight="75dp"
+            android:minWidth="75dp"
+            android:minHeight="75dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/avatar_sample" />
+            android:src="@drawable/avatar_sample"/>
 
-    </fragment>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 

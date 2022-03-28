@@ -20,9 +20,9 @@ import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
 import com.life.hacker.uscrecapp.activity.ConfirmWaitListFragment;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
@@ -46,7 +46,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
      * @param resource
      * @param objects
      */
-    public TimeslotListAdapter(Context context, int resource, ArrayList<Timeslot> objects) {
+    public TimeslotListAdapter(Context context, int resource, List<Timeslot> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -57,7 +57,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the timeslot information
-        Date today = Calendar.getInstance().getTime();
+        Date today = getItem(position).getDay().getDate();
         String todayAsString = Util.formatDateToStardard(today);
 
         int timeindex = getItem(position).getTimeIndex();
