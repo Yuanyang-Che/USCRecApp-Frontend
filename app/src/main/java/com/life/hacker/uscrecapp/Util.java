@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Util {
+
+    public static final int Capacity = 2;
+
     /**
      * This function converts a timeIdx to hh:mm:ss format
      *

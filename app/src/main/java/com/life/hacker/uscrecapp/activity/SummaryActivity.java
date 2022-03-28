@@ -33,6 +33,10 @@ public class SummaryActivity extends AppCompatActivity {
         }
     }
 
+    public void refreshPage() {
+        runOnUiThread(this::recreate);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

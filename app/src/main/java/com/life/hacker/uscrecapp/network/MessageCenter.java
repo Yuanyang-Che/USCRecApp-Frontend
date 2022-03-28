@@ -22,7 +22,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -284,25 +284,17 @@ public class MessageCenter {
     }
 
     public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
-        //What to do with center list data?
-        //Datastructure.Center c = response.getCenterlist(0);
         MapsActivity context = (MapsActivity) callers.get(task_id);
+        assert context != null;
 
         List<Datastructure.Center> centers = response.getCenterlistList();
-        System.out.println(Arrays.asList(response.getCenterlistList()));
+        //System.out.println(Arrays.asList(response.getCenterlistList()));
         List<Center> centerList = new ArrayList<>();
         for (Datastructure.Center c : centers) {
             centerList.add(new Center(0, c.getName(), new Day[3], c.getLatitude(), c.getLongitude()));
         }
 
-        context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                context.setCenters(centerList);
-            }
-        });
-        //Pass it back to the activity that needs these data.
-        //Wait. Which activity?
+        context.runOnUiThread(() -> context.setCenters(centerList));
     }
 
     public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response, long task_id) {
@@ -311,10 +303,17 @@ public class MessageCenter {
 
         List<Datastructure.TimeslotUsernum> timeslots = response.getListList();
         List<Timeslot> timeslotList = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+
         for (Datastructure.TimeslotUsernum t : timeslots) {
-            timeslotList.add(new Timeslot(Integer.parseInt(t.getTimeslot().substring(0, 2)),
-                    2, t.getUsernum(), new HashSet<>(), new Day(), false,
-                    t.getIsbooked(), t.getIswaitlisted()));
+            int timeIndex = Integer.parseInt(t.getTimeslot().substring(0, 2));
+            if (timeIndex >= hours) {
+                timeslotList.add(new Timeslot(timeIndex, Util.Capacity,
+                        t.getUsernum(), new HashSet<>(), new Day(), false,
+                        t.getIsbooked(), t.getIswaitlisted()));
+            }
         }
 
         context.runOnUiThread(() -> context.setTimeSlotList(timeslotList));
@@ -324,13 +323,16 @@ public class MessageCenter {
         //TODO
         BookingActivity context = (BookingActivity) callers.get(task_id);
 
-        String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ? "Good" : "Something went wrong";
+        String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
+                "Book Success" : "Something went wrong";
         context.runOnUiThread(() -> context.jumpBackToMap(message));
     }
 
     public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
         SummaryActivity context = (SummaryActivity) callers.get(task_id);
         assert context != null;
+
+        context.refreshPage();
 
         if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
             context.takeToastMessage("Something went wrong in cancellation");
@@ -367,7 +369,7 @@ public class MessageCenter {
             }
 
             Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
-            timeslots.add(new Timeslot(timeslotIdx, 0, 0, new HashSet<>(), day, isPast, true, false));
+            timeslots.add(new Timeslot(timeslotIdx, Util.Capacity, 0, new HashSet<>(), day, isPast, true, false));
         }
     }
 
@@ -377,9 +379,9 @@ public class MessageCenter {
 
         List<Timeslot> timeslots = new ArrayList<>();
 
-        List<Datastructure.BookingEntry> pre = response.getPreviousList();
+        List<Datastructure.BookingEntry> past = response.getPreviousList();
         List<Datastructure.BookingEntry> upcoming = response.getUpcomingList();
-        addTo(timeslots, pre, true);
+        addTo(timeslots, past, true);
         addTo(timeslots, upcoming, false);
 
         context.runOnUiThread(() -> context.update(timeslots));
@@ -387,6 +389,7 @@ public class MessageCenter {
 
     public void NotificationResponse(Datastructure.NotificationResponse response) {
         // Get notifications. Notification might have multiple entries
+        //TODO add notification
         System.out.println(response.getListCount());
     }
 }
