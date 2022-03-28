@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.life.hacker.uscrecapp.NotificationQueue;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
@@ -317,7 +318,7 @@ public class MessageCenter {
             int timeIndex = Integer.parseInt(t.getTimeslot().substring(0, 2));
             if (requestDate.after(currDate) || timeIndex >= hours) {
                 timeslotList.add(new Timeslot(timeIndex, Util.Capacity,
-                        t.getUsernum(), new HashSet<>(), new Day(requestDate, null, null), false,
+                        t.getUsernum(), new Day(requestDate, null, null), false,
                         t.getIsbooked(), t.getIswaitlisted()));
             }
         }
@@ -371,7 +372,7 @@ public class MessageCenter {
             }
 
             Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
-            timeslots.add(new Timeslot(timeslotIdx, Util.Capacity, 0, new HashSet<>(), day, isPast, true, false));
+            timeslots.add(new Timeslot(timeslotIdx, Util.Capacity, 0, day, isPast, true, false));
         }
     }
 
@@ -392,6 +393,21 @@ public class MessageCenter {
     public void NotificationResponse(Datastructure.NotificationResponse response) {
         // Get notifications. Notification might have multiple entries
         //TODO add notification
-        System.out.println(response.getListCount());
+        List<Datastructure.NotificationEntry> notification_list = response.getListList();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+        for(Datastructure.NotificationEntry entry : notification_list) {
+            int timeIndex = Integer.parseInt(entry.getTimeslot().substring(0, 2));
+            Date date = null;
+            try {
+                date = format.parse(entry.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            NotificationQueue.getInstance().addTimeslot(new Timeslot(timeIndex, Util.Capacity,
+                    0, new Day(date, null, null), false,
+                    false, true));
+        }
     }
 }
