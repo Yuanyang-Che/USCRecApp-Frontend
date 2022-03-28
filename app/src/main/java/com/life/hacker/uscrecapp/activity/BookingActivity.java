@@ -95,7 +95,7 @@ public class BookingActivity extends FragmentActivity {
             refreshPage();
         }
 
-        TextView center_name_text=(TextView)findViewById(R.id.centerName);
+        TextView center_name_text = findViewById(R.id.centerName);
         SpannableString spanString = new SpannableString(centerName);
         spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
         center_name_text.setText(spanString);

@@ -19,32 +19,22 @@ import com.life.hacker.uscrecapp.network.MessageCenter;
 import java.util.Date;
 import java.util.List;
 
-public class SummaryAdapter extends ArrayAdapter<Timeslot> {
+public class NotificationAdapter extends ArrayAdapter<Timeslot> {
     private Context mContext;
     private int mResource;
 
-    /**
-     * Holds variables in a View
-     */
+
     private static class ViewHolder {
-        Button btn;
+        Button bookBtn, cancelBtn;
         TextView date;
         TextView timeslot;
         TextView center;
     }
 
-    /**
-     * Default constructor for the SummaryAdapter
-     *
-     * @param context
-     * @param resource
-     * @param objects
-     */
-    public SummaryAdapter(Context context, int resource, List<Timeslot> objects) {
+    public NotificationAdapter(Context context, int resource, List<Timeslot> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
-
     }
 
     @NonNull
@@ -60,19 +50,19 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
         //create the view result for showing the animation
         View result;
         //ViewHolder object
-        SummaryAdapter.ViewHolder holder;
+        NotificationAdapter.ViewHolder holder;
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
-            holder = new SummaryAdapter.ViewHolder();
-            holder.btn = convertView.findViewById(R.id.timeSlotAdapterBookBtn);
+            holder = new NotificationAdapter.ViewHolder();
+            holder.bookBtn = convertView.findViewById(R.id.timeSlotAdapterBookBtn);
             holder.date = convertView.findViewById(R.id.timeslotAdapterDateTv);
             holder.timeslot = convertView.findViewById(R.id.timeslotAdapterTimeIdxTv);
             holder.center = convertView.findViewById(R.id.timeslotAdapterCenterTv);
             convertView.setTag(holder);
         } else {
-            holder = (SummaryAdapter.ViewHolder) convertView.getTag();
+            holder = (NotificationAdapter.ViewHolder) convertView.getTag();
         }
         result = convertView;
 
@@ -81,13 +71,15 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
 
         holder.timeslot.setText(Util.formatTimeIndex(timeindex));
         if (isPast) {
-            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.btn.setText("Past Appointment");
-            holder.btn.setOnClickListener(view -> {});
+            //holder.timeslot.setText(Integer.toString(timeindex < 12 ? timeindex : timeindex - 12) + (timeindex > 12 ? " PM" : " AM"));
+
+            holder.bookBtn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
+            holder.bookBtn.setText("Past Appointment");
+            holder.bookBtn.setOnClickListener(view -> {});
         } else {
-            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
-            holder.btn.setText("Cancel");
-            holder.btn.setOnClickListener(view -> {
+            holder.bookBtn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
+            holder.bookBtn.setText("Cancel");
+            holder.bookBtn.setOnClickListener(view -> {
                 //TODO
                 String loc = getItem(position).getDay().getCenter().getName();
                 String dateStr = Util.formatDateToStardard(getItem(position).getDay().getDate());
@@ -103,3 +95,4 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
         return result;
     }
 }
+

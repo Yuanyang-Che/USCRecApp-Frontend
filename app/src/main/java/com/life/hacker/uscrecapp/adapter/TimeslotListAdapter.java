@@ -20,7 +20,6 @@ import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
 import com.life.hacker.uscrecapp.activity.ConfirmWaitListFragment;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
     }
 
     /**
-     * Default constructor for the PersonListAdapter
+     * Default constructor for the TimeslotListAdapter
      *
      * @param context
      * @param resource
@@ -75,9 +74,9 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
             holder = new ViewHolder();
-            holder.btn = convertView.findViewById(R.id.book);
-            holder.date = convertView.findViewById(R.id.date);
-            holder.timeslot = convertView.findViewById(R.id.timeslot);
+            holder.btn = convertView.findViewById(R.id.timeSlotAdapterBookBtn);
+            holder.date = convertView.findViewById(R.id.timeslotAdapterDateTv);
+            holder.timeslot = convertView.findViewById(R.id.timeslotAdapterTimeIdxTv);
 
             convertView.setTag(holder);
         } else {

@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.USCRecApp">
         <activity
+            android:name=".activity.NotificationCenterActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SummaryActivity"
             android:exported="false" />
         <activity
@@ -30,6 +33,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,8 +55,7 @@
         <activity
             android:name=".activity.MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps">
-        </activity>
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>
