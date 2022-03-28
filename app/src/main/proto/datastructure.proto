@@ -104,7 +104,8 @@ message BookResponse {
     NOSPOT = 5;
     USER = 6;
     ISBOOKED = 7;
-    SERVER = 8;
+    ISPAST = 8;
+    SERVER = 9;
   }
   Error err = 1;
 }
@@ -122,9 +123,10 @@ message CancelResponse {
     CENTERNAME = 2;
     TIMESLOT = 3;
     DATEFORMAT = 4;
-    NOSPOT = 5;
+    NOT_BOOKED_OR_WAITLIST = 5;
     USER = 6;
-    SERVER = 7;
+    ISPAST = 7;
+    SERVER = 8;
   }
   Error err = 1;
 }
@@ -142,11 +144,12 @@ message WaitlistResponse {
     CENTERNAME = 2;
     TIMESLOT = 3;
     DATEFORMAT = 4;
-    NOSPOT = 5;
+    HAVESPOT = 5;
     USER = 6;
     ISWAITLISTED = 7;
     ISBOOKED = 8;
-    SERVER = 9;
+    ISPAST = 9;
+    SERVER = 10;
   }
   Error err = 1;
 }
