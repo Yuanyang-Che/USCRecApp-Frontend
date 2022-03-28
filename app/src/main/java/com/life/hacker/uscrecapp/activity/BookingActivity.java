@@ -1,7 +1,10 @@
 package com.life.hacker.uscrecapp.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -91,5 +94,10 @@ public class BookingActivity extends FragmentActivity {
         if (centerName != null) {
             refreshPage();
         }
+
+        TextView center_name_text=(TextView)findViewById(R.id.centerName);
+        SpannableString spanString = new SpannableString(centerName);
+        spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+        center_name_text.setText(spanString);
     }
 }
