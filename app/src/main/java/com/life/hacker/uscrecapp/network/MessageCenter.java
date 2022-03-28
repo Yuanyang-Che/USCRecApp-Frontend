@@ -72,10 +72,8 @@ public class MessageCenter {
         callers.put(task_id, context);
     }
 
-    public void LogoutRequest(String email, String student_id, String password, String user_token, Context context) {
-        Datastructure.SignupRequest request = Datastructure.SignupRequest.newBuilder().setEmail(email).setPassword(password).setUscstudentid(student_id).build();
-        long task_id = center.SendMessagePost(logout_uri, request.toByteArray(), user_token);
-        callers.put(task_id, context);
+    public void LogoutRequest(String user_token) {
+        center.SendMessageGet(logout_uri, user_token);
     }
 
     public void GetCenterlistRequest(Context context) {
