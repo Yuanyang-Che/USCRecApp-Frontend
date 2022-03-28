@@ -1,10 +1,8 @@
 package com.life.hacker.uscrecapp;
 
-import com.life.hacker.uscrecapp.model.Timeslot;
-
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class NotificationQueue {
@@ -14,21 +12,29 @@ public class NotificationQueue {
 
     private NotificationQueue() {
         timeslots = new ConcurrentLinkedQueue();
+        ConcurrentHashMap<NotificationEntry, Integer> map = new ConcurrentHashMap<>();
+        timeslot_set = map.newKeySet();
     }
 
     public static NotificationQueue getInstance() {
         return InstanceHolder.instance;
     }
 
-    public Queue<Timeslot> getTimeslots() {
+    public Queue<NotificationEntry> getTimeslots() {
         return timeslots;
     }
 
-    public void addTimeslot(Timeslot timeslot) {
-        timeslots.add(timeslot);
+    public void addTimeslot(NotificationEntry entry) {
+        if (timeslot_set.contains(entry)) {
+            System.out.println("hi");
+            return;
+        }
+        timeslots.add(entry);
+        timeslot_set.add(entry);
     }
 
-    private Queue<Timeslot> timeslots;
+    private Queue<NotificationEntry> timeslots;
 
-    private Set<Timeslot> timeslot_set;
+    private Set<NotificationEntry> timeslot_set;
 }
+

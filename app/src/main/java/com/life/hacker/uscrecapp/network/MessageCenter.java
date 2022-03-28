@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.life.hacker.uscrecapp.NotificationEntry;
 import com.life.hacker.uscrecapp.NotificationQueue;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
@@ -398,6 +399,7 @@ public class MessageCenter {
 
         for(Datastructure.NotificationEntry entry : notification_list) {
             int timeIndex = Integer.parseInt(entry.getTimeslot().substring(0, 2));
+
             Date date = null;
             try {
                 date = format.parse(entry.getDate());
@@ -405,9 +407,7 @@ public class MessageCenter {
                 e.printStackTrace();
             }
 
-            NotificationQueue.getInstance().addTimeslot(new Timeslot(timeIndex, Util.Capacity,
-                    0, new Day(date, null, null), false,
-                    false, true));
+            NotificationQueue.getInstance().addTimeslot(new NotificationEntry(timeIndex, date, entry.getCentername()));
         }
     }
 }
