@@ -37,6 +37,10 @@ public class BookingActivity extends FragmentActivity {
         return centerName;
     }
 
+    public void takeToastMessage(String message) {
+        runOnUiThread(() -> Util.takeToastMessage(getApplicationContext(), message));
+    }
+
     public void jumpBackToMap(String message) {
         Intent i = new Intent(BookingActivity.this, MapsActivity.class);
         i.putExtra("Message", message);
@@ -49,7 +53,7 @@ public class BookingActivity extends FragmentActivity {
         mListView.setAdapter(adapter);
     }
 
-    private void refreshPage() {
+    public void refreshPage() {
         dateText.setText(Util.formatDateToStardard(currentDate));
         String currDateStr = Util.formatDateToStardard(currentDate);
         MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, currDateStr, BookingActivity.this);

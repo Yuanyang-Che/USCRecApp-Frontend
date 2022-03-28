@@ -374,6 +374,17 @@ public class MessageCenter {
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
         //TODO
+        BookingActivity context = (BookingActivity) callers.get(task_id);
+
+        if(context != null) {
+            context.refreshPage();
+
+            if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
+                context.takeToastMessage("Something went wrong in waitListing this timeslot");
+            } else {
+                context.takeToastMessage("Waitlist success");
+            }
+        }
     }
 
 

@@ -19,6 +19,7 @@ import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Center;
 import com.life.hacker.uscrecapp.model.MapData;
+import com.life.hacker.uscrecapp.model.User;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private int notificationCount = 0;
 
 
     LatLng LyonCenter = new LatLng(34.02356070336721, -118.2887904971078);
@@ -78,10 +80,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         summaryButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, SummaryActivity.class)));
 
         Button notificationButton = findViewById(R.id.goToNotificationButton);
+        notificationButton.setText("notification center (" + notificationCount + ")");
         notificationButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, NotificationCenterActivity.class)));
 
-        ImageView avatar = findViewById(R.id.Avatar);
-        avatar.setImageBitmap(SessionData.getInstance().getUser().getAvatar());
+        try{
+            ImageView avatar = findViewById(R.id.Avatar);
+            User u = SessionData.getInstance().getUser();
+            avatar.setImageBitmap(SessionData.getInstance().getUser().getAvatar());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         Button logoutBtn = findViewById(R.id.logoutButton);
         logoutBtn.setOnClickListener(view -> {

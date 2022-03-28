@@ -35,6 +35,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
     private static class ViewHolder {
         Button btn;
         TextView date;
+        TextView centerName;
         TextView timeslot;
     }
 
@@ -77,7 +78,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             holder.btn = convertView.findViewById(R.id.timeSlotAdapterBookBtn);
             holder.date = convertView.findViewById(R.id.timeslotAdapterDateTv);
             holder.timeslot = convertView.findViewById(R.id.timeslotAdapterTimeIdxTv);
-
+            holder.centerName = convertView.findViewById(R.id.timeslotAdapterCenterTv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -86,6 +87,8 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
         holder.date.setText(todayAsString);
         holder.timeslot.setText(Util.convertTimeIdxToHour(timeindex));
+        BookingActivity ba = (BookingActivity) mContext;
+        holder.centerName.setText(ba.getCenterName());
 
         if (isWaitListed) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
@@ -105,7 +108,6 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
                 holder.btn.setText("Book");
                 holder.btn.setOnClickListener(view -> {
                     FragmentActivity fa = (FragmentActivity) mContext;
-                    BookingActivity ba = (BookingActivity) mContext;
                     DialogFragment frag = new ConfirmActionFragment(getItem(position), ba.getCenterName(), mContext);
                     frag.show(fa.getSupportFragmentManager(), "confirm");
                 });
@@ -114,7 +116,6 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
                 holder.btn.setText("Waitlist");
                 holder.btn.setOnClickListener(view -> {
                     FragmentActivity fa = (FragmentActivity) mContext;
-                    BookingActivity ba = (BookingActivity) mContext;
                     DialogFragment frag = new ConfirmWaitListFragment(getItem(position), ba.getCenterName(), mContext);
                     frag.show(fa.getSupportFragmentManager(), "confirm");
                 });

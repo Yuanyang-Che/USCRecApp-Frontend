@@ -15,13 +15,14 @@ import com.life.hacker.uscrecapp.adapter.NotificationAdapter;
 import com.life.hacker.uscrecapp.adapter.TimeslotListAdapter;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
 public class NotificationCenterActivity extends AppCompatActivity {
     private Button backtoMapButton;
     private ListView mListView;
-    private List<NotificationEntry> timeSlotList;
+    private List<NotificationEntry> timeSlotList = new ArrayList<>();
 
     public void refreshPage() {
         runOnUiThread(this::recreate);
@@ -30,6 +31,7 @@ public class NotificationCenterActivity extends AppCompatActivity {
     public void takeToastMessage(String message) {
         runOnUiThread(() -> Util.takeToastMessage(getApplicationContext(), message));
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
