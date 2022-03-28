@@ -36,7 +36,7 @@ public class NotificationCenterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_center);
 
-        backtoMapButton = findViewById(R.id.backtoMapButton);
+        backtoMapButton = findViewById(R.id.notificationBackToMapBtn);
         backtoMapButton.setOnClickListener(view ->
                 startActivity(new Intent(NotificationCenterActivity.this, MapsActivity.class)));
 
