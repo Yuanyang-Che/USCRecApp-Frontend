@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -13,15 +14,19 @@ import com.life.hacker.uscrecapp.adapter.TimeslotListAdapter;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class BookingActivity extends FragmentActivity {
+
     private Button backtoMapButton;
+    private Button prevDayButton, nextDayButton;
+    private TextView dateText;
+
+    private Date currentDate;
     private String centerName;
-    private ArrayList<Timeslot> timeSlotList;
+    //private ArrayList<Timeslot> timeSlotList;
 
     public String getCenterName() {
         return centerName;
@@ -34,15 +39,14 @@ public class BookingActivity extends FragmentActivity {
     }
 
     public void setTimeSlotList(List<Timeslot> timeSlotList) {
-        this.timeSlotList = new ArrayList<>(timeSlotList);
+        //this.timeSlotList = new ArrayList<>(timeSlotList);
 
-        ListView mListView = (ListView) findViewById(R.id.bookingListView);
-        TimeslotListAdapter adapter = new TimeslotListAdapter(this, R.layout.timeslot_adapter, this.timeSlotList);
+        ListView mListView = findViewById(R.id.bookingListView);
+        TimeslotListAdapter adapter = new TimeslotListAdapter(this, R.layout.timeslot_adapter, timeSlotList);
         mListView.setAdapter(adapter);
-
     }
 
-    public void appendTimeSlotList(List<Timeslot> timeSlotList) {
+    /*public void appendTimeSlotList(List<Timeslot> timeSlotList) {
         if (this.timeSlotList == null) {
             this.timeSlotList = new ArrayList<>(timeSlotList);
         } else {
@@ -52,29 +56,20 @@ public class BookingActivity extends FragmentActivity {
         ListView mListView = (ListView) findViewById(R.id.bookingListView);
         TimeslotListAdapter adapter = new TimeslotListAdapter(this, R.layout.timeslot_adapter, this.timeSlotList);
         mListView.setAdapter(adapter);
-    }
+    }*/
 
-    public void backendSuccessOrFail() {
-
-    }
-
-    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
-
-    private Date findNextDay(Date date) {
-        return new Date(date.getTime() + MILLIS_IN_A_DAY);
-    }
-
-    private Date findPrevDay(Date date) {
-        return new Date(date.getTime() - MILLIS_IN_A_DAY);
+    private void refreshPage() {
+        dateText.setText(Util.formatDateToStardard(currentDate));
+        String currDateStr = Util.formatDateToStardard(currentDate);
+        MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, currDateStr, BookingActivity.this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Date today = Calendar.getInstance().getTime();
-        String todayAsString = Util.formatDateToStardard(today);
-        MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, todayAsString, BookingActivity.this);
+        refreshPage();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,16 +80,30 @@ public class BookingActivity extends FragmentActivity {
             centerName = (String) b.get("CenterName");
         }
 
-        if (centerName != null) {
-            Date today = Calendar.getInstance().getTime();
-            String todayAsString = Util.formatDateToStardard(today);
-            MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, todayAsString, BookingActivity.this);
-        }
+        currentDate = Calendar.getInstance().getTime();
+        //TODO findviewbyid to find the 2 btns and 1 textview
+        backtoMapButton = findViewById(R.id.backtoMapButton);
 
-        backtoMapButton = (Button) findViewById(R.id.backtoMapButton);
+        prevDayButton = findViewById(R.id.prevDay);
+        nextDayButton = findViewById(R.id.nextDay);
+        dateText = findViewById(R.id.selectedDate);
+
+        prevDayButton.setOnClickListener(view -> {
+            currentDate = Util.findPrevDay(currentDate);
+            refreshPage();
+        });
+
+        nextDayButton.setOnClickListener(view -> {
+            currentDate = Util.findNextDay(currentDate);
+            refreshPage();
+        });
 
         backtoMapButton.setOnClickListener(view -> {
             startActivity(new Intent(BookingActivity.this, MapsActivity.class));
         });
+
+        if (centerName != null) {
+            refreshPage();
+        }
     }
 }

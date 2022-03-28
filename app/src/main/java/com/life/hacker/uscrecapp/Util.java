@@ -50,7 +50,7 @@ public class Util {
         return formatDate(date, "yyyy-MM-dd");
     }
 
-    public static String formatDate(Date date, String pattern) {
+    private static String formatDate(Date date, String pattern) {
         DateFormat dateFormatter = new SimpleDateFormat(pattern, Locale.US);
         return dateFormatter.format(date);
     }
@@ -59,5 +59,15 @@ public class Util {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();
+    }
+
+    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+
+    public static Date findNextDay(Date date) {
+        return new Date(date.getTime() + MILLIS_IN_A_DAY);
+    }
+
+    public static Date findPrevDay(Date date) {
+        return new Date(date.getTime() - MILLIS_IN_A_DAY);
     }
 }
