@@ -6,7 +6,8 @@ import com.life.hacker.uscrecapp.model.User;
 
 public class SessionData {
     //Store user info
-    private SessionData() {}
+    private User user = null;
+    private String token = null;
 
     private static final class InstanceHolder {
         private static final SessionData instance = new SessionData();
@@ -14,9 +15,10 @@ public class SessionData {
 
     public static SessionData getInstance() { return InstanceHolder.instance; }
 
-    private User user = null;
 
-    private String token = null;
+    public void clearSession() {
+        user = null; token = null;
+    }
 
     public void setUser(String e, String u, String n, Bitmap m) {
         user = new User(e, u, n, m);

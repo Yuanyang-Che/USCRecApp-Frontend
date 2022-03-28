@@ -19,11 +19,8 @@ import java.util.List;
 public class SummaryActivity extends AppCompatActivity {
     private Button backtoMapButton;
     private ListView mListView;
-    private List<Timeslot> timeSlotList;
 
     public void update(List<Timeslot> timeSlotList) {
-        this.timeSlotList = timeSlotList;
-
         mListView = (ListView) findViewById(R.id.SummaryListView);
         try {
             SummaryAdapter adapter = new SummaryAdapter(this, R.layout.timeslot_adapter, timeSlotList);
@@ -42,7 +39,7 @@ public class SummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
-        backtoMapButton = (Button) findViewById(R.id.backtoMapButton2);
+        backtoMapButton = findViewById(R.id.summaryBackToMapBtn);
 
         backtoMapButton.setOnClickListener(view -> startActivity(new Intent(SummaryActivity.this, MapsActivity.class)));
 

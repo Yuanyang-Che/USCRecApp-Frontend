@@ -29,7 +29,6 @@ public class BookingActivity extends FragmentActivity {
     public Date getCurrentDate() { return currentDate; }
 
     private String centerName;
-    //private ArrayList<Timeslot> timeSlotList;
 
     public String getCenterName() {
         return centerName;
@@ -42,24 +41,10 @@ public class BookingActivity extends FragmentActivity {
     }
 
     public void setTimeSlotList(List<Timeslot> timeSlotList) {
-        //this.timeSlotList = new ArrayList<>(timeSlotList);
-
         ListView mListView = findViewById(R.id.bookingListView);
         TimeslotListAdapter adapter = new TimeslotListAdapter(this, R.layout.timeslot_adapter, timeSlotList);
         mListView.setAdapter(adapter);
     }
-
-    /*public void appendTimeSlotList(List<Timeslot> timeSlotList) {
-        if (this.timeSlotList == null) {
-            this.timeSlotList = new ArrayList<>(timeSlotList);
-        } else {
-            this.timeSlotList.addAll(timeSlotList);
-        }
-
-        ListView mListView = (ListView) findViewById(R.id.bookingListView);
-        TimeslotListAdapter adapter = new TimeslotListAdapter(this, R.layout.timeslot_adapter, this.timeSlotList);
-        mListView.setAdapter(adapter);
-    }*/
 
     private void refreshPage() {
         dateText.setText(Util.formatDateToStardard(currentDate));
@@ -84,7 +69,7 @@ public class BookingActivity extends FragmentActivity {
         }
 
         currentDate = Calendar.getInstance().getTime();
-        //TODO findviewbyid to find the 2 btns and 1 textview
+
         backtoMapButton = findViewById(R.id.backtoMapButton);
 
         prevDayButton = findViewById(R.id.prevDay);
@@ -101,9 +86,7 @@ public class BookingActivity extends FragmentActivity {
             refreshPage();
         });
 
-        backtoMapButton.setOnClickListener(view -> {
-            startActivity(new Intent(BookingActivity.this, MapsActivity.class));
-        });
+        backtoMapButton.setOnClickListener(view -> startActivity(new Intent(BookingActivity.this, MapsActivity.class)));
 
         if (centerName != null) {
             refreshPage();

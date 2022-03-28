@@ -72,8 +72,9 @@ public class MessageCenter {
         callers.put(task_id, context);
     }
 
-    public void LogoutRequest(String user_token) {
-        center.SendMessageGet(logout_uri, user_token);
+    public void LogoutRequest(String user_token, Context context) {
+        long task_id = center.SendMessageGet(logout_uri, user_token);
+        callers.put(task_id, context);
     }
 
     public void GetCenterlistRequest(Context context) {
@@ -278,7 +279,11 @@ public class MessageCenter {
     }
 
     public void LogoutResponse(long task_id) {
-        //TODO
+        MapsActivity context = (MapsActivity) callers.get(task_id);
+        assert context != null;
+        NotificationCenter.GetInstance().Stop();
+        SessionData.getInstance().clearSession();
+        context.startActivity(new Intent(context, LoginActivity.class));
     }
 
     public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
@@ -323,6 +328,7 @@ public class MessageCenter {
     public void BookResponse(Datastructure.BookResponse response, long task_id) {
         //TODO
         BookingActivity context = (BookingActivity) callers.get(task_id);
+        assert context != null;
 
         String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
                 "Book Success" : "Something went wrong, Error Code " + response.getErr().getNumber();

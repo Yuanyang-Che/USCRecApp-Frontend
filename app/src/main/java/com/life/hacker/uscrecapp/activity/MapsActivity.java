@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -14,24 +15,22 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Center;
 import com.life.hacker.uscrecapp.model.MapData;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    //    private ActivityMapsBinding binding;
+
+
     LatLng LyonCenter = new LatLng(34.02356070336721, -118.2887904971078);
 
-    List<Center> centerList = new ArrayList<>();
-
     public void setCenters(List<Center> centerList) {
-        this.centerList = centerList;
         MapData.getInstance().setCenters(centerList);
 
         for (Center c : centerList) {
@@ -60,7 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (b != null) {
             String message = (String) b.get("Message");
             takeMessage(message);
-            //mapsActivity = (MapsActivity) b.get("MapInstance");
         }
     }
 
@@ -68,23 +66,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        binding = ActivityMapsBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
         setContentView(R.layout.activity_maps);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        Button SummaryButton = (Button) findViewById(R.id.goToSummaryButton);
+        Button summaryButton = findViewById(R.id.goToSummaryButton);
+        summaryButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, SummaryActivity.class)));
 
-        SummaryButton.setOnClickListener(view -> {
-            startActivity(new Intent(MapsActivity.this, SummaryActivity.class));
+        Button notificationButton = findViewById(R.id.goToNotificationButton);
+        notificationButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, NotificationCenterActivity.class)));
+
+        ImageView avatar = findViewById(R.id.Avatar);
+        avatar.setImageBitmap(SessionData.getInstance().getUser().getAvatar());
+
+        Button logoutBtn = findViewById(R.id.logoutButton);
+        logoutBtn.setOnClickListener(view -> {
+            MessageCenter.getInstance().LogoutRequest(SessionData.getInstance().getToken(), MapsActivity.this);
         });
-
         MessageCenter.getInstance().GetCenterlistRequest(MapsActivity.this);
-
     }
 
     /**

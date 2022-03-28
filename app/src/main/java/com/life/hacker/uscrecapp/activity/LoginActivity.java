@@ -28,9 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (SessionData.getInstance().getUser() != null) {
             MessageCenter.getInstance().loginSuccess(LoginActivity.this);
-            //startActivity(new Intent(LoginActivity.this, MapsActivity.class));
         }
-
 
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
