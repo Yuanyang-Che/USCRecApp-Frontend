@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="340dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="50dp"
     android:layout_marginTop="50dp"
@@ -12,21 +12,22 @@
     <Button
         android:id="@+id/waitlistAdapterBookBtn"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_weight="40"
+        android:layout_height="95dp"
+        android:layout_weight="38.6"
         android:backgroundTint="@android:color/holo_green_dark"
-        android:text=" Book " />
+        android:text="Book" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="30"
+        android:layout_weight="27"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/waitlistAdapterDateTv"
             android:layout_width="match_parent"
-            android:layout_height="33dp"
+            android:layout_height="28dp"
             android:gravity="center"
             android:text="March 17, 2022" />
 
@@ -35,12 +36,12 @@
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:gravity="center"
-            android:text="Lyon Center" />
+            android:text="USC Village Fitness Center" />
 
         <TextView
             android:id="@+id/waitlistAdapterTimeIdxTv"
             android:layout_width="match_parent"
-            android:layout_height="33dp"
+            android:layout_height="28dp"
             android:gravity="center"
             android:text="8:00-10:00AM" />
 
@@ -49,9 +50,10 @@
     <Button
         android:id="@+id/waitlistAdapterCancelBtn"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_weight="30"
+        android:layout_height="95dp"
+        android:layout_weight="34.3"
         android:backgroundTint="@android:color/holo_green_dark"
         android:text="Cancel" />
+
 
 </LinearLayout>

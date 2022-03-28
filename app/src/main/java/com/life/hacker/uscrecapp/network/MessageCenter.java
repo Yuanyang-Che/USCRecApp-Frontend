@@ -13,6 +13,7 @@ import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
+import com.life.hacker.uscrecapp.activity.NotificationCenterActivity;
 import com.life.hacker.uscrecapp.activity.SignUpActivity;
 import com.life.hacker.uscrecapp.activity.SummaryActivity;
 import com.life.hacker.uscrecapp.model.Center;
@@ -339,19 +340,31 @@ public class MessageCenter {
 
     public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
         SummaryActivity context = (SummaryActivity) callers.get(task_id);
-        assert context != null;
+        if(context != null){
+            context.refreshPage();
 
-        context.refreshPage();
-
-        if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
-            context.takeToastMessage("Something went wrong in cancellation");
-        } else {
-            context.takeToastMessage("Cancel success");
+            if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
+                context.takeToastMessage("Something went wrong in cancellation");
+            } else {
+                context.takeToastMessage("Cancel success");
+            }
         }
+
     }
 
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
-        //TODO
+        NotificationCenterActivity context = (NotificationCenterActivity) callers.get(task_id);
+
+        if(context != null) {
+            context.refreshPage();
+
+            if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
+                context.takeToastMessage("Something went wrong in cancellation");
+            } else {
+                context.takeToastMessage("Cancel Waitlist success");
+            }
+        }
+
     }
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {

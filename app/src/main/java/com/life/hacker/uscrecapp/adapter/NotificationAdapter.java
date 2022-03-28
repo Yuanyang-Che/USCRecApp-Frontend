@@ -9,20 +9,26 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
+import com.life.hacker.uscrecapp.NotificationEntry;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
+import com.life.hacker.uscrecapp.activity.BookingActivity;
+import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
+import com.life.hacker.uscrecapp.activity.NotificationCenterActivity;
+import com.life.hacker.uscrecapp.model.Day;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.util.Date;
 import java.util.List;
 
-public class NotificationAdapter extends ArrayAdapter<Timeslot> {
+public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
     private Context mContext;
     private int mResource;
-
 
     private static class ViewHolder {
         Button bookBtn, cancelBtn;
@@ -31,20 +37,20 @@ public class NotificationAdapter extends ArrayAdapter<Timeslot> {
         TextView center;
     }
 
-    public NotificationAdapter(Context context, int resource, List<Timeslot> objects) {
+    public NotificationAdapter(Context context, int resource, List<NotificationEntry> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
+
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Date date = getItem(position).getDay().getDate();
+        Date date = getItem(position).getD();
         String dateString = Util.formatDateToStardard(date);
 
         int timeindex = getItem(position).getTimeIndex();
-        boolean isPast = getItem(position).isPast();
         // ------------------------------------------------------
 
         //create the view result for showing the animation
@@ -67,30 +73,26 @@ public class NotificationAdapter extends ArrayAdapter<Timeslot> {
         result = convertView;
 
         holder.date.setText(dateString);
-        holder.center.setText(getItem(position).getDay().getCenter().getName());
-
+        holder.center.setText(getItem(position).getCenterName());
         holder.timeslot.setText(Util.formatTimeIndex(timeindex));
-        if (isPast) {
-            //holder.timeslot.setText(Integer.toString(timeindex < 12 ? timeindex : timeindex - 12) + (timeindex > 12 ? " PM" : " AM"));
 
-            holder.bookBtn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.bookBtn.setText("Past Appointment");
-            holder.bookBtn.setOnClickListener(view -> {});
-        } else {
-            holder.bookBtn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
-            holder.bookBtn.setText("Cancel");
-            holder.bookBtn.setOnClickListener(view -> {
-                //TODO
-                String loc = getItem(position).getDay().getCenter().getName();
-                String dateStr = Util.formatDateToStardard(getItem(position).getDay().getDate());
-                int timeIdx = getItem(position).getTimeIndex();
-
-                String timeIdxStr = Util.formatTimeIndex(timeIdx);
-
-                MessageCenter.getInstance().CancelBookRequest(loc, dateStr, timeIdxStr, SessionData.getInstance().getToken(), mContext);
-                //mContext.startActivity(new Intent(mContext, MapsActivity.class));
-            });
-        }
+        holder.bookBtn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
+        holder.bookBtn.setText("Book");
+        holder.bookBtn.setOnClickListener(view -> {
+            FragmentActivity fa = (FragmentActivity) mContext;
+            DialogFragment frag = new ConfirmActionFragment(new Timeslot(timeindex, 2, 0,
+                    new Day(date, null, null), false, false, false),
+                    getItem(position).getCenterName(), mContext);
+            frag.show(fa.getSupportFragmentManager(), "confirm");
+        });
+        holder.cancelBtn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
+        holder.cancelBtn.setText("cancel");
+        holder.cancelBtn.setOnClickListener(view -> {
+            // CancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context)
+            MessageCenter.getInstance().CancelWaitlistRequest(getItem(position).getCenterName(),
+                    Util.formatDateToStardard(date), Util.formatTimeIndex(timeindex),
+                    SessionData.getInstance().getToken(), mContext);
+        });
 
         return result;
     }

@@ -3,6 +3,18 @@ package com.life.hacker.uscrecapp;
 import java.util.Date;
 
 public class NotificationEntry {
+    public int getTimeIndex() {
+        return timeIndex;
+    }
+
+    public Date getD() {
+        return d;
+    }
+
+    public String getCenterName() {
+        return centerName;
+    }
+
     private int timeIndex;
     private Date d;
     private String centerName;

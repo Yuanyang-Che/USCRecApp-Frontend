@@ -88,6 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             MessageCenter.getInstance().LogoutRequest(SessionData.getInstance().getToken(), MapsActivity.this);
         });
         MessageCenter.getInstance().GetCenterlistRequest(MapsActivity.this);
+
+
     }
 
     /**
