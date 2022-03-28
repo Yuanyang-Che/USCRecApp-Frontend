@@ -22,7 +22,7 @@ public class Util {
      * @return
      */
     public static String formatTimeIndex(int timeIdx) {
-        return (timeIdx < 10) ? "0" : "" + timeIdx + ":00:00";
+        return (timeIdx < 10 ? "0" : "") + timeIdx + ":00:00";
     }
 
     public static String convertTimeIdxToHour(int timeindex) {

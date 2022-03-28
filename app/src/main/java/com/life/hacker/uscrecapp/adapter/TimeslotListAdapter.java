@@ -57,7 +57,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the timeslot information
-        Date today = Calendar.getInstance().getTime();
+        Date today = getItem(position).getDay().getDate();
         String todayAsString = Util.formatDateToStardard(today);
 
         int timeindex = getItem(position).getTimeIndex();

@@ -314,7 +314,7 @@ public class MessageCenter {
             int timeIndex = Integer.parseInt(t.getTimeslot().substring(0, 2));
             if (requestDate.after(currDate) || timeIndex >= hours) {
                 timeslotList.add(new Timeslot(timeIndex, Util.Capacity,
-                        t.getUsernum(), new HashSet<>(), new Day(), false,
+                        t.getUsernum(), new HashSet<>(), new Day(requestDate, null, null), false,
                         t.getIsbooked(), t.getIswaitlisted()));
             }
         }
@@ -327,7 +327,7 @@ public class MessageCenter {
         BookingActivity context = (BookingActivity) callers.get(task_id);
 
         String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
-                "Book Success" : "Something went wrong";
+                "Book Success" : "Something went wrong, Error Code " + response.getErr().getNumber();
         context.runOnUiThread(() -> context.jumpBackToMap(message));
     }
 
