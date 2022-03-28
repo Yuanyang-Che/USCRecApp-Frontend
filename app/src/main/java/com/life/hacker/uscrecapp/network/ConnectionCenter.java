@@ -85,8 +85,13 @@ class ConnectionCenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200) {
-                    System.out.println("wrong status, check network or login status");
+                if(response.code() == 401) {
+                    // users not log in
+
+                    // TODO: handle log out
+
+                    RemoveTaskId(task_id);
+                    return;
                 }
                 MessageCenter.getInstance().MessageResponse(response.body().bytes(), url, task_id);
                 RemoveTaskId(task_id);
