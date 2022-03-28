@@ -4,6 +4,7 @@ import com.life.hacker.uscrecapp.SessionData;
 
 public class NotificationCenter {
     public NotificationThread t_;
+
     private static final class InstanceHolder {
         private static final NotificationCenter instance = new NotificationCenter();
     }
@@ -43,8 +44,8 @@ class NotificationThread extends Thread {
 
     @Override
     public void run() {
-        while(true) {
-            if(need_send_) {
+        while (true) {
+            if (need_send_) {
                 MessageCenter.getInstance().NotificationRequest(SessionData.getInstance().getToken());
             }
             try {

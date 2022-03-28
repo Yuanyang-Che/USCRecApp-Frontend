@@ -8,12 +8,11 @@ import android.widget.ListView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.adapter.TimeslotListAdapter;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,10 +71,8 @@ public class BookingActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String pattern = "yyyy-MM-dd";
-        DateFormat df = new SimpleDateFormat(pattern);
         Date today = Calendar.getInstance().getTime();
-        String todayAsString = df.format(today);
+        String todayAsString = Util.formatDateToStardard(today);
         MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, todayAsString, BookingActivity.this);
     }
 
@@ -86,14 +83,11 @@ public class BookingActivity extends FragmentActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             centerName = (String) b.get("CenterName");
-            //mapsActivity = (MapsActivity) b.get("MapInstance");
         }
 
         if (centerName != null) {
-            String pattern = "yyyy-MM-dd";
-            DateFormat df = new SimpleDateFormat(pattern);
             Date today = Calendar.getInstance().getTime();
-            String todayAsString = df.format(today);
+            String todayAsString = Util.formatDateToStardard(today);
             MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, todayAsString, BookingActivity.this);
         }
 

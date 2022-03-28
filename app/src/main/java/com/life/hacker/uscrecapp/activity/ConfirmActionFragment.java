@@ -44,7 +44,7 @@ public class ConfirmActionFragment extends DialogFragment {
                     String dayString = df.format(today);
 
                     int time = t.getTimeIndex();
-                    MessageCenter.getInstance().BookRequest(centerName, dayString, Util.convertTimeIdx(time),
+                    MessageCenter.getInstance().BookRequest(centerName, dayString, Util.formatTimeIndex(time),
                             SessionData.getInstance().getToken(), mContext);
 
                 })

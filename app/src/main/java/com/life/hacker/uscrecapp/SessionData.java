@@ -14,8 +14,6 @@ public class SessionData {
 
     public static SessionData getInstance() { return InstanceHolder.instance; }
 
-    private SessionData instance;
-
     private User user = null;
 
     private String token = null;

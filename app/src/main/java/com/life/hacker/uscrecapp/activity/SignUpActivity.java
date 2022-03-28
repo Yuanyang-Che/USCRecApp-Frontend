@@ -1,12 +1,5 @@
 package com.life.hacker.uscrecapp.activity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,13 +10,20 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -34,6 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button signUp;
     private Button toLogin;
     private ImageView imageView;
+    private TextView errorMsg;
 
     private final int SELECT_PHOTO = 1;
     private Uri uri;
@@ -49,12 +50,13 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.etPassword);
 
         signUp = findViewById(R.id.btnSignUp);
-        signUp.setOnClickListener(view -> {
-            signUp(email.getText().toString(),
-                    uscid.getText().toString(),
-                    username.getText().toString(),
-                    password.getText().toString());
-        });
+        signUp.setOnClickListener(view ->
+                signUp(email.getText().toString(),
+                        uscid.getText().toString(),
+                        username.getText().toString(),
+                        password.getText().toString()));
+
+        errorMsg = findViewById(R.id.signupErrorMsg);
 
         toLogin = findViewById(R.id.btnToLogin);
         toLogin.setOnClickListener(view -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
@@ -68,6 +70,17 @@ public class SignUpActivity extends AppCompatActivity {
             galleryActivityResultLauncher.launch(intent);
 
             //startActivityForResult(intent, SELECT_PHOTO);
+        });
+    }
+
+    public void takeErrorMessage(String msg) {
+        runOnUiThread(() -> {
+            try {
+                errorMsg.setText(msg);
+            } catch (Exception e) {
+                // Do something
+                e.printStackTrace();
+            }
         });
     }
 
@@ -94,9 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void signUp(String email, String id, String username, String pw) {
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageInByte = baos.toByteArray();
+        byte[] imageInByte = Util.compress(bitmap);
 
 
         //TODO
@@ -119,10 +130,8 @@ public class SignUpActivity extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 imageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException fnfe) {
+            } catch (IOException fnfe) {
                 fnfe.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

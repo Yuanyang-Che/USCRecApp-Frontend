@@ -1,7 +1,5 @@
 package com.life.hacker.uscrecapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +7,8 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.etPassword);
         login = findViewById(R.id.btnLogin);
         toSignUp = findViewById(R.id.btnToSignUp);
-        errorMsg = findViewById(R.id.errorMsg);
+        errorMsg = findViewById(R.id.loginErrorMsg);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -91,15 +91,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void takeErrorMessage(String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    errorMsg.setText(msg);
-                } catch (Exception e) {
-                    // Do something
-                    e.printStackTrace();
-                }
+        runOnUiThread(() -> {
+            try {
+                errorMsg.setText(msg);
+            } catch (Exception e) {
+                // Do something
+                e.printStackTrace();
             }
         });
     }

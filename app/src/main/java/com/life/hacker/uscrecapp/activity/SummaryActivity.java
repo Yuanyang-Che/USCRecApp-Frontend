@@ -1,17 +1,18 @@
 package com.life.hacker.uscrecapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.life.hacker.uscrecapp.R;
-import com.life.hacker.uscrecapp.SessionData;
-import com.life.hacker.uscrecapp.adapter.SummaryAdapter;
-import com.life.hacker.uscrecapp.model.Timeslot;
-import com.life.hacker.uscrecapp.network.MessageCenter;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.life.hacker.uscrecapp.R;
+import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.Util;
+import com.life.hacker.uscrecapp.adapter.SummaryAdapter;
+import com.life.hacker.uscrecapp.model.Timeslot;
+import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.util.List;
 
@@ -25,12 +26,15 @@ public class SummaryActivity extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.SummaryListView);
         try {
-
             SummaryAdapter adapter = new SummaryAdapter(this, R.layout.timeslot_adapter, timeSlotList);
             mListView.setAdapter(adapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void refreshPage() {
+        runOnUiThread(this::recreate);
     }
 
     @Override
@@ -40,26 +44,12 @@ public class SummaryActivity extends AppCompatActivity {
 
         backtoMapButton = (Button) findViewById(R.id.backtoMapButton2);
 
-
-        //timeSlotList = new ArrayList<>();
-
-//        Timeslot eight = new Timeslot(123, 123, 0, new HashSet<>(), new Day(), true);
-//        Timeslot nine = new Timeslot(9, 9, 0, new HashSet<>(), new Day(), true);
-//        Timeslot ten = new Timeslot(10, 10, 10, new HashSet<>(), new Day(), false);
-//        Timeslot eleven = new Timeslot(11, 11, 11, new HashSet<>(), new Day(), false);
-
-
-//        timeSlotList.add(eight);
-//        timeSlotList.add(nine);
-//        timeSlotList.add(ten);
-//        timeSlotList.add(eleven);
-
-
-        backtoMapButton.setOnClickListener(view -> {
-            startActivity(new Intent(SummaryActivity.this, MapsActivity.class));
-        });
+        backtoMapButton.setOnClickListener(view -> startActivity(new Intent(SummaryActivity.this, MapsActivity.class)));
 
         MessageCenter.getInstance().HistoryRequest(SessionData.getInstance().getToken(), SummaryActivity.this);
     }
 
+    public void takeToastMessage(String message) {
+        runOnUiThread(() -> Util.takeToastMessage(getApplicationContext(), message));
+    }
 }

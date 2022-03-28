@@ -1,13 +1,13 @@
 package com.life.hacker.uscrecapp.network;
 
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
 import com.life.hacker.uscrecapp.activity.MapsActivity;
@@ -22,11 +22,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
 import protodata.Datastructure;
@@ -219,13 +219,7 @@ public class MessageCenter {
         String netid = response.getUscstudentid();
         String token = response.getTokens();
 
-        Bitmap decodedByte = null;
-
-        if (response.getAvatar() != null) {
-            byte[] arr = response.getAvatar().toByteArray();
-
-            decodedByte = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-        }
+        Bitmap decodedByte = Util.decompress(response.getAvatar().toByteArray());
 
         //Store the user login info and token
         SessionData.getInstance().setUser(email, username, netid, decodedByte);
@@ -269,39 +263,38 @@ public class MessageCenter {
                     errorMsg = "Server Error Username";
                     break;
             }
-            //context.takeErrorMessage(errorMsg);
+            context.takeErrorMessage(errorMsg);
             return;
         }
+
         String email = response.getEmail();
+        String username = response.getUsername();
+        String netid = response.getUscstudentid();
+        Bitmap avatar = Util.decompress(response.getAvatar().toByteArray());
         String token = response.getTokens();
+
+        SessionData.getInstance().setUser(email, username, netid, avatar);
+        SessionData.getInstance().setToken(token);
 
         context.startActivity(new Intent(context, MapsActivity.class));
     }
 
     public void LogoutResponse(long task_id) {
-
+        //TODO
     }
 
     public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
-        //What to do with center list data?
-        //Datastructure.Center c = response.getCenterlist(0);
         MapsActivity context = (MapsActivity) callers.get(task_id);
+        assert context != null;
 
         List<Datastructure.Center> centers = response.getCenterlistList();
-        System.out.println(Arrays.asList(response.getCenterlistList()));
+        //System.out.println(Arrays.asList(response.getCenterlistList()));
         List<Center> centerList = new ArrayList<>();
         for (Datastructure.Center c : centers) {
             centerList.add(new Center(0, c.getName(), new Day[3], c.getLatitude(), c.getLongitude()));
         }
 
-        context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                context.setCenters(centerList);
-            }
-        });
-        //Pass it back to the activity that needs these data.
-        //Wait. Which activity?
+        context.runOnUiThread(() -> context.setCenters(centerList));
     }
 
     public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response, long task_id) {
@@ -310,10 +303,17 @@ public class MessageCenter {
 
         List<Datastructure.TimeslotUsernum> timeslots = response.getListList();
         List<Timeslot> timeslotList = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+
         for (Datastructure.TimeslotUsernum t : timeslots) {
-            timeslotList.add(new Timeslot(Integer.parseInt(t.getTimeslot().substring(0, 2)),
-                    2, (int) t.getUsernum(), new HashSet<>(), new Day(), false,
-                    t.getIsbooked(), t.getIswaitlisted()));
+            int timeIndex = Integer.parseInt(t.getTimeslot().substring(0, 2));
+            if (timeIndex >= hours) {
+                timeslotList.add(new Timeslot(timeIndex, Util.Capacity,
+                        t.getUsernum(), new HashSet<>(), new Day(), false,
+                        t.getIsbooked(), t.getIswaitlisted()));
+            }
         }
 
         context.runOnUiThread(() -> context.setTimeSlotList(timeslotList));
@@ -323,29 +323,42 @@ public class MessageCenter {
         //TODO
         BookingActivity context = (BookingActivity) callers.get(task_id);
 
-        String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ? "Good" : "Something went wrong";
+        String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
+                "Book Success" : "Something went wrong";
         context.runOnUiThread(() -> context.jumpBackToMap(message));
     }
 
     public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
-        //
-        //SummaryActivity context =
+        SummaryActivity context = (SummaryActivity) callers.get(task_id);
+        assert context != null;
+
+        context.refreshPage();
+
+        if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
+            context.takeToastMessage("Something went wrong in cancellation");
+        } else {
+            context.takeToastMessage("Cancel success");
+        }
     }
 
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
         //
+
+//    public void CancelResponse(Datastructure.CancelResponse response, long task_id) {
+//        //TODO
+//>>>>>>> Stashed changes
         //SummaryActivity context =
     }
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
-
+        //TODO
     }
 
 
     //F**K Java, this is a lambda function, but java's lambda sucks so I have to use a private method
-    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> pre, boolean isPast) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        for (Datastructure.BookingEntry p : pre) {
+    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> list, boolean isPast) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        for (Datastructure.BookingEntry p : list) {
             int timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
 
             Date date = null;
@@ -356,9 +369,7 @@ public class MessageCenter {
             }
 
             Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
-            timeslots.add(new Timeslot(timeslotIdx,
-                    0, 0, new HashSet<>(), day, true, true, true));
-
+            timeslots.add(new Timeslot(timeslotIdx, Util.Capacity, 0, new HashSet<>(), day, isPast, true, false));
         }
     }
 
@@ -368,9 +379,9 @@ public class MessageCenter {
 
         List<Timeslot> timeslots = new ArrayList<>();
 
-        List<Datastructure.BookingEntry> pre = response.getPreviousList();
+        List<Datastructure.BookingEntry> past = response.getPreviousList();
         List<Datastructure.BookingEntry> upcoming = response.getUpcomingList();
-        addTo(timeslots, pre, true);
+        addTo(timeslots, past, true);
         addTo(timeslots, upcoming, false);
 
         context.runOnUiThread(() -> context.update(timeslots));
@@ -378,6 +389,7 @@ public class MessageCenter {
 
     public void NotificationResponse(Datastructure.NotificationResponse response) {
         // Get notifications. Notification might have multiple entries
+        //TODO add notification
         System.out.println(response.getListCount());
     }
 }
