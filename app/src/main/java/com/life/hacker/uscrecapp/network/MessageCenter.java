@@ -305,11 +305,14 @@ public class MessageCenter {
         List<Timeslot> timeslotList = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
+        Date currDate = calendar.getTime();
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
+
+        Date requestDate = context.getCurrentDate();
 
         for (Datastructure.TimeslotUsernum t : timeslots) {
             int timeIndex = Integer.parseInt(t.getTimeslot().substring(0, 2));
-            if (timeIndex >= hours) {
+            if (requestDate.after(currDate) || timeIndex >= hours) {
                 timeslotList.add(new Timeslot(timeIndex, Util.Capacity,
                         t.getUsernum(), new HashSet<>(), new Day(), false,
                         t.getIsbooked(), t.getIswaitlisted()));
@@ -342,12 +345,7 @@ public class MessageCenter {
     }
 
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
-        //
-
-//    public void CancelResponse(Datastructure.CancelResponse response, long task_id) {
-//        //TODO
-//>>>>>>> Stashed changes
-        //SummaryActivity context =
+        //TODO
     }
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
@@ -355,7 +353,7 @@ public class MessageCenter {
     }
 
 
-    //F**K Java, this is a lambda function, but java's lambda sucks so I have to use a private method
+    //F**K Java, this should be a lambda function, but java's lambda sucks so i gotta declare it
     private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> list, boolean isPast) {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         for (Datastructure.BookingEntry p : list) {

@@ -25,6 +25,9 @@ public class BookingActivity extends FragmentActivity {
     private TextView dateText;
 
     private Date currentDate;
+
+    public Date getCurrentDate() { return currentDate; }
+
     private String centerName;
     //private ArrayList<Timeslot> timeSlotList;
 
