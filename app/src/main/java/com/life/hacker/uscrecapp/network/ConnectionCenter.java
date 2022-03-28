@@ -55,11 +55,10 @@ class ConnectionCenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() == 401) {
+                if (response.code() == 401) {
                     // users not log in
 
-                    // TODO: handle log out
-
+                    MessageCenter.getInstance().LogoutResponse(task_id);
                     RemoveTaskId(task_id);
                     return;
                 }
@@ -85,11 +84,10 @@ class ConnectionCenter {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() == 401) {
+                if (response.code() == 401) {
                     // users not log in
 
-                    // TODO: handle log out
-
+                    MessageCenter.getInstance().LogoutResponse(task_id);
                     RemoveTaskId(task_id);
                     return;
                 }

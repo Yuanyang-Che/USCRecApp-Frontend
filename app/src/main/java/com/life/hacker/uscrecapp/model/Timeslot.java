@@ -1,7 +1,5 @@
 package com.life.hacker.uscrecapp.model;
 
-import java.util.Set;
-
 public class Timeslot {
     public Timeslot(int timeIndex, int capacity, int size, Day day,
                     boolean isPast, boolean isBooked, boolean isWaitListed) {
@@ -31,10 +29,6 @@ public class Timeslot {
         return isPast;
     }
 
-    public void setPast(boolean past) {
-        isPast = past;
-    }
-
     public boolean isBooked() {
         return isBooked;
     }
@@ -58,8 +52,5 @@ public class Timeslot {
     private boolean isPast;
     private boolean isBooked;
     private boolean isWaitListed;
-
-
-
-
+    
 }

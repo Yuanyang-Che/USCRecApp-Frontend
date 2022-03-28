@@ -107,7 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void signUp(String email, String id, String username, String pw) {
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        byte[] imageInByte = Util.compress(bitmap);
+        byte[] imageInByte = Util.compressBitMapToBytes(bitmap);
 
 
         //TODO

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
+import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
 public class LoginActivity extends AppCompatActivity {
@@ -25,6 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //Try to login
+        Util.retreiveSessionFromStorage(this);
 
         if (SessionData.getInstance().getUser() != null) {
             MessageCenter.getInstance().loginSuccess(LoginActivity.this);

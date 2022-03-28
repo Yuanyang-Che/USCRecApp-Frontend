@@ -12,9 +12,6 @@ import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ConfirmActionFragment extends DialogFragment {
@@ -36,13 +33,10 @@ public class ConfirmActionFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Are you sure you want to Book this time?")
                 .setPositiveButton("Confirm", (dialog, id) -> {
-                    // String center_name, String date, String timeslot, String user_token, Context context
-                    // yyyy-mm-dd, 08:00:00
                     Date today = t.getDay().getDate();
                     String dayString = Util.formatDateToStardard(today);
 
                     int time = t.getTimeIndex();
-                    String timeStr = Util.formatTimeIndex(time);
                     MessageCenter.getInstance().BookRequest(centerName, dayString, Util.formatTimeIndex(time),
                             SessionData.getInstance().getToken(), mContext);
 

@@ -27,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
@@ -76,8 +75,8 @@ public class MessageCenter {
     }
 
     public void LogoutRequest(String user_token, Context context) {
-        long task_id = center.SendMessageGet(logout_uri, user_token);
-        callers.put(task_id, context);
+        center.SendMessageGet(logout_uri, user_token);
+        logout(context);
     }
 
     public void GetCenterlistRequest(Context context) {
@@ -136,10 +135,6 @@ public class MessageCenter {
                 case signup_uri: {
                     Datastructure.SignupResponse response = Datastructure.SignupResponse.parseFrom(raw_data);
                     SignupResponse(response, task_id);
-                    break;
-                }
-                case logout_uri: {
-                    LogoutResponse(task_id);
                     break;
                 }
                 case centerlist_uri: {
@@ -221,14 +216,15 @@ public class MessageCenter {
         String netid = response.getUscstudentid();
         String token = response.getTokens();
 
-        Bitmap decodedByte = Util.decompress(response.getAvatar().toByteArray());
+        Bitmap decodedByte = Util.decompressBytesToBitmap(response.getAvatar().toByteArray());
 
         //Store the user login info and token
         SessionData.getInstance().setUser(email, username, netid, decodedByte);
         SessionData.getInstance().setToken(token);
 
+        Util.storeSessionToStorage(context);
+
         //Jump to main screen
-        //Same code here
         loginSuccess(context);
     }
 
@@ -272,7 +268,7 @@ public class MessageCenter {
         String email = response.getEmail();
         String username = response.getUsername();
         String netid = response.getUscstudentid();
-        Bitmap avatar = Util.decompress(response.getAvatar().toByteArray());
+        Bitmap avatar = Util.decompressBytesToBitmap(response.getAvatar().toByteArray());
         String token = response.getTokens();
 
         SessionData.getInstance().setUser(email, username, netid, avatar);
@@ -283,9 +279,16 @@ public class MessageCenter {
 
     public void LogoutResponse(long task_id) {
         MapsActivity context = (MapsActivity) callers.get(task_id);
+        logout(context);
+    }
+
+    public void logout(Context context) {
         assert context != null;
         NotificationCenter.GetInstance().Stop();
         SessionData.getInstance().clearSession();
+
+        //Also clear the Shared Pref Data
+        Util.clearSessionFromStorage(context);
         context.startActivity(new Intent(context, LoginActivity.class));
     }
 
@@ -333,6 +336,8 @@ public class MessageCenter {
         BookingActivity context = (BookingActivity) callers.get(task_id);
         assert context != null;
 
+        // if the error code means the user token is expired
+        // call LogoutResponse()
         String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
                 "Book Success" : "Something went wrong, Error Code " + response.getErr().getNumber();
         context.runOnUiThread(() -> context.jumpBackToMap(message));
@@ -340,7 +345,7 @@ public class MessageCenter {
 
     public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
         SummaryActivity context = (SummaryActivity) callers.get(task_id);
-        if(context != null){
+        if (context != null) {
             context.refreshPage();
 
             if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
@@ -355,7 +360,7 @@ public class MessageCenter {
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
         NotificationCenterActivity context = (NotificationCenterActivity) callers.get(task_id);
 
-        if(context != null) {
+        if (context != null) {
             context.refreshPage();
 
             if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
@@ -410,7 +415,7 @@ public class MessageCenter {
         List<Datastructure.NotificationEntry> notification_list = response.getListList();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-        for(Datastructure.NotificationEntry entry : notification_list) {
+        for (Datastructure.NotificationEntry entry : notification_list) {
             int timeIndex = Integer.parseInt(entry.getTimeslot().substring(0, 2));
 
             Date date = null;
