@@ -407,7 +407,7 @@ public class MessageCenter {
         BookingActivity context = (BookingActivity) task.get(task_id);
         if (context != null) {
             String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
-                    "Book Success" : "Something went wrong, Error Code " + response.getErr().getNumber();
+                    "Waitlist Success" : "Something went wrong, Error Code " + response.getErr().getNumber();
             context.takeToastMessage(message);
             context.refreshPage();
         }

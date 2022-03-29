@@ -134,7 +134,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void OnNotification() {
-        runOnUiThread(() -> notificationButton.setText("notification center (" + NotificationQueue.getInstance().getTimeslots().size() + ")"));
+        runOnUiThread(() -> {
+            notificationButton.setText("notification center (" + NotificationQueue.getInstance().getTimeslots().size() + ")");
+            takeMessage("receive new notification!");
+        });
 
     }
 }
