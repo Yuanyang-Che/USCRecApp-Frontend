@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
-import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
+import com.life.hacker.uscrecapp.activity.ConfirmBookFragment;
 import com.life.hacker.uscrecapp.activity.ConfirmWaitListFragment;
 import com.life.hacker.uscrecapp.model.Timeslot;
 
@@ -108,7 +108,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
                 holder.btn.setText("Book");
                 holder.btn.setOnClickListener(view -> {
                     FragmentActivity fa = (FragmentActivity) mContext;
-                    DialogFragment frag = new ConfirmActionFragment(getItem(position), ba.getCenterName(), mContext);
+                    DialogFragment frag = new ConfirmBookFragment(getItem(position), ba.getCenterName(), mContext);
                     frag.show(fa.getSupportFragmentManager(), "confirm");
                 });
             } else {

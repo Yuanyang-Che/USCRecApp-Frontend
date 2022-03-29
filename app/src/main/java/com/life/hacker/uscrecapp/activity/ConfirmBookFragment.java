@@ -14,13 +14,13 @@ import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.util.Date;
 
-public class ConfirmActionFragment extends DialogFragment {
+public class ConfirmBookFragment extends DialogFragment {
 
     Timeslot t;
     String centerName;
     Context mContext;
 
-    public ConfirmActionFragment(Timeslot t, String cn, Context mContext) {
+    public ConfirmBookFragment(Timeslot t, String cn, Context mContext) {
         super();
         this.t = t;
         centerName = cn;
