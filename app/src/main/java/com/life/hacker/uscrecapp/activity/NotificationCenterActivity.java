@@ -79,4 +79,5 @@ public class NotificationCenterActivity extends AppCompatActivity implements Not
         NotificationAdapter adapter = new NotificationAdapter(this, R.layout.waitlist_adapter, timeSlotList);
         mListView.setAdapter(adapter);
     }
+
 }

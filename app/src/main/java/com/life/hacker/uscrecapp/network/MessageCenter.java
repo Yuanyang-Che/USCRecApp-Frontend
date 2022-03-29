@@ -48,7 +48,9 @@ public class MessageCenter {
     private final String notification_uri = "http://realrecapp.herokuapp.com/service/notification";
 
 
-    private ConcurrentHashMap<Long, Context> callers = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, Context> task = new ConcurrentHashMap<>();
+
+    private ConcurrentHashMap<Long, BookingCaller> booking_task = new ConcurrentHashMap<>();
 
     private ConnectionCenter center = new ConnectionCenter();
 
@@ -65,13 +67,13 @@ public class MessageCenter {
     public void LoginRequest(String email, String password, Context context) {
         Datastructure.LoginRequest request = Datastructure.LoginRequest.newBuilder().setEmail(email).setPassword(password).build();
         long task_id = center.SendMessagePost(login_uri, request.toByteArray(), "");
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     public void SignupRequest(String email, String student_id, String username, String password, byte[] avatar, Context context) {
         Datastructure.SignupRequest request = Datastructure.SignupRequest.newBuilder().setEmail(email).setPassword(password).setUsername(username).setUscstudentid(student_id).setAvatar(ByteString.copyFrom(avatar)).build();
         long task_id = center.SendMessagePost(signup_uri, request.toByteArray(), "");
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     public void LogoutRequest(String user_token, Context context) {
@@ -81,43 +83,50 @@ public class MessageCenter {
 
     public void GetCenterlistRequest(Context context) {
         long task_id = center.SendMessageGet(centerlist_uri, "");
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     public void GetTimeslotOfCenterOnDateRequest(String center_name, String date, Context context) {
         Datastructure.TimeslotOnDateRequest request = Datastructure.TimeslotOnDateRequest.newBuilder().setCentername(center_name).setDate(date).build();
         long task_id = center.SendMessagePost(timeslotslist_uri, request.toByteArray(), SessionData.getInstance().getToken());
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     // yyyy-mm-dd, 08:00:00
     public void BookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(book_uri, request.toByteArray(), user_token);
-        callers.put(task_id, context);
+        booking_task.put(task_id, new BookingCaller(context, true));
+    }
+
+    // yyyy-mm-dd, 08:00:00
+    public void NotificationBookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
+        Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
+        long task_id = center.SendMessagePost(book_uri, request.toByteArray(), user_token);
+        booking_task.put(task_id, new BookingCaller(context, false));
     }
 
     public void CancelBookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(cancel_book_uri, request.toByteArray(), user_token);
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     public void CancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(cancel_waitlist_uri, request.toByteArray(), user_token);
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     public void WaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.WaitlistRequest request = Datastructure.WaitlistRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(waitlist_uri, request.toByteArray(), user_token);
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     public void HistoryRequest(String user_token, Context context) {
         long task_id = center.SendMessagePost(history_uri, new byte[0], user_token);
-        callers.put(task_id, context);
+        task.put(task_id, context);
     }
 
     public void NotificationRequest(String user_token) {
@@ -185,7 +194,7 @@ public class MessageCenter {
     }
 
     public void LoginResponse(Datastructure.LoginResponse response, long task_id) {
-        LoginActivity context = (LoginActivity) callers.get(task_id);
+        LoginActivity context = (LoginActivity) task.get(task_id);
         assert context != null;
 
         Datastructure.LoginResponse.Error error = response.getErr();
@@ -239,7 +248,7 @@ public class MessageCenter {
     }
 
     public void SignupResponse(Datastructure.SignupResponse response, long task_id) {
-        SignUpActivity context = (SignUpActivity) callers.get(task_id);
+        SignUpActivity context = (SignUpActivity) task.get(task_id);
         assert context != null;
 
         Datastructure.SignupResponse.Error error = response.getErr();
@@ -278,7 +287,7 @@ public class MessageCenter {
     }
 
     public void LogoutResponse(long task_id) {
-        MapsActivity context = (MapsActivity) callers.get(task_id);
+        MapsActivity context = (MapsActivity) task.get(task_id);
         logout(context);
     }
 
@@ -293,7 +302,7 @@ public class MessageCenter {
     }
 
     public void GetCenterlistResponse(Datastructure.CenterResponse response, long task_id) {
-        MapsActivity context = (MapsActivity) callers.get(task_id);
+        MapsActivity context = (MapsActivity) task.get(task_id);
         assert context != null;
 
         List<Datastructure.Center> centers = response.getCenterlistList();
@@ -307,7 +316,7 @@ public class MessageCenter {
     }
 
     public void GetTimeslotOfCenterOnDateResponse(Datastructure.TimeslotOnDateResponse response, long task_id) {
-        BookingActivity context = (BookingActivity) callers.get(task_id);
+        BookingActivity context = (BookingActivity) task.get(task_id);
         assert context != null;
 
         List<Datastructure.TimeslotUsernum> timeslots = response.getListList();
@@ -333,7 +342,16 @@ public class MessageCenter {
 
     public void BookResponse(Datastructure.BookResponse response, long task_id) {
         //TODO
-        BookingActivity context = (BookingActivity) callers.get(task_id);
+        BookingCaller caller = booking_task.get(task_id);
+
+        if(caller.is_from_booking) {
+            BookResponseFromBook(response, task_id, (BookingActivity)caller.c);
+        } else {
+            BookResponseFromNotification(response, task_id, (NotificationCenterActivity) caller.c);
+        }
+    }
+
+    private void BookResponseFromBook(Datastructure.BookResponse response, long task_id, BookingActivity context) {
         assert context != null;
 
         // if the error code means the user token is expired
@@ -343,8 +361,18 @@ public class MessageCenter {
         context.runOnUiThread(() -> context.jumpBackToMap(message));
     }
 
+    private void BookResponseFromNotification(Datastructure.BookResponse response, long task_id, NotificationCenterActivity context) {
+        assert context != null;
+
+        // if the error code means the user token is expired
+        // call LogoutResponse()
+        String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
+                "Book Success" : "Something went wrong, Error Code " + response.getErr().getNumber();
+        Util.takeToastMessage(context, message);
+    }
+
     public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
-        SummaryActivity context = (SummaryActivity) callers.get(task_id);
+        SummaryActivity context = (SummaryActivity) task.get(task_id);
         if (context != null) {
             context.refreshPage();
 
@@ -358,7 +386,7 @@ public class MessageCenter {
     }
 
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
-        NotificationCenterActivity context = (NotificationCenterActivity) callers.get(task_id);
+        NotificationCenterActivity context = (NotificationCenterActivity) task.get(task_id);
 
         if (context != null) {
             context.refreshPage();
@@ -374,7 +402,7 @@ public class MessageCenter {
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
         //TODO
-        BookingActivity context = (BookingActivity) callers.get(task_id);
+        BookingActivity context = (BookingActivity) task.get(task_id);
 
         if (context != null) {
             if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
@@ -406,7 +434,7 @@ public class MessageCenter {
     }
 
     public void HistoryResponse(Datastructure.HistoryResponse response, long task_id) {
-        SummaryActivity context = (SummaryActivity) callers.get(task_id);
+        SummaryActivity context = (SummaryActivity) task.get(task_id);
         assert context != null;
 
         List<Timeslot> timeslots = new ArrayList<>();
@@ -437,5 +465,15 @@ public class MessageCenter {
 
             NotificationQueue.getInstance().addTimeslot(new NotificationEntry(timeIndex, date, entry.getCentername()));
         }
+    }
+}
+
+class BookingCaller {
+    public Context c;
+    public boolean is_from_booking;
+
+    public BookingCaller(Context c, boolean is_from_booking) {
+        this.c = c;
+        this.is_from_booking = is_from_booking;
     }
 }
