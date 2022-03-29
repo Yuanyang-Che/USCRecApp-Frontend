@@ -32,7 +32,6 @@ public class NotificationCenterActivity extends AppCompatActivity {
         runOnUiThread(() -> Util.takeToastMessage(getApplicationContext(), message));
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
