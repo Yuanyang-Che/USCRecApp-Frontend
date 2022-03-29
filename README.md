@@ -44,7 +44,7 @@ API Level: 30, 31, 32
 
 * Waitlist: the fully booked timeslots are waitlist-able, the button on the right of the slot should display `Waitlist`. 
 
-* Booking failed: When too many people booking on the same timeslot, or you try to book a past timeslot, you will get a toast stating your book failed. Althogun 
+* Booking failed: When too many people booking on the same timeslot, or you try to book a past timeslot, you will get a toast pop up stating your booking failed. 
 
 ## Summary Page
 
