@@ -16,7 +16,9 @@ import com.life.hacker.uscrecapp.Notification.NotificationEntry;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
-import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
+import com.life.hacker.uscrecapp.activity.ConfirmBookFragment;
+import com.life.hacker.uscrecapp.activity.ConfirmNotificationBookFragment;
+import com.life.hacker.uscrecapp.activity.NotificationCenterActivity;
 import com.life.hacker.uscrecapp.model.Day;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
@@ -25,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
-    private Context mContext;
+    private NotificationCenterActivity mContext;
     private int mResource;
 
     private static class ViewHolder {
@@ -35,7 +37,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
         TextView center;
     }
 
-    public NotificationAdapter(Context context, int resource, List<NotificationEntry> objects) {
+    public NotificationAdapter(NotificationCenterActivity context, int resource, List<NotificationEntry> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -79,7 +81,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
         holder.bookBtn.setText("Book");
         holder.bookBtn.setOnClickListener(view -> {
             FragmentActivity fa = (FragmentActivity) mContext;
-            DialogFragment frag = new ConfirmActionFragment(new Timeslot(timeindex, 2, 0,
+            DialogFragment frag = new ConfirmNotificationBookFragment(new Timeslot(timeindex, 2, 0,
                     new Day(date, null, null), false, false, false),
                     getItem(position).getCenterName(), mContext);
             frag.show(fa.getSupportFragmentManager(), "confirm");
@@ -91,6 +93,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
             MessageCenter.getInstance().CancelWaitlistRequest(getItem(position).getCenterName(),
                     Util.formatDateToStardard(date), Util.formatTimeIndex(timeindex),
                     SessionData.getInstance().getToken(), mContext);
+            mContext.removeTimslot(timeindex, date, getItem(position).getCenterName());
         });
 
         return result;

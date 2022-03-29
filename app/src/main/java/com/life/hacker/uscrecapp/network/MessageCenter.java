@@ -50,7 +50,7 @@ public class MessageCenter {
 
     private ConcurrentHashMap<Long, Context> task = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<Long, BookingCaller> booking_task = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, BookCaller> book_task = new ConcurrentHashMap<>();
 
     private ConnectionCenter center = new ConnectionCenter();
 
@@ -96,14 +96,14 @@ public class MessageCenter {
     public void BookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(book_uri, request.toByteArray(), user_token);
-        booking_task.put(task_id, new BookingCaller(context, true));
+        book_task.put(task_id, new BookCaller(context, true));
     }
 
     // yyyy-mm-dd, 08:00:00
     public void NotificationBookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.BookRequest request = Datastructure.BookRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(book_uri, request.toByteArray(), user_token);
-        booking_task.put(task_id, new BookingCaller(context, false));
+        book_task.put(task_id, new BookCaller(context, false));
     }
 
     public void CancelBookRequest(String center_name, String date, String timeslot, String user_token, Context context) {
@@ -342,7 +342,7 @@ public class MessageCenter {
 
     public void BookResponse(Datastructure.BookResponse response, long task_id) {
         //TODO
-        BookingCaller caller = booking_task.get(task_id);
+        BookCaller caller = book_task.get(task_id);
 
         if(caller.is_from_booking) {
             BookResponseFromBook(response, task_id, (BookingActivity)caller.c);
@@ -368,7 +368,8 @@ public class MessageCenter {
         // call LogoutResponse()
         String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
                 "Book Success" : "Something went wrong, Error Code " + response.getErr().getNumber();
-        Util.takeToastMessage(context, message);
+        context.takeToastMessage(message);
+        context.recreateListView();
     }
 
     public void CancelBookResponse(Datastructure.CancelResponse response, long task_id) {
@@ -396,20 +397,18 @@ public class MessageCenter {
             } else {
                 context.takeToastMessage("Cancel Waitlist success");
             }
+
+            context.recreateListView();
         }
 
     }
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
-        //TODO
         BookingActivity context = (BookingActivity) task.get(task_id);
-
         if (context != null) {
-            if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
-                context.takeToastMessage("Something went wrong in waitListing this timeslot");
-            } else {
-                context.takeToastMessage("Waitlist success");
-            }
+            String message = response.getErr().getNumber() == Datastructure.BookResponse.Error.GOOD_VALUE ?
+                    "Book Success" : "Something went wrong, Error Code " + response.getErr().getNumber();
+            context.takeToastMessage(message);
             context.refreshPage();
         }
     }
@@ -468,11 +467,13 @@ public class MessageCenter {
     }
 }
 
-class BookingCaller {
+
+// we might call from different places
+class BookCaller {
     public Context c;
     public boolean is_from_booking;
 
-    public BookingCaller(Context c, boolean is_from_booking) {
+    public BookCaller(Context c, boolean is_from_booking) {
         this.c = c;
         this.is_from_booking = is_from_booking;
     }

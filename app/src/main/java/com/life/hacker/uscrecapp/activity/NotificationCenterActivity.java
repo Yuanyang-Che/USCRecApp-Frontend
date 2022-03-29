@@ -15,6 +15,7 @@ import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.adapter.NotificationAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Queue;
 
@@ -78,6 +79,19 @@ public class NotificationCenterActivity extends AppCompatActivity implements Not
         ListView mListView = findViewById(R.id.NotificationListView);
         NotificationAdapter adapter = new NotificationAdapter(this, R.layout.waitlist_adapter, timeSlotList);
         mListView.setAdapter(adapter);
+    }
+
+    public void removeTimslot(int timeIndex, Date d, String centername) {
+        NotificationEntry entry = new NotificationEntry(timeIndex, d, centername);
+        timeSlotList.remove(entry);
+    }
+
+    public void recreateListView() {
+        runOnUiThread(() -> {
+            ListView mListView = findViewById(R.id.NotificationListView);
+            NotificationAdapter adapter = new NotificationAdapter(this, R.layout.waitlist_adapter, timeSlotList);
+            mListView.setAdapter(adapter);
+        });
     }
 
 }
