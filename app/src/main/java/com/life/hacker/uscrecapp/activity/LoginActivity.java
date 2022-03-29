@@ -82,6 +82,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validate(String email, String userPassword) {
+
+        //Validate Email format first
+        if (!Util.validEmail(email)) {
+            runOnUiThread(() -> errorMsg.setText("Invalid Email Address"));
+            return;
+        }
         //TODO
 //        email = "test@usc.edu";
 //        userPassword = "pw";

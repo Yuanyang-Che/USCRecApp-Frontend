@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.widget.Toast;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -156,5 +158,8 @@ public class Util {
         editor.commit();
     }
 
-
+    public static boolean validEmail(String email) {
+        EmailValidator validator = EmailValidator.getInstance();
+        return validator.isValid(email);
+    }
 }

@@ -106,9 +106,13 @@ public class SignUpActivity extends AppCompatActivity {
     );
 
     private void signUp(String email, String id, String username, String pw) {
+        if (!Util.validEmail(email)) {
+            runOnUiThread(() -> errorMsg.setText("Invalid Email Address"));
+            return;
+        }
+
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         byte[] imageInByte = Util.compressBitMapToBytes(bitmap);
-
 
         //TODO
 //        email = "test@usc.edu";
