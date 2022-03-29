@@ -36,7 +36,7 @@ public class ConfirmWaitListFragment extends DialogFragment {
                 .setPositiveButton("Confirm", (dialog, id) -> {
                     // String center_name, String date, String timeslot, String user_token, Context context
                     // yyyy-mm-dd, 08:00:00
-                    Date today = Calendar.getInstance().getTime();
+                    Date today = t.getDay().getDate();
                     String dayString = Util.formatDateToStardard(today);
 
                     int time = t.getTimeIndex();
