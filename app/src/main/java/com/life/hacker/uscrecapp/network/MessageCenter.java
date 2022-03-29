@@ -321,7 +321,7 @@ public class MessageCenter {
 
         for (Datastructure.TimeslotUsernum t : timeslots) {
             int timeIndex = Integer.parseInt(t.getTimeslot().substring(0, 2));
-            if (requestDate.after(currDate) || timeIndex >= hours) {
+            if (requestDate.after(currDate) || timeIndex > hours) {
                 timeslotList.add(new Timeslot(timeIndex, Util.Capacity,
                         t.getUsernum(), new Day(requestDate, null, null), false,
                         t.getIsbooked(), t.getIswaitlisted()));
@@ -376,14 +376,13 @@ public class MessageCenter {
         //TODO
         BookingActivity context = (BookingActivity) callers.get(task_id);
 
-        if(context != null) {
-            context.refreshPage();
-
+        if (context != null) {
             if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
                 context.takeToastMessage("Something went wrong in waitListing this timeslot");
             } else {
                 context.takeToastMessage("Waitlist success");
             }
+            context.refreshPage();
         }
     }
 
