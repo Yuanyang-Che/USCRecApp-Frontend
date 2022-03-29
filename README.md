@@ -21,3 +21,19 @@ API Level: 30, 31, 32
 
 ## Google Maps
 
+* Marker: Centers will be displayed as the marker in the google map. To go to the center, simply clicking on the marker.
+
+## Booking page
+
+* For each timeslot, the maximum capacity is set to 2 for the simplicity of the testing.
+
+* You can only book the timeslots that is not in past.
+
+* Book button: you can book the timeslot simply click on the book button. After booking, app will ask you to confirm. Then, you will be directed to main map page with a toast indicating success.
+
+* Waitlist: if there is no empty timeslot, you can only waitlist on the spot.
+
+* Book failed: When too many people booking on the same timeslot, or you try to book a past timeslot, you will get a toast stating your book failed.
+
+## summary page
+
