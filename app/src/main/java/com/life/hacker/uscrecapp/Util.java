@@ -162,4 +162,9 @@ public class Util {
         EmailValidator validator = EmailValidator.getInstance();
         return validator.isValid(email);
     }
+
+    public static boolean validNetID(String netid) {
+        //length == 10 and all number
+        return (netid.length() == 10) && (netid.matches("[0-9]+"));
+    }
 }
