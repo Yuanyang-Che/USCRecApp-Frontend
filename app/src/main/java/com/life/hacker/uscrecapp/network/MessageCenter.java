@@ -6,8 +6,8 @@ import android.graphics.Bitmap;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.life.hacker.uscrecapp.NotificationEntry;
-import com.life.hacker.uscrecapp.NotificationQueue;
+import com.life.hacker.uscrecapp.Notification.NotificationEntry;
+import com.life.hacker.uscrecapp.Notification.NotificationQueue;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;

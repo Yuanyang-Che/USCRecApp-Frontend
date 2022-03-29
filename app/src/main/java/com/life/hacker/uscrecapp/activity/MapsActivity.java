@@ -14,6 +14,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.life.hacker.uscrecapp.Notification.NotificationListener;
+import com.life.hacker.uscrecapp.Notification.NotificationQueue;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
@@ -24,10 +26,10 @@ import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NotificationListener {
 
     private GoogleMap mMap;
-    private int notificationCount = 0;
+    private Button notificationButton;
 
 
     LatLng LyonCenter = new LatLng(34.02356070336721, -118.2887904971078);
@@ -65,6 +67,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NotificationQueue.getInstance().removeListener(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -79,8 +87,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button summaryButton = findViewById(R.id.goToSummaryButton);
         summaryButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, SummaryActivity.class)));
 
-        Button notificationButton = findViewById(R.id.goToNotificationButton);
-        notificationButton.setText("notification center (" + notificationCount + ")");
+        notificationButton = findViewById(R.id.goToNotificationButton);
+        notificationButton.setText("notification center (" + NotificationQueue.getInstance().getAndClearTimeslots().size() + ")");
         notificationButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, NotificationCenterActivity.class)));
 
         try{
@@ -99,7 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         MessageCenter.getInstance().GetCenterlistRequest(MapsActivity.this);
 
-
+        NotificationQueue.getInstance().addListener(this);
     }
 
     /**
@@ -121,6 +129,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.addMarker(new MarkerOptions().position(LyonCenter).title("Marker in LyonCenter"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LyonCenter, 15f));
 
+
+    }
+
+    @Override
+    public void OnNotification() {
+        runOnUiThread(() -> notificationButton.setText("notification center (" + NotificationQueue.getInstance().getTimeslots().size() + ")"));
 
     }
 }

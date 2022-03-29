@@ -1,4 +1,4 @@
-package com.life.hacker.uscrecapp;
+package com.life.hacker.uscrecapp.Notification;
 
 import java.util.Date;
 

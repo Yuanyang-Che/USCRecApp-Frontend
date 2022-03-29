@@ -12,13 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.life.hacker.uscrecapp.NotificationEntry;
+import com.life.hacker.uscrecapp.Notification.NotificationEntry;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
-import com.life.hacker.uscrecapp.activity.BookingActivity;
 import com.life.hacker.uscrecapp.activity.ConfirmActionFragment;
-import com.life.hacker.uscrecapp.activity.NotificationCenterActivity;
 import com.life.hacker.uscrecapp.model.Day;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
