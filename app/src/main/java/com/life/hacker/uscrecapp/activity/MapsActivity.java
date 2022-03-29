@@ -88,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         summaryButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, SummaryActivity.class)));
 
         notificationButton = findViewById(R.id.goToNotificationButton);
-        notificationButton.setText("notification center (" + NotificationQueue.getInstance().getAndClearTimeslots().size() + ")");
+        notificationButton.setText("notification center (" + NotificationQueue.getInstance().getTimeslots().size() + ")");
         notificationButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, NotificationCenterActivity.class)));
 
         try{
