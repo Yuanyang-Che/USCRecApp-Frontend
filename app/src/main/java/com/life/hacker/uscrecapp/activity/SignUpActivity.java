@@ -111,6 +111,21 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
+        if (!Util.validNetID(id)) {
+            runOnUiThread(() -> errorMsg.setText("Invalid Net ID"));
+            return;
+        }
+
+        if (username.isEmpty()) {
+            runOnUiThread(() -> errorMsg.setText("Invalid Username"));
+            return;
+        }
+
+        if (pw.isEmpty()) {
+            runOnUiThread(() -> errorMsg.setText("Invalid password"));
+            return;
+        }
+
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         byte[] imageInByte = Util.compressBitMapToBytes(bitmap);
 
