@@ -3,10 +3,10 @@ package com.life.hacker.uscrecapp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +25,7 @@ import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText email;
@@ -94,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
                         //image picked
                         //get uri of image
                         Intent data = result.getData();
-                        Uri imageUri = data.getData();
+                        Uri imageUri = Objects.requireNonNull(data).getData();
 
                         imageView.setImageURI(imageUri);
                     } else {
@@ -147,7 +148,8 @@ public class SignUpActivity extends AppCompatActivity {
             uri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), uri);
+                Bitmap bitmap = ImageDecoder.decodeBitmap(source);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException fnfe) {
                 fnfe.printStackTrace();
