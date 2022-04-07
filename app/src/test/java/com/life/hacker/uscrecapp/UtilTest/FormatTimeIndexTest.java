@@ -8,18 +8,21 @@ import org.junit.Test;
 
 public class FormatTimeIndexTest {
     @Test
-    public void timeFormatTestLessThan10() {
-        assertEquals(Util.formatTimeIndex(1), "01:00:00");
-        assertEquals(Util.formatTimeIndex(2), "02:00:00");
-        assertEquals(Util.formatTimeIndex(3), "03:00:00");
-        assertEquals(Util.formatTimeIndex(4), "04:00:00");
+    public void timeFormatTestNotAfterNoon() {
+        assertEquals("01:00:00", Util.formatTimeIndex(1));
+        assertEquals("03:00:00", Util.formatTimeIndex(3));
+        assertEquals("05:00:00", Util.formatTimeIndex(5));
+        assertEquals("07:00:00", Util.formatTimeIndex(7));
+        assertEquals("12:00:00", Util.formatTimeIndex(12));
+
     }
 
     @Test
-    public void timeFormatTestGreaterThan10() {
-        assertEquals(Util.formatTimeIndex(13), "13:00:00");
-        assertEquals(Util.formatTimeIndex(11), "11:00:00");
-        assertEquals(Util.formatTimeIndex(10), "10:00:00");
-        assertEquals(Util.formatTimeIndex(18), "18:00:00");
+    public void timeFormatTestAfterNoon() {
+        assertEquals("13:00:00", Util.formatTimeIndex(13));
+        assertEquals("15:00:00", Util.formatTimeIndex(15));
+        assertEquals("23:00:00", Util.formatTimeIndex(23));
+        assertEquals("18:00:00", Util.formatTimeIndex(18));
+        assertEquals("12:00:00", Util.formatTimeIndex(12));
     }
 }
