@@ -55,8 +55,8 @@ public class BookingActivity extends FragmentActivity {
 
     public void refreshPage() {
         runOnUiThread(() -> {
-            dateText.setText(Util.formatDateToStardard(currentDate));
-            String currDateStr = Util.formatDateToStardard(currentDate);
+            dateText.setText(Util.formatDateToStandard(currentDate));
+            String currDateStr = Util.formatDateToStandard(currentDate);
             MessageCenter.getInstance().GetTimeslotOfCenterOnDateRequest(centerName, currDateStr, BookingActivity.this);
         });
     }

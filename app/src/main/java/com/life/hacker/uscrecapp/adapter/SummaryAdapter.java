@@ -51,7 +51,7 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Date date = getItem(position).getDay().getDate();
-        String dateString = Util.formatDateToStardard(date);
+        String dateString = Util.formatDateToStandard(date);
 
         int timeindex = getItem(position).getTimeIndex();
         boolean isPast = getItem(position).isPast();
@@ -90,7 +90,7 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
             holder.btn.setOnClickListener(view -> {
                 //TODO
                 String loc = getItem(position).getDay().getCenter().getName();
-                String dateStr = Util.formatDateToStardard(getItem(position).getDay().getDate());
+                String dateStr = Util.formatDateToStandard(getItem(position).getDay().getDate());
                 int timeIdx = getItem(position).getTimeIndex();
 
                 String timeIdxStr = Util.formatTimeIndex(timeIdx);

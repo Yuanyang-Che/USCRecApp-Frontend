@@ -58,7 +58,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
     public View getView(int position, View convertView, ViewGroup parent) {
         //get the timeslot information
         Date today = getItem(position).getDay().getDate();
-        String todayAsString = Util.formatDateToStardard(today);
+        String todayAsString = Util.formatDateToStandard(today);
 
         int timeindex = getItem(position).getTimeIndex();
         boolean isBookable = getItem(position).isBookable();

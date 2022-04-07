@@ -60,7 +60,7 @@ public class Util {
      * @param date
      * @return
      */
-    public static String formatDateToStardard(Date date) {
+    public static String formatDateToStandard(Date date) {
         return formatDate(date, "yyyy-MM-dd");
     }
 

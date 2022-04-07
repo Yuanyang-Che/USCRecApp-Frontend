@@ -1,6 +1,5 @@
 package com.life.hacker.uscrecapp.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.life.hacker.uscrecapp.Notification.NotificationEntry;
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
-import com.life.hacker.uscrecapp.activity.ConfirmBookFragment;
 import com.life.hacker.uscrecapp.activity.ConfirmNotificationBookFragment;
 import com.life.hacker.uscrecapp.activity.NotificationCenterActivity;
 import com.life.hacker.uscrecapp.model.Day;
@@ -48,7 +46,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Date date = getItem(position).getD();
-        String dateString = Util.formatDateToStardard(date);
+        String dateString = Util.formatDateToStandard(date);
 
         int timeindex = getItem(position).getTimeIndex();
         // ------------------------------------------------------
@@ -91,7 +89,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
         holder.cancelBtn.setOnClickListener(view -> {
             // CancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context)
             MessageCenter.getInstance().CancelWaitlistRequest(getItem(position).getCenterName(),
-                    Util.formatDateToStardard(date), Util.formatTimeIndex(timeindex),
+                    Util.formatDateToStandard(date), Util.formatTimeIndex(timeindex),
                     SessionData.getInstance().getToken(), mContext);
             mContext.removeTimslot(timeindex, date, getItem(position).getCenterName());
         });

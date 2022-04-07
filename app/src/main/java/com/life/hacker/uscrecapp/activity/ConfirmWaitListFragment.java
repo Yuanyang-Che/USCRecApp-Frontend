@@ -12,7 +12,6 @@ import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Timeslot;
 import com.life.hacker.uscrecapp.network.MessageCenter;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class ConfirmWaitListFragment extends DialogFragment {
@@ -37,7 +36,7 @@ public class ConfirmWaitListFragment extends DialogFragment {
                     // String center_name, String date, String timeslot, String user_token, Context context
                     // yyyy-mm-dd, 08:00:00
                     Date today = t.getDay().getDate();
-                    String dayString = Util.formatDateToStardard(today);
+                    String dayString = Util.formatDateToStandard(today);
 
                     int time = t.getTimeIndex();
                     MessageCenter.getInstance().WaitlistRequest(centerName, dayString, Util.formatTimeIndex(time),

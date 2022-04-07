@@ -2,7 +2,6 @@ package com.life.hacker.uscrecapp.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -34,7 +33,7 @@ public class ConfirmNotificationBookFragment extends DialogFragment {
         builder.setMessage("Are you sure you want to Book this time?")
                 .setPositiveButton("Confirm", (dialog, id) -> {
                     Date today = t.getDay().getDate();
-                    String dayString = Util.formatDateToStardard(today);
+                    String dayString = Util.formatDateToStandard(today);
 
                     int time = t.getTimeIndex();
                     MessageCenter.getInstance().NotificationBookRequest(centerName, dayString, Util.formatTimeIndex(time),

@@ -34,7 +34,7 @@ public class ConfirmBookFragment extends DialogFragment {
         builder.setMessage("Are you sure you want to Book this time?")
                 .setPositiveButton("Confirm", (dialog, id) -> {
                     Date today = t.getDay().getDate();
-                    String dayString = Util.formatDateToStardard(today);
+                    String dayString = Util.formatDateToStandard(today);
 
                     int time = t.getTimeIndex();
                     MessageCenter.getInstance().BookRequest(centerName, dayString, Util.formatTimeIndex(time),
