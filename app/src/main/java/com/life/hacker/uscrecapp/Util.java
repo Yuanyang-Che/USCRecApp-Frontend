@@ -29,7 +29,7 @@ public class Util {
         return (timeIdx < 10 ? "0" : "") + timeIdx + ":00:00";
     }
 
-    public static String convertTimeIdxToHour(int timeindex) {
+    public static String convertTimeIndexToHour(int timeindex) {
         return timeindex + ":00 - " + (timeindex + 1) + ":00";
     }
 
