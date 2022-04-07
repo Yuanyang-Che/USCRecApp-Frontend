@@ -6,7 +6,7 @@ import com.life.hacker.uscrecapp.Util;
 
 import org.junit.Test;
 
-public class TimeIndexFormatTest {
+public class FormatTimeIndexTest {
     @Test
     public void timeFormatTestLessThan10() {
         assertEquals(Util.formatTimeIndex(1), "01:00:00");

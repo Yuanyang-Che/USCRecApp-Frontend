@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateFormatTest {
+public class FormatDateToStardardTest {
     @Test
     public void dateFormatTest() {
         Date date = null;
