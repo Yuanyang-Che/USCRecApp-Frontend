@@ -86,7 +86,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         result = convertView;
 
         holder.date.setText(todayAsString);
-        holder.timeslot.setText(Util.convertTimeIdxToHour(timeindex));
+        holder.timeslot.setText(Util.convertTimeIndexToHour(timeindex));
         BookingActivity ba = (BookingActivity) mContext;
         holder.centerName.setText(ba.getCenterName());
 
