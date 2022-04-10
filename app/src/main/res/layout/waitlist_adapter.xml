@@ -10,7 +10,7 @@
     android:weightSum="100">
 
     <Button
-        android:id="@+id/waitlistAdapterBookBtn"
+        android:id="@+id/waitlistAdapterButtonBook"
         android:layout_width="match_parent"
         android:layout_height="95dp"
         android:layout_weight="38.6"
@@ -25,21 +25,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/waitlistAdapterDateTv"
+            android:id="@+id/waitlistAdapterTextViewDate"
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:gravity="center"
             android:text="March 17, 2022" />
 
         <TextView
-            android:id="@+id/waitlistAdapterCenterTv"
+            android:id="@+id/waitlistAdapterTextViewCenter"
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:gravity="center"
             android:text="USC Village Fitness Center" />
 
         <TextView
-            android:id="@+id/waitlistAdapterTimeIdxTv"
+            android:id="@+id/waitlistAdapterTextViewTimeIndex"
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:gravity="center"
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/waitlistAdapterCancelBtn"
+        android:id="@+id/waitlistAdapterButtonCancel"
         android:layout_width="match_parent"
         android:layout_height="95dp"
         android:layout_weight="34.3"

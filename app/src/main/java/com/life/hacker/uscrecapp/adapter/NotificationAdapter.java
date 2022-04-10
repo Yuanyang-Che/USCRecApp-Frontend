@@ -60,11 +60,11 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
             holder = new NotificationAdapter.ViewHolder();
-            holder.bookBtn = convertView.findViewById(R.id.waitlistAdapterBookBtn);
-            holder.cancelBtn = convertView.findViewById(R.id.waitlistAdapterCancelBtn);
-            holder.date = convertView.findViewById(R.id.waitlistAdapterDateTv);
-            holder.timeslot = convertView.findViewById(R.id.waitlistAdapterTimeIdxTv);
-            holder.center = convertView.findViewById(R.id.waitlistAdapterCenterTv);
+            holder.bookBtn = convertView.findViewById(R.id.waitlistAdapterButtonBook);
+            holder.cancelBtn = convertView.findViewById(R.id.waitlistAdapterButtonCancel);
+            holder.date = convertView.findViewById(R.id.waitlistAdapterTextViewDate);
+            holder.timeslot = convertView.findViewById(R.id.waitlistAdapterTextViewTimeIndex);
+            holder.center = convertView.findViewById(R.id.waitlistAdapterTextViewCenter);
             convertView.setTag(holder);
         } else {
             holder = (NotificationAdapter.ViewHolder) convertView.getTag();

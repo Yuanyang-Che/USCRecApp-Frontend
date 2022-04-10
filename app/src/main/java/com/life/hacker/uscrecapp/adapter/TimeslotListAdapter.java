@@ -75,10 +75,10 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
             holder = new ViewHolder();
-            holder.btn = convertView.findViewById(R.id.timeSlotAdapterBookBtn);
-            holder.date = convertView.findViewById(R.id.timeslotAdapterDateTv);
-            holder.timeslot = convertView.findViewById(R.id.timeslotAdapterTimeIdxTv);
-            holder.centerName = convertView.findViewById(R.id.timeslotAdapterCenterTv);
+            holder.btn = convertView.findViewById(R.id.timeSlotAdapterButtonBook);
+            holder.date = convertView.findViewById(R.id.timeslotAdapterTextViewDate);
+            holder.timeslot = convertView.findViewById(R.id.timeslotAdapterTextViewTimeIndex);
+            holder.centerName = convertView.findViewById(R.id.timeslotAdapterTextViewCenter);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
