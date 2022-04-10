@@ -81,7 +81,7 @@ public class NotificationCenterActivity extends AppCompatActivity implements Not
         mListView.setAdapter(adapter);
     }
 
-    public void removeTimslot(int timeIndex, Date d, String centername) {
+    public void removeTimeslot(int timeIndex, Date d, String centername) {
         NotificationEntry entry = new NotificationEntry(timeIndex, d, centername);
         timeSlotList.remove(entry);
     }

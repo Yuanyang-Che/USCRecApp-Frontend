@@ -39,7 +39,7 @@ public class ConfirmNotificationBookFragment extends DialogFragment {
                     MessageCenter.getInstance().NotificationBookRequest(centerName, dayString, Util.formatTimeIndex(time),
                             SessionData.getInstance().getToken(), mContext);
 
-                    mContext.removeTimslot(time, today, centerName);
+                    mContext.removeTimeslot(time, today, centerName);
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> {
                     // User cancelled the dialog
