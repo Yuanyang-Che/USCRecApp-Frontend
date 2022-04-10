@@ -15,7 +15,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/loginEditTextEmail"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +23,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.245" />
+        app:layout_constraintVertical_bias="0.245"
+        android:autofillHints="@string/loginEditTextEmail" />
 
     <EditText
         android:id="@+id/loginEditTextPassword"
@@ -34,7 +35,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/loginEditTextPassword"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +43,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginEditTextEmail"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="0.093"
+        android:autofillHints="123" />
 
     <TextView
         android:id="@+id/loginTextViewErrorMessage"
@@ -66,7 +68,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Login"
+        android:text="@string/loginButtonLogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -81,7 +83,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="New to Our App?"
+        android:text="@string/loginButtonToSignUp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
