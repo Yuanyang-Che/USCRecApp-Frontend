@@ -9,7 +9,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/PopupConfirmButtonConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -18,7 +18,7 @@
         android:text="Confirm Book" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/PopupConfirmButtonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"

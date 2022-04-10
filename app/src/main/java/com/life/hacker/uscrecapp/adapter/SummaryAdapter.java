@@ -66,10 +66,10 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
             holder = new SummaryAdapter.ViewHolder();
-            holder.btn = convertView.findViewById(R.id.timeSlotAdapterBookBtn);
-            holder.date = convertView.findViewById(R.id.timeslotAdapterDateTv);
-            holder.timeslot = convertView.findViewById(R.id.timeslotAdapterTimeIdxTv);
-            holder.center = convertView.findViewById(R.id.timeslotAdapterCenterTv);
+            holder.btn = convertView.findViewById(R.id.timeSlotAdapterButtonBook);
+            holder.date = convertView.findViewById(R.id.timeslotAdapterTextViewDate);
+            holder.timeslot = convertView.findViewById(R.id.timeslotAdapterTextViewTimeIndex);
+            holder.center = convertView.findViewById(R.id.timeslotAdapterTextViewCenter);
             convertView.setTag(holder);
         } else {
             holder = (SummaryAdapter.ViewHolder) convertView.getTag();
