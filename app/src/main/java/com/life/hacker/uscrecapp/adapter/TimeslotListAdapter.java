@@ -90,6 +90,34 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         BookingActivity ba = (BookingActivity) mContext;
         holder.centerName.setText(ba.getCenterName());
 
+        if (isBooked) {
+            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
+            holder.btn.setText("Booked");
+
+            holder.btn.setOnClickListener(view -> { });
+
+            return result;
+        }
+
+        if (isBookable) {
+            //user waitlisted for this and this slot is free
+            if (isWaitListed) {
+                holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
+                holder.btn.setText("Book(Waitlisted)");
+            //user didn't waitlist for this and this is free
+            } else {
+                holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
+                holder.btn.setText("Book");
+            }
+            holder.btn.setOnClickListener(view -> {
+                FragmentActivity fa = (FragmentActivity) mContext;
+                DialogFragment frag = new ConfirmBookFragment(getItem(position), ba.getCenterName(), mContext);
+                frag.show(fa.getSupportFragmentManager(), "confirm");
+            });
+            return result;
+        }
+
+        //Not bookable, but user waitlisted
         if (isWaitListed) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText("Waitlisted");
@@ -97,30 +125,14 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             return result;
         }
 
-        if (isBooked) {
-            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.btn.setText("Booked");
-
-            holder.btn.setOnClickListener(view -> { });
-        } else {
-            if (isBookable) {
-                holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
-                holder.btn.setText("Book");
-                holder.btn.setOnClickListener(view -> {
-                    FragmentActivity fa = (FragmentActivity) mContext;
-                    DialogFragment frag = new ConfirmBookFragment(getItem(position), ba.getCenterName(), mContext);
-                    frag.show(fa.getSupportFragmentManager(), "confirm");
-                });
-            } else {
-                holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
-                holder.btn.setText("Waitlist");
-                holder.btn.setOnClickListener(view -> {
-                    FragmentActivity fa = (FragmentActivity) mContext;
-                    DialogFragment frag = new ConfirmWaitListFragment(getItem(position), ba.getCenterName(), mContext);
-                    frag.show(fa.getSupportFragmentManager(), "confirm");
-                });
-            }
-        }
+        //Not Waitlisted nor bookable
+        holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
+        holder.btn.setText("Waitlist");
+        holder.btn.setOnClickListener(view -> {
+            FragmentActivity fa = (FragmentActivity) mContext;
+            DialogFragment frag = new ConfirmWaitListFragment(getItem(position), ba.getCenterName(), mContext);
+            frag.show(fa.getSupportFragmentManager(), "confirm");
+        });
 
         return result;
     }
