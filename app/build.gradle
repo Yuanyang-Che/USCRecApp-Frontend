@@ -48,6 +48,7 @@ dependencies {
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.7'
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
     androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
