@@ -7,7 +7,7 @@
     tools:context=".activity.SignUpActivity">
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/signUpEditTextEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -27,7 +27,7 @@
         app:layout_constraintVertical_bias="0.1" />
 
     <EditText
-        android:id="@+id/etUscId"
+        android:id="@+id/signUpEditTextNetID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -41,11 +41,11 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintTop_toBottomOf="@id/signUpEditTextEmail"
         app:layout_constraintVertical_bias="0.1" />
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/signUpEditTextUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -59,11 +59,11 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUscId"
+        app:layout_constraintTop_toBottomOf="@id/signUpEditTextNetID"
         app:layout_constraintVertical_bias="0.1" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/signUpEditTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -76,7 +76,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUsername"
+        app:layout_constraintTop_toBottomOf="@id/signUpEditTextUsername"
         app:layout_constraintVertical_bias="0.1" />
 
     <TextView
@@ -88,13 +88,13 @@
         android:layout_marginEnd="177dp"
         android:layout_marginBottom="23dp"
         android:textColor="#E40505"
-        app:layout_constraintBottom_toTopOf="@+id/etAvatar"
+        app:layout_constraintBottom_toTopOf="@+id/signUpImageViewAvatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpEditTextPassword" />
 
     <ImageView
-        android:id="@+id/etAvatar"
+        android:id="@+id/signUpImageViewAvatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -107,29 +107,29 @@
         android:minWidth="125dp"
         android:minHeight="125dp"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+        app:layout_constraintBottom_toTopOf="@+id/signUpButtonSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword"
+        app:layout_constraintTop_toBottomOf="@+id/signUpEditTextPassword"
         app:srcCompat="@drawable/avatar_sample" />
 
     <Button
-        android:id="@+id/btnSignUp"
+        android:id="@+id/signUpButtonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:text="Sign Up"
-        app:layout_constraintBottom_toBottomOf="@id/btnToLogin"
+        app:layout_constraintBottom_toBottomOf="@id/signUpButtonToLogin"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/signUpImageViewAvatar"
         app:layout_constraintVertical_bias="0" />
 
     <Button
-        android:id='@+id/btnToLogin'
+        android:id='@+id/signUpButtonToLogin'
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -140,7 +140,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/signUpButtonSignUp"
         app:layout_constraintVertical_bias="0.3" />
 
 

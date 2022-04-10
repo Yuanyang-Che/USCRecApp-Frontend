@@ -45,12 +45,12 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        email = findViewById(R.id.etEmail);
-        uscid = findViewById(R.id.etUscId);
-        username = findViewById(R.id.etUsername);
-        password = findViewById(R.id.etPassword);
+        email = findViewById(R.id.signUpEditTextEmail);
+        uscid = findViewById(R.id.signUpEditTextNetID);
+        username = findViewById(R.id.signUpEditTextUsername);
+        password = findViewById(R.id.signUpEditTextPassword);
 
-        signUp = findViewById(R.id.btnSignUp);
+        signUp = findViewById(R.id.signUpButtonSignUp);
         signUp.setOnClickListener(view ->
                 signUp(email.getText().toString(),
                         uscid.getText().toString(),
@@ -59,11 +59,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         errorMsg = findViewById(R.id.signupErrorMsg);
 
-        toLogin = findViewById(R.id.btnToLogin);
+        toLogin = findViewById(R.id.signUpButtonToLogin);
         toLogin.setOnClickListener(view -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
 
 
-        imageView = findViewById(R.id.etAvatar);
+        imageView = findViewById(R.id.signUpImageViewAvatar);
         imageView.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");

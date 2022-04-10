@@ -17,7 +17,7 @@
         android:layout_marginTop="112dp" />
 
     <Button
-        android:id="@+id/backtoMapButton"
+        android:id="@+id/bookingButtonBacktoMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -25,7 +25,7 @@
         android:text="Back to Map" />
 
     <TextView
-        android:id="@+id/centerName"
+        android:id="@+id/bookingTextViewCenterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -34,7 +34,7 @@
         android:text="" />
 
     <Button
-        android:id="@+id/prevDay"
+        android:id="@+id/bookingButtonPrevDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="65dp"
@@ -43,7 +43,7 @@
         android:text="Prev" />
 
     <Button
-        android:id="@+id/nextDay"
+        android:id="@+id/bookingButtonNextDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="260dp"
@@ -52,7 +52,7 @@
         android:text="Next" />
 
     <TextView
-        android:id="@+id/selectedDate"
+        android:id="@+id/bookingTextViewSelectedDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

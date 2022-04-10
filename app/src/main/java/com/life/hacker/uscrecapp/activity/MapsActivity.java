@@ -76,23 +76,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_map);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapFragmentMap);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        Button summaryButton = findViewById(R.id.goToSummaryButton);
+        Button summaryButton = findViewById(R.id.mapButtonGoToSummary);
         summaryButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, SummaryActivity.class)));
 
-        notificationButton = findViewById(R.id.goToNotificationButton);
+        notificationButton = findViewById(R.id.mapButtonGoToNotification);
         notificationButton.setText("notification center (" + NotificationQueue.getInstance().getTimeslots().size() + ")");
         notificationButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, NotificationCenterActivity.class)));
 
         try{
-            ImageView avatar = findViewById(R.id.Avatar);
+            ImageView avatar = findViewById(R.id.mapImageViewAvatar);
             User u = SessionData.getInstance().getUser();
             avatar.setImageBitmap(SessionData.getInstance().getUser().getAvatar());
         }
@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        Button logoutBtn = findViewById(R.id.logoutButton);
+        Button logoutBtn = findViewById(R.id.mapButtonLogout);
         logoutBtn.setOnClickListener(view -> {
             MessageCenter.getInstance().LogoutRequest(SessionData.getInstance().getToken(), MapsActivity.this);
         });

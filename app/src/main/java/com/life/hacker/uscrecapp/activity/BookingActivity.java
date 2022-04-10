@@ -79,11 +79,11 @@ public class BookingActivity extends FragmentActivity {
 
         currentDate = Calendar.getInstance().getTime();
 
-        backtoMapButton = findViewById(R.id.backtoMapButton);
+        backtoMapButton = findViewById(R.id.bookingButtonBacktoMap);
 
-        prevDayButton = findViewById(R.id.prevDay);
-        nextDayButton = findViewById(R.id.nextDay);
-        dateText = findViewById(R.id.selectedDate);
+        prevDayButton = findViewById(R.id.bookingButtonPrevDay);
+        nextDayButton = findViewById(R.id.bookingButtonNextDay);
+        dateText = findViewById(R.id.bookingTextViewSelectedDate);
 
         prevDayButton.setOnClickListener(view -> {
             Calendar cal = Calendar.getInstance();
@@ -105,7 +105,7 @@ public class BookingActivity extends FragmentActivity {
             refreshPage();
         }
 
-        TextView center_name_text = findViewById(R.id.centerName);
+        TextView center_name_text = findViewById(R.id.bookingTextViewCenterName);
         SpannableString spanString = new SpannableString(centerName);
         spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
         center_name_text.setText(spanString);

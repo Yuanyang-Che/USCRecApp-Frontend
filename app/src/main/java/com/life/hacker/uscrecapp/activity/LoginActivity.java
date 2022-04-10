@@ -34,11 +34,11 @@ public class LoginActivity extends AppCompatActivity {
             MessageCenter.getInstance().loginSuccess(LoginActivity.this);
         }
 
-        email = findViewById(R.id.etEmail);
-        password = findViewById(R.id.etPassword);
-        login = findViewById(R.id.btnLogin);
-        toSignUp = findViewById(R.id.btnToSignUp);
-        errorMsg = findViewById(R.id.loginErrorMsg);
+        email = findViewById(R.id.loginEditTextEmail);
+        password = findViewById(R.id.loginEditTextPassword);
+        login = findViewById(R.id.loginButtonLogin);
+        toSignUp = findViewById(R.id.loginButtonToSignUp);
+        errorMsg = findViewById(R.id.loginTextViewErrorMessage);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
