@@ -91,7 +91,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
             MessageCenter.getInstance().CancelWaitlistRequest(getItem(position).getCenterName(),
                     Util.formatDateToStandard(date), Util.formatTimeIndex(timeindex),
                     SessionData.getInstance().getToken(), mContext);
-            mContext.removeTimslot(timeindex, date, getItem(position).getCenterName());
+            mContext.removeTimeslot(timeindex, date, getItem(position).getCenterName());
         });
 
         return result;
