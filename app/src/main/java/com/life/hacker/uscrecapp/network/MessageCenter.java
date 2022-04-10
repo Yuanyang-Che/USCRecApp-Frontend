@@ -283,6 +283,10 @@ public class MessageCenter {
         SessionData.getInstance().setUser(email, username, netid, avatar);
         SessionData.getInstance().setToken(token);
 
+        if (!NotificationCenter.GetInstance().IsStart()) {
+            NotificationCenter.GetInstance().Start();
+        }
+
         context.startActivity(new Intent(context, MapsActivity.class));
     }
 
