@@ -390,8 +390,6 @@ public class MessageCenter {
         NotificationCenterActivity context = (NotificationCenterActivity) task.get(task_id);
 
         if (context != null) {
-            context.refreshPage();
-
             if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
                 context.takeToastMessage("Something went wrong in cancellation");
             } else {
@@ -400,7 +398,6 @@ public class MessageCenter {
 
             context.recreateListView();
         }
-
     }
 
     public void WaitlistResponse(Datastructure.WaitlistResponse response, long task_id) {
