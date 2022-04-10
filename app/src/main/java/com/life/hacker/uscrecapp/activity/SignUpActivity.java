@@ -57,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
                         username.getText().toString(),
                         password.getText().toString()));
 
-        errorMsg = findViewById(R.id.signupErrorMsg);
+        errorMsg = findViewById(R.id.signUpTextViewErrorMessage);
 
         toLogin = findViewById(R.id.signUpButtonToLogin);
         toLogin.setOnClickListener(view -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
