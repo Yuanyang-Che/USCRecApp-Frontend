@@ -63,6 +63,7 @@ public class LoginTest {
     @Test
     public void loginTestEmptyPassword() {
         onView(withId(R.id.loginEditTextEmail)).perform(typeText("test@usc.edu"));
+        onView(withId(R.id.loginButtonLogin)).perform(click());
         onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidPassword)));
     }
 
@@ -70,6 +71,7 @@ public class LoginTest {
     public void loginTestWrongEmail() {
         onView(withId(R.id.loginEditTextEmail)).perform(typeText("test@usc.edu"));
         onView(withId(R.id.loginEditTextPassword)).perform(typeText("wrong pw"));
+        onView(withId(R.id.loginButtonLogin)).perform(click());
         onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText("Incorrect Email or password")));
     }
 
