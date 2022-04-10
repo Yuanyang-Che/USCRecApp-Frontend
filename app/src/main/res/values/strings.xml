@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">USCRecApp</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="loginInvalidPassword">Invalid password</string>
+    <string name="loginInvalidEmail">Invalid Email Address</string>
 </resources>
