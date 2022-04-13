@@ -1,7 +1,5 @@
 package com.life.hacker.uscrecapp.model;
 
-import com.life.hacker.uscrecapp.network.MessageCenter;
-
 import java.util.List;
 
 public class MapData {
@@ -24,9 +22,11 @@ public class MapData {
     }
 
     public Center findCenterByName(String name) {
-        for (Center c : centers) {
-            if (c.getName().equals(name)) {
-                return c;
+        if (centers != null && !centers.isEmpty()) {
+            for (Center c : centers) {
+                if (c.getName().equals(name)) {
+                    return c;
+                }
             }
         }
         return null;
