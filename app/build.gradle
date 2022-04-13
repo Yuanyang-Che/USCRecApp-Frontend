@@ -22,6 +22,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -29,6 +32,10 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+
+    testOptions {
+        animationsDisabled = true
     }
 }
 
@@ -50,6 +57,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
+    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
     androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.4.0"
@@ -68,8 +76,7 @@ protobuf {
         // You still need protoc like in the non-Android case
         if (project.hasProperty('protoc_platform')) {
             artifact = "com.google.protobuf:protoc:3.13.0:${protoc_platform}"
-        }
-        else {
+        } else {
             artifact = "com.google.protobuf:protoc:3.13.0"
         }
     }
@@ -78,8 +85,7 @@ protobuf {
             // The codegen for lite comes as a separate artifact
             if (project.hasProperty('protoc_platform')) {
                 artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0:${protoc_platform}"
-            }
-            else {
+            } else {
                 artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
             }
         }
