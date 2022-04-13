@@ -152,11 +152,9 @@ public class BookingTest {
             for (i = 0; i < 10; ++i) {
                 try {
                     onData(anything()).inAdapterView(withId(R.id.bookingListView)).atPosition(i).onChildView(withId(R.id.timeSlotAdapterButtonBook))
-                            .check(matches(anyOf(withText("Book"), withText("Book(Waitlisted)"))));
+                            .check(matches(anyOf(withText(R.string.bookingButtonBook), withText(R.string.bookingButtonBookAndWaitlisted))));
 
                     d = onData(anything()).inAdapterView(withId(R.id.bookingListView)).atPosition(i);
-                    //d.onChildView(withId(R.id.timeslotAdapterTextViewDate));
-                    //bookedDateString = getText((withId(R.id.timeslotAdapterTextViewDate)));
 
                     break;
                 } catch (Exception | AssertionError ignored) { }
@@ -169,6 +167,7 @@ public class BookingTest {
 
         //Click on book btn
         d.onChildView(withId(R.id.timeSlotAdapterButtonBook)).perform(click());
+        waitAndSleep();
 
         //Check confirm dialog is up
         onView(withText(R.string.confirmBookingMessage)).check(matches(isDisplayed()));
