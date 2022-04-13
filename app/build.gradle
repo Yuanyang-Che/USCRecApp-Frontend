@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'com.google.protobuf' version '0.8.12'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'jacoco'
 }
 
 android {
@@ -101,6 +102,38 @@ protobuf {
             }
             task.plugins {
                 javalite {}
+            }
+        }
+    }
+}
+
+// jacoco
+def coverageSourceDirs = [
+        'src/main/java',
+]
+
+jacoco {
+    toolVersion "0.7.1.201405082137"
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "connectedDebugAndroidTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    getClassDirectories().setFrom(fileTree(
+            dir: './build/intermediates/classes/debug',
+            excludes: ['**/R*.class',
+                       '**/*$InjectAdapter.class',
+                       '**/*$ModuleAdapter.class',
+                       '**/*$ViewInjector*.class'
+            ]))
+    getSourceDirectories().setFrom(files(coverageSourceDirs))
+    getExecutionData().setFrom(files("$buildDir/jacoco/testDebug.exec"))
+    // Bit hacky but fixes https://code.google.com/p/android/issues/detail?id=69174.
+    // We iterate through the compiled .class tree and rename $$ to $.
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
             }
         }
     }

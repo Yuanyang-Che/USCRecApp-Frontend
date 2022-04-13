@@ -136,10 +136,9 @@ public class SignUpTest {
         closeSoftKeyboard();
         onView(withId(R.id.signUpEditTextUsername)).perform(typeText("username"));
         closeSoftKeyboard();
-        onView(withId(R.id.signUpEditTextUsername)).perform(typeText("123"));
+        onView(withId(R.id.signUpEditTextPassword)).perform(typeText("123"));
         closeSoftKeyboard();
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
-        onView(withId(R.id.signUpTextViewErrorMessage)).check(matches(withText(R.string.signUpInvalidPassword)));
 
         try {
             Thread.sleep(5000);
