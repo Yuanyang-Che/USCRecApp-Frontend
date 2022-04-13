@@ -92,7 +92,7 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
 
         if (isBooked) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.btn.setText("Booked");
+            holder.btn.setText(mContext.getResources().getText(R.string.bookingButtonBooked));
 
             holder.btn.setOnClickListener(view -> { });
 
@@ -103,11 +103,11 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
             //user waitlisted for this and this slot is free
             if (isWaitListed) {
                 holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
-                holder.btn.setText("Book(Waitlisted)");
-            //user didn't waitlist for this and this is free
+                holder.btn.setText(mContext.getResources().getText(R.string.bookingButtonBookAndWaitlisted));
+                //user didn't waitlist for this and this is free
             } else {
                 holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.holo_green_dark, getDropDownViewTheme()));
-                holder.btn.setText("Book");
+                holder.btn.setText(mContext.getResources().getText(R.string.bookingButtonBook));
             }
             holder.btn.setOnClickListener(view -> {
                 FragmentActivity fa = (FragmentActivity) mContext;
@@ -120,14 +120,14 @@ public class TimeslotListAdapter extends ArrayAdapter<Timeslot> {
         //Not bookable, but user waitlisted
         if (isWaitListed) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
-            holder.btn.setText("Waitlisted");
+            holder.btn.setText(mContext.getResources().getText(R.string.bookingButtonWaitlisted));
             holder.btn.setOnClickListener(view -> { });
             return result;
         }
 
         //Not Waitlisted nor bookable
         holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.purple_200, getDropDownViewTheme()));
-        holder.btn.setText("Waitlist");
+        holder.btn.setText(mContext.getResources().getText(R.string.bookingButtonWaitlist));
         holder.btn.setOnClickListener(view -> {
             FragmentActivity fa = (FragmentActivity) mContext;
             DialogFragment frag = new ConfirmWaitListFragment(getItem(position), ba.getCenterName(), mContext);

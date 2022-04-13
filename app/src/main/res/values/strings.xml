@@ -21,4 +21,13 @@
     <string name="signUpInvalidPassword">Invalid Password</string>
 
     <string name="confirmBookingMessage">"Are you sure you want to Book this time?"</string>
+
+    <string name="bookingButtonBook">Book</string>
+    <string name="bookingButtonBookAndWaitlisted">Book(Waitlisted)</string>
+    <string name="bookingButtonBooked">Booked</string>
+    <string name="summaryButtonCancel">Cancel</string>
+    <string name="bookingButtonWaitlisted">Waitlisted</string>
+    <string name="bookingButtonWaitlist">Waitlist</string>
+
+
 </resources>
