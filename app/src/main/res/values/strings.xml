@@ -19,4 +19,6 @@
     <string name="signUpInvalidNetID">Invalid Net ID</string>
     <string name="signUpInvalidUsername">Invalid Username</string>
     <string name="signUpInvalidPassword">Invalid Password</string>
+
+    <string name="confirmBookingMessage">"Are you sure you want to Book this time?"</string>
 </resources>

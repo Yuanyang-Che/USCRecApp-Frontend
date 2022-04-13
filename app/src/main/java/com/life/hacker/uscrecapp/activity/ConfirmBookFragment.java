@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.model.Timeslot;
@@ -31,7 +32,7 @@ public class ConfirmBookFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Are you sure you want to Book this time?")
+        builder.setMessage(getResources().getString(R.string.confirmBookingMessage))
                 .setPositiveButton("Confirm", (dialog, id) -> {
                     Date today = t.getDay().getDate();
                     String dayString = Util.formatDateToStandard(today);
