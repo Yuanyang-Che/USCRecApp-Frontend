@@ -79,7 +79,7 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
         holder.date.setText(dateString);
         holder.center.setText(getItem(position).getDay().getCenter().getName());
 
-        holder.timeslot.setText(Util.formatTimeIndex(timeindex));
+        holder.timeslot.setText(Util.convertTimeIndexToHour(timeindex));
         if (isPast) {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText("Past Appointment");

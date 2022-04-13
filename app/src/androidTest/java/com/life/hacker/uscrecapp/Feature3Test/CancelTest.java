@@ -2,18 +2,13 @@ package com.life.hacker.uscrecapp.Feature3Test;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.not;
-
 import static java.lang.Thread.sleep;
 
 import androidx.test.espresso.NoMatchingViewException;
@@ -22,8 +17,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.activity.LoginActivity;
-import com.life.hacker.uscrecapp.activity.MapsActivity;
-import com.life.hacker.uscrecapp.activity.SummaryActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -38,6 +31,7 @@ public class CancelTest {
     public ActivityScenarioRule<LoginActivity> loginActivityScenarioRule = new ActivityScenarioRule<>(LoginActivity.class);
 
     private int activity_delay_time = 2000;
+
     private void tryLogout() {
         try {
             onView(withId(R.id.mapButtonLogout)).check(matches(isDisplayed()));
@@ -45,6 +39,7 @@ public class CancelTest {
             onView(withId(R.id.mapButtonLogout)).perform(click());
         } catch (NoMatchingViewException e) {
             //we are in login page
+            e.printStackTrace();
         }
     }
 
@@ -63,7 +58,7 @@ public class CancelTest {
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -72,7 +67,7 @@ public class CancelTest {
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
         tryLogout();
     }
@@ -90,7 +85,7 @@ public class CancelTest {
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
 
         onView(withId(R.id.summaryButtonBackToMap)).check((matches(isDisplayed())));
@@ -104,7 +99,7 @@ public class CancelTest {
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
         onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(0).onChildView(withId(R.id.timeSlotAdapterButtonBook)).check(matches((withText("Past Appointment"))));
         onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(1).onChildView(withId(R.id.timeSlotAdapterButtonBook)).check(matches((withText("Past Appointment"))));
@@ -125,12 +120,12 @@ public class CancelTest {
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
 
         try {
             onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(6).onChildView(withId(R.id.timeSlotAdapterButtonBook)).check(matches((withText("Cancel"))));
-        } catch(Exception e) {
+        } catch (Exception e) {
             // we need to book first before running the test
             e.printStackTrace();
         }
@@ -138,7 +133,7 @@ public class CancelTest {
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
 
 
@@ -153,19 +148,19 @@ public class CancelTest {
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
 
         try {
             onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(6).onChildView(withId(R.id.timeSlotAdapterButtonBook)).perform(click());
-        } catch(Exception e) {
+        } catch (Exception e) {
             // we need to book first before running the test
         }
 
         try {
             sleep(activity_delay_time);
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
 
         onView(withId(R.id.summaryButtonBackToMap)).check((matches(isDisplayed())));
