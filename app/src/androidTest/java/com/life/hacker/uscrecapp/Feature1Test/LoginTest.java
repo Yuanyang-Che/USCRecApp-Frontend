@@ -1,7 +1,6 @@
 package com.life.hacker.uscrecapp.Feature1Test;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -72,7 +71,7 @@ public class LoginTest {
         onView(withId(R.id.loginEditTextEmail)).perform(typeText("test@usc.edu"));
         onView(withId(R.id.loginEditTextPassword)).perform(typeText("wrong pw"));
         onView(withId(R.id.loginButtonLogin)).perform(click());
-        onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText("Incorrect Email or password")));
+        onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginIncorrectPassword)));
     }
 
     @Test
@@ -82,7 +81,12 @@ public class LoginTest {
 
         onView(withId(R.id.loginButtonLogin)).perform(click());
 
-        pressBack();
-        //onView(withId(R.id.mapButtonLogout)).check(matches(isDisplayed()));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.mapButtonLogout)).perform(click());
     }
 }

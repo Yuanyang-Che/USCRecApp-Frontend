@@ -108,22 +108,22 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void signUp(String email, String id, String username, String pw) {
         if (!Util.validEmail(email)) {
-            runOnUiThread(() -> errorMsg.setText("Invalid Email Address"));
+            runOnUiThread(() -> errorMsg.setText(R.string.signUpInvalidEmail));
             return;
         }
 
         if (!Util.validNetID(id)) {
-            runOnUiThread(() -> errorMsg.setText("Invalid Net ID"));
+            runOnUiThread(() -> errorMsg.setText(R.string.signUpInvalidNetID));
             return;
         }
 
         if (username.isEmpty()) {
-            runOnUiThread(() -> errorMsg.setText("Invalid Username"));
+            runOnUiThread(() -> errorMsg.setText(R.string.signUpInvalidUsername));
             return;
         }
 
         if (pw.isEmpty()) {
-            runOnUiThread(() -> errorMsg.setText("Invalid password"));
+            runOnUiThread(() -> errorMsg.setText(R.string.signUpInvalidPassword));
             return;
         }
 
@@ -151,8 +151,8 @@ public class SignUpActivity extends AppCompatActivity {
                 ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), uri);
                 Bitmap bitmap = ImageDecoder.decodeBitmap(source);
                 imageView.setImageBitmap(bitmap);
-            } catch (IOException fnfe) {
-                fnfe.printStackTrace();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
         }
     }

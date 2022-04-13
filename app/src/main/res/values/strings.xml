@@ -3,6 +3,7 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="loginInvalidPassword">Invalid password</string>
     <string name="loginInvalidEmail">Invalid Email Address</string>
+    <string name="loginIncorrectPassword">Incorrect Email or password</string>
     <string name="loginButtonLogin">Login</string>
     <string name="loginEditTextPassword">Password</string>
     <string name="loginEditTextEmail">Email</string>
@@ -14,4 +15,8 @@
     <string name="signUpImageViewAvatar">This is your avatar</string>
     <string name="signUpButtonSignUp">Sign Up</string>
     <string name="signUpButtonToLogin">Already Have an account?</string>
+    <string name="signUpInvalidEmail">Invalid Email Address</string>
+    <string name="signUpInvalidNetID">Invalid Net ID</string>
+    <string name="signUpInvalidUsername">Invalid Username</string>
+    <string name="signUpInvalidPassword">Invalid Password</string>
 </resources>
