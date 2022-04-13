@@ -8,6 +8,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.life.hacker.uscrecapp.Notification.NotificationEntry;
 import com.life.hacker.uscrecapp.Notification.NotificationQueue;
+import com.life.hacker.uscrecapp.R;
 import com.life.hacker.uscrecapp.SessionData;
 import com.life.hacker.uscrecapp.Util;
 import com.life.hacker.uscrecapp.activity.BookingActivity;
@@ -209,7 +210,7 @@ public class MessageCenter {
                     break;
                 case Datastructure.LoginResponse
                         .Error.INVALID_EMAIL_PASSWORD_VALUE:
-                    errorMsg = "Incorrect Email or password";
+                    errorMsg = context.getResources().getString(R.string.loginIncorrectPassword);
                     break;
                 case Datastructure.LoginResponse.Error.SERVER_VALUE:
                     errorMsg = "Server Error Please try again";
@@ -263,7 +264,7 @@ public class MessageCenter {
                     break;
                 case Datastructure.SignupResponse
                         .Error.INVALID_EMAIL_VALUE:
-                    errorMsg = "Incorrect Email";
+                    errorMsg = context.getResources().getString(R.string.signUpInvalidEmail);
                     break;
                 case Datastructure.SignupResponse.
                         Error.INVALID_USERNAME_VALUE:
@@ -348,8 +349,8 @@ public class MessageCenter {
         //TODO
         BookCaller caller = book_task.get(task_id);
 
-        if(caller.is_from_booking) {
-            BookResponseFromBook(response, task_id, (BookingActivity)caller.c);
+        if (caller.is_from_booking) {
+            BookResponseFromBook(response, task_id, (BookingActivity) caller.c);
         } else {
             BookResponseFromNotification(response, task_id, (NotificationCenterActivity) caller.c);
         }

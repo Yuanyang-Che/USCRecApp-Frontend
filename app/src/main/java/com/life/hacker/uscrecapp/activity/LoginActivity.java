@@ -84,12 +84,12 @@ public class LoginActivity extends AppCompatActivity {
     private void validate(String email, String userPassword) {
         //Validate Email format first
         if (!Util.validEmail(email)) {
-            runOnUiThread(() -> errorMsg.setText("Invalid Email Address"));
+            runOnUiThread(() -> errorMsg.setText(R.string.loginInvalidEmail));
             return;
         }
 
         if (userPassword.isEmpty()) {
-            runOnUiThread(() -> errorMsg.setText("Invalid password"));
+            runOnUiThread(() -> errorMsg.setText(R.string.loginInvalidPassword));
             return;
         }
 
