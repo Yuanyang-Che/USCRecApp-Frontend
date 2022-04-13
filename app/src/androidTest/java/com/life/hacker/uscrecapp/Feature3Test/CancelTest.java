@@ -123,11 +123,12 @@ public class CancelTest {
             e.printStackTrace();
         }
 
-        try {
-            onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(6).onChildView(withId(R.id.timeSlotAdapterButtonBook)).check(matches((withText("Cancel"))));
-        } catch (Exception e) {
-            // we need to book first before running the test
-            e.printStackTrace();
+        final int CAP = 30;
+        for (int i = 0; i < CAP; ++i) {
+            try {
+                onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(6).onChildView(withId(R.id.timeSlotAdapterButtonBook)).check(matches((withText("Cancel"))));
+                break;
+            } catch (Exception | AssertionError ignored) {}
         }
 
         try {
@@ -151,10 +152,12 @@ public class CancelTest {
             e.printStackTrace();
         }
 
-        try {
-            onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(6).onChildView(withId(R.id.timeSlotAdapterButtonBook)).perform(click());
-        } catch (Exception e) {
-            // we need to book first before running the test
+        final int CAP = 30;
+        for (int i = 0; i < CAP; ++i) {
+            try {
+                onData(anything()).inAdapterView(withId(R.id.summaryListView)).atPosition(6).onChildView(withId(R.id.timeSlotAdapterButtonBook)).perform(click());
+                break;
+            } catch (Exception | AssertionError ignored) {}
         }
 
         try {
