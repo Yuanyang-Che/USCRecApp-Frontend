@@ -69,7 +69,7 @@ public class LoginTest {
 
 
     @Test
-    public void loginTestEmptyEmail() {
+    public void loginTestInvalidEmail() {
         onView(withId(R.id.loginButtonLogin)).perform(click());
 
         Timeslot timeslot = new Timeslot(0, 0, 0, new Day(), false, false, false);
@@ -79,13 +79,18 @@ public class LoginTest {
         appointment.setTimeslot(timeslot);
         assertEquals(appointment.getTimeslot(), timeslot);
 
+
+        onView(withId(R.id.loginEditTextEmail)).perform(typeText("test@c.edu"));
+        onView(withId(R.id.loginButtonLogin)).perform(click());
+        onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
+
         timeslot.setBooked(true);
         timeslot.setWaitListed(true);
         assertFalse(timeslot.isBookable());
         assertTrue(new Timeslot(0, 2, 0, new Day(), false, false, false).isBookable());
 
-
-
+        onView(withId(R.id.loginEditTextEmail)).perform(typeText("te42du"));
+        onView(withId(R.id.loginButtonLogin)).perform(click());
         onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
     }
 
