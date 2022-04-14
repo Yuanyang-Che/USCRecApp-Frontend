@@ -2,6 +2,7 @@ package com.life.hacker.uscrecapp.Feature1Test;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -85,7 +86,7 @@ public class LoginTest {
         assertEquals(appointment.getTimeslot(), timeslot);
 
 
-        onView(withId(R.id.loginEditTextEmail)).perform(typeText("test@c.edu"));
+        onView(withId(R.id.loginEditTextEmail)).perform(replaceText("testc.edu"));
         onView(withId(R.id.loginButtonLogin)).perform(click());
         onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
 
@@ -94,7 +95,7 @@ public class LoginTest {
         assertFalse(timeslot.isBookable());
         assertTrue(new Timeslot(0, 2, 0, new Day(), false, false, false).isBookable());
 
-        onView(withId(R.id.loginEditTextEmail)).perform(typeText("te42du"));
+        onView(withId(R.id.loginEditTextEmail)).perform(replaceText("te42du"));
         onView(withId(R.id.loginButtonLogin)).perform(click());
         onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
     }
