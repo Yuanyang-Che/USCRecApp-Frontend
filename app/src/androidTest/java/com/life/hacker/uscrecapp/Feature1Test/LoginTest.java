@@ -67,6 +67,11 @@ public class LoginTest {
         tryLogout();
     }
 
+    @Test
+    public void loginTestEmptyEmail() {
+        onView(withId(R.id.loginButtonLogin)).perform(click());
+        onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
+    }
 
     @Test
     public void loginTestInvalidEmail() {
