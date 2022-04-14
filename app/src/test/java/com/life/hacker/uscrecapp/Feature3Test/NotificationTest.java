@@ -41,7 +41,7 @@ public class NotificationTest {
         assertEquals(list[4], new NotificationEntry(4, d, "hi"));
         assertEquals(list[5], new NotificationEntry(5, d, "hi"));
         // since it is singleton, we need to clear up the array
-        NotificationQueue.getInstance().getTimeslots().clear();
+        NotificationQueue.getInstance().getAndClearTimeslots();
     }
 
     @Test
@@ -79,7 +79,7 @@ public class NotificationTest {
         assertEquals(list[5], new NotificationEntry(5, d, "hi"));
 
         // since it is singleton, we need to clear up the array
-        NotificationQueue.getInstance().getTimeslots().clear();
+        NotificationQueue.getInstance().getAndClearTimeslots();
     }
 
     @Test
