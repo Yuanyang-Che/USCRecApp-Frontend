@@ -75,11 +75,13 @@ public class SignUpTest {
 
     @Test
     public void signUpTestInvalidEmail() {
-        onView(withId(R.id.loginEditTextEmail)).perform(replaceText("testc.edu"));
-        onView(withId(R.id.loginButtonLogin)).perform(click());
-        onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
+        onView(withId(R.id.signUpEditTextEmail)).perform(replaceText("testc.edu"));
+        closeSoftKeyboard();
+        onView(withId(R.id.signUpButtonSignUp)).perform(click());
+        onView(withId(R.id.signUpTextViewErrorMessage)).check(matches(withText(R.string.signUpInvalidEmail)));
 
-        onView(withId(R.id.loginEditTextEmail)).perform(replaceText("te42du"));
+        onView(withId(R.id.signUpEditTextEmail)).perform(replaceText("te42du"));
+        closeSoftKeyboard();
         onView(withId(R.id.signUpButtonSignUp)).perform(click());
         onView(withId(R.id.signUpTextViewErrorMessage)).check(matches(withText(R.string.signUpInvalidEmail)));
     }

@@ -1,5 +1,6 @@
 package com.life.hacker.uscrecapp.Feature1Test;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -87,6 +88,7 @@ public class LoginTest {
 
 
         onView(withId(R.id.loginEditTextEmail)).perform(replaceText("testc.edu"));
+        closeSoftKeyboard();
         onView(withId(R.id.loginButtonLogin)).perform(click());
         onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
 
@@ -96,6 +98,7 @@ public class LoginTest {
         assertTrue(new Timeslot(0, 2, 0, new Day(), false, false, false).isBookable());
 
         onView(withId(R.id.loginEditTextEmail)).perform(replaceText("te42du"));
+        closeSoftKeyboard();
         onView(withId(R.id.loginButtonLogin)).perform(click());
         onView(withId(R.id.loginTextViewErrorMessage)).check(matches(withText(R.string.loginInvalidEmail)));
     }
