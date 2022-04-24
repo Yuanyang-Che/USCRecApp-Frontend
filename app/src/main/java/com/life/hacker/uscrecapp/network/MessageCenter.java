@@ -53,6 +53,8 @@ public class MessageCenter {
 
     private ConcurrentHashMap<Long, BookCaller> book_task = new ConcurrentHashMap<>();
 
+    private ConcurrentHashMap<Long, WaitlistCaller> waitlist_task = new ConcurrentHashMap<>();
+
     private ConnectionCenter center = new ConnectionCenter();
 
     private MessageCenter() {}
@@ -116,7 +118,13 @@ public class MessageCenter {
     public void CancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context) {
         Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
         long task_id = center.SendMessagePost(cancel_waitlist_uri, request.toByteArray(), user_token);
-        task.put(task_id, context);
+        waitlist_task.put(task_id, new WaitlistCaller(context, true));
+    }
+
+    public void NotificationCancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context) {
+        Datastructure.CancelRequest request = Datastructure.CancelRequest.newBuilder().setCentername(center_name).setDate(date).setTimeslot(timeslot).build();
+        long task_id = center.SendMessagePost(cancel_waitlist_uri, request.toByteArray(), user_token);
+        waitlist_task.put(task_id, new WaitlistCaller(context, false));
     }
 
     public void WaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context) {
@@ -392,16 +400,32 @@ public class MessageCenter {
     }
 
     public void CancelWaitlistResponse(Datastructure.CancelResponse response, long task_id) {
-        NotificationCenterActivity context = (NotificationCenterActivity) task.get(task_id);
+        WaitlistCaller caller = waitlist_task.get(task_id);
+        assert caller != null;
 
-        if (context != null) {
+        if (caller.is_from_summary) {
+            SummaryActivity context = (SummaryActivity) caller.c;
+            assert context != null;
+
+            context.refreshPage();
+
             if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
                 context.takeToastMessage("Something went wrong in cancellation");
             } else {
-                context.takeToastMessage("Cancel Waitlist success");
+                context.takeToastMessage("Stop Waitlist success");
             }
+        } else {
+            NotificationCenterActivity context = (NotificationCenterActivity) task.get(task_id);
 
-            context.recreateListView();
+            if (context != null) {
+                if (response.getErr().getNumber() != Datastructure.CancelResponse.Error.GOOD_VALUE) {
+                    context.takeToastMessage("Something went wrong in cancellation");
+                } else {
+                    context.takeToastMessage("Cancel Waitlist success");
+                }
+
+                context.recreateListView();
+            }
         }
     }
 
@@ -417,7 +441,7 @@ public class MessageCenter {
 
 
     //F**K Java, this should be a lambda function, but java's lambda sucks so i gotta declare it
-    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> list, boolean isPast) {
+    private void addTo(List<Timeslot> timeslots, List<Datastructure.BookingEntry> list, boolean isPast, boolean isWaitlisted) {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         for (Datastructure.BookingEntry p : list) {
             int timeslotIdx = Integer.parseInt(p.getTimeslot().substring(0, 2));
@@ -430,7 +454,7 @@ public class MessageCenter {
             }
 
             Day day = new Day(date, MapData.getInstance().findCenterByName(p.getCentername()), null);
-            timeslots.add(new Timeslot(timeslotIdx, Util.Capacity, 0, day, isPast, true, false));
+            timeslots.add(new Timeslot(timeslotIdx, Util.Capacity, 0, day, isPast, true, isWaitlisted));
         }
     }
 
@@ -442,8 +466,10 @@ public class MessageCenter {
 
         List<Datastructure.BookingEntry> past = response.getPreviousList();
         List<Datastructure.BookingEntry> upcoming = response.getUpcomingList();
-        addTo(timeslots, past, true);
-        addTo(timeslots, upcoming, false);
+        List<Datastructure.BookingEntry> waitlist = response.getWaitlistList();// = response.get
+        addTo(timeslots, past, true, false);
+        addTo(timeslots, upcoming, false, false);
+        addTo(timeslots, waitlist, false, true);
 
         context.runOnUiThread(() -> context.update(timeslots));
     }
@@ -478,5 +504,15 @@ class BookCaller {
     public BookCaller(Context c, boolean is_from_booking) {
         this.c = c;
         this.is_from_booking = is_from_booking;
+    }
+}
+
+class WaitlistCaller {
+    public Context c;
+    public boolean is_from_summary;
+
+    public WaitlistCaller(Context c, boolean is_from_summary) {
+        this.c = c;
+        this.is_from_summary = is_from_summary;
     }
 }

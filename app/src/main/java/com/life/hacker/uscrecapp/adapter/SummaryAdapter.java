@@ -55,6 +55,7 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
 
         int timeindex = getItem(position).getTimeIndex();
         boolean isPast = getItem(position).isPast();
+        boolean isWaitlisted = getItem(position).isWaitListed();
         // ------------------------------------------------------
 
         //create the view result for showing the animation
@@ -84,9 +85,25 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
             holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.grey, getDropDownViewTheme()));
             holder.btn.setText("Past Appointment");
             holder.btn.setOnClickListener(view -> {});
+            return result;
+        }
+
+        if (isWaitlisted) {
+            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.biege, getDropDownViewTheme()));
+            holder.btn.setText("Stop Waitlist");
+            holder.btn.setOnClickListener(view -> {
+                //TODO
+                String loc = getItem(position).getDay().getCenter().getName();
+                String dateStr = Util.formatDateToStandard(getItem(position).getDay().getDate());
+                int timeIdx = getItem(position).getTimeIndex();
+
+                String timeIdxStr = Util.formatTimeIndex(timeIdx);
+
+                MessageCenter.getInstance().CancelWaitlistRequest(loc, dateStr, timeIdxStr, SessionData.getInstance().getToken(), mContext);
+            });
         } else {
-            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
-            holder.btn.setText("Cancel");
+            holder.btn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.booking_btn_color, getDropDownViewTheme()));
+            holder.btn.setText("Cancel Booking");
             holder.btn.setOnClickListener(view -> {
                 //TODO
                 String loc = getItem(position).getDay().getCenter().getName();
@@ -96,7 +113,6 @@ public class SummaryAdapter extends ArrayAdapter<Timeslot> {
                 String timeIdxStr = Util.formatTimeIndex(timeIdx);
 
                 MessageCenter.getInstance().CancelBookRequest(loc, dateStr, timeIdxStr, SessionData.getInstance().getToken(), mContext);
-                //mContext.startActivity(new Intent(mContext, MapsActivity.class));
             });
         }
 

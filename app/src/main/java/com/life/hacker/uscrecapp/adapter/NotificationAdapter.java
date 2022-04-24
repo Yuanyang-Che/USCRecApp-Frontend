@@ -87,8 +87,8 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntry> {
         holder.cancelBtn.setBackgroundTintList(mContext.getResources().getColorStateList(R.color.light_blue, getDropDownViewTheme()));
         holder.cancelBtn.setText("cancel");
         holder.cancelBtn.setOnClickListener(view -> {
-            // CancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context)
-            MessageCenter.getInstance().CancelWaitlistRequest(getItem(position).getCenterName(),
+            // NotificationCancelWaitlistRequest(String center_name, String date, String timeslot, String user_token, Context context)
+            MessageCenter.getInstance().NotificationCancelWaitlistRequest(getItem(position).getCenterName(),
                     Util.formatDateToStandard(date), Util.formatTimeIndex(timeindex),
                     SessionData.getInstance().getToken(), mContext);
             mContext.removeTimeslot(timeindex, date, getItem(position).getCenterName());

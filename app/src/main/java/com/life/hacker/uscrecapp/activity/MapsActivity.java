@@ -93,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         userProfile = findViewById(R.id.mapImageViewAvatar);
         userProfile.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, UserProfileActivity.class)));
 
-        try{
+        try {
             ImageView avatar = findViewById(R.id.mapImageViewAvatar);
             User u = SessionData.getInstance().getUser();
             avatar.setImageBitmap(SessionData.getInstance().getUser().getAvatar());
@@ -138,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void OnNotification() {
         runOnUiThread(() -> {
             notificationButton.setText("notification center (" + NotificationQueue.getInstance().getTimeslots().size() + ")");
-            takeMessage("receive new notification!");
+            takeMessage("A spot has opened!");
         });
 
     }
