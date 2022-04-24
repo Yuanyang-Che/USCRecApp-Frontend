@@ -30,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Button notificationButton;
-
+    private ImageView userProfile;
 
     LatLng LyonCenter = new LatLng(34.02356070336721, -118.2887904971078);
 
@@ -90,6 +90,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         notificationButton = findViewById(R.id.mapButtonGoToNotification);
         notificationButton.setText("notification center (" + NotificationQueue.getInstance().getTimeslots().size() + ")");
         notificationButton.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, NotificationCenterActivity.class)));
+        userProfile = findViewById(R.id.mapImageViewAvatar);
+        userProfile.setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, UserProfileActivity.class)));
 
         try{
             ImageView avatar = findViewById(R.id.mapImageViewAvatar);

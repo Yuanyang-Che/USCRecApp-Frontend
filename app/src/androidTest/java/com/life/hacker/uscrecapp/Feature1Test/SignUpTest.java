@@ -58,7 +58,7 @@ public class SignUpTest {
         onView(withId(R.id.signUpEditTextPassword)).check(matches(isDisplayed()));
         onView(withId(R.id.signUpEditTextNetID)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.signUpImageViewAvatar)).check(matches(isDisplayed()));
+        onView(withId(R.id.userProfileImageViewAvatar)).check(matches(isDisplayed()));
 
         onView(withId(R.id.signUpButtonSignUp)).check(matches(isDisplayed()));
         onView(withId(R.id.signUpButtonToLogin)).check(matches(isDisplayed()));

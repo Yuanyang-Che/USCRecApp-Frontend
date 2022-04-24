@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/layout/activity_notification_center.xml" value="0.1653689383494214" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.35885416666666664" />
         <entry key="app/src/main/res/layout/activity_summary.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.1703125" />
         <entry key="app/src/main/res/layout/popup_background.xml" value="0.6759868421052632" />
         <entry key="app/src/main/res/layout/popup_confirm.xml" value="0.16180114746093754" />
         <entry key="app/src/main/res/layout/timeslot_adapter.xml" value="0.17714202438575635" />
