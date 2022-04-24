@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
         toLogin.setOnClickListener(view -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
 
 
-        imageView = findViewById(R.id.signUpImageViewAvatar);
+        imageView = findViewById(R.id.userProfileImageViewAvatar);
         imageView.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
