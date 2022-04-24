@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SignUpActivity">
+
+    <Button
+        android:id="@+id/userProfileButtonBackToMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="0dp"
+        android:text="Back to Map"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/userProfileEmailHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="18dp"
+        android:text="Email:"
+        android:gravity="center"
+        android:ems="4"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/userProfileTextViewEmail"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/userProfileTextViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/userProfileNetIDHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="18dp"
+        android:text="NetID:"
+        android:gravity="center"
+        android:ems="4"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/userProfileTextViewNetID"
+        app:layout_constraintTop_toTopOf="@+id/userProfileEmailHeader"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/userProfileTextViewNetID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+
+        android:minHeight="48dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userProfileTextViewEmail"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/userProfileUserNameHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="5"
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:text="UserName:"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/userProfileTextUserName"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileNetIDHeader"
+        app:layout_constraintVertical_bias="0.016" />
+
+    <TextView
+        android:id="@+id/userProfileTextUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+
+        android:minHeight="48dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userProfileTextViewNetID"
+        app:layout_constraintVertical_bias="0.1" />
+
+
+    <ImageView
+        android:id="@+id/signUpImageViewAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_weight="1.0"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/signUpImageViewAvatar"
+        android:maxWidth="125dp"
+        android:maxHeight="125dp"
+        android:minWidth="125dp"
+        android:minHeight="125dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileTextUserName"
+        app:srcCompat="@drawable/avatar_sample" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

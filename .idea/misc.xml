@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/layout/activity_notification_center.xml" value="0.1653689383494214" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.35885416666666664" />
         <entry key="app/src/main/res/layout/activity_summary.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.22815093994140623" />
         <entry key="app/src/main/res/layout/popup_background.xml" value="0.6759868421052632" />
         <entry key="app/src/main/res/layout/popup_confirm.xml" value="0.16180114746093754" />
         <entry key="app/src/main/res/layout/timeslot_adapter.xml" value="0.17714202438575635" />
@@ -20,7 +21,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
