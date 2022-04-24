@@ -165,6 +165,7 @@ message BookingEntry {
 message HistoryResponse {
   repeated BookingEntry previous = 1;
   repeated BookingEntry upcoming = 2;
+  repeated BookingEntry waitlist = 3;
 }
 
 message NotificationEntry {
