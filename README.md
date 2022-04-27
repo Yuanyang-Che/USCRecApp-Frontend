@@ -50,7 +50,7 @@ API Level: 30, 31, 32
 
 * A list view of past and upcoming appointments will be displayed. 
 
-* Past appointments cannot be interracted.
+* Past appointments cannot be interacted.
 
 * Upcoming appointments can be cancelled. The timeslot format follows the ones of the booking page. Click on the cancel button on the right of each timeslot to cancel.
 
@@ -61,3 +61,9 @@ API Level: 30, 31, 32
 * Open and close the notification center page will reset the content. The unhandled notifications will be cleared (The server can still send you notification for the same timeslot).
 
 * Each timeslot will have 2 buttons, a book buttons on the left to book this freed up timeslot the same as in the booking page. And a cancel button on the right to tell the server you no longer waitlist for this timeslot. Click on either button will stay on the notification page.
+
+### 2.5 Final Improvement
+
+* Added waitlist section in summary page. User can now stop waitlist a spot actively. 
+* Color Adjustment - now the color in Book and Cancel button fits nicely with the background.
+* Added a complete user profile page - access by click on the user avator in the main page. It displays the username, email, Net ID, and avatar. 
